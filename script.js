@@ -1,5 +1,5 @@
 /* ==========================================================
-   DAJET Music Player – полностью исправленный скрипт
+   DAJET Music Player – логика плеера
    ========================================================== */
 
 class DAJETPlayer {
@@ -79,9 +79,7 @@ class DAJETPlayer {
      * ------------------------------------------------------------------ */
     bindEvents() {
         this.elements.themeToggle?.addEventListener('click', () => this.toggleTheme());
-
         this.elements.searchInput?.addEventListener('input', e => this.handleSearch(e));
-
         this.elements.backToAlbums?.addEventListener('click', () => this.showAlbums());
 
         this.elements.playBtn?.addEventListener('click', () => this.togglePlay());
@@ -95,7 +93,7 @@ class DAJETPlayer {
         this.elements.volumeSlider?.addEventListener('input', e => this.setVolume(e));
 
         this.state.audio.addEventListener('timeupdate', () => this.updateProgress());
-        this.state.audio.addEventListener('ended', () => this.onTrackEnd());
+        this.state.audio.addEventListener('ended',      () => this.onTrackEnd());
         this.state.audio.addEventListener('loadedmetadata', () => this.updateDuration());
         this.state.audio.addEventListener('error', e => this.handleError(e));
 
@@ -105,9 +103,9 @@ class DAJETPlayer {
     }
 
     setupStrobeIntegration() {
-        document.addEventListener('music:play', () => window.StrobeEffect?.play());
+        document.addEventListener('music:play',  () => window.StrobeEffect?.play());
         document.addEventListener('music:pause', () => window.StrobeEffect?.pause());
-        document.addEventListener('music:stop', () => window.StrobeEffect?.stop());
+        document.addEventListener('music:stop',  () => window.StrobeEffect?.stop());
     }
 
     /* ------------------------------------------------------------------ *
@@ -125,20 +123,18 @@ class DAJETPlayer {
 
                 window.ALBUMS = JSON.parse(match[1]);
             } catch (err) {
-                console.error('Ошибка загрузки albums.js', err);
+                console.error('❌ Ошибка загрузки albums.js', err);
                 this.showError('Не удалось загрузить список альбомов');
                 return;
             }
         }
-
         this.renderAlbums();
     }
 
     renderAlbums() {
         this.elements.albumsGrid.innerHTML = '';
         for (const album of window.ALBUMS) {
-            const card = this.createAlbumCard(album);
-            this.elements.albumsGrid.appendChild(card);
+            this.elements.albumsGrid.appendChild(this.createAlbumCard(album));
         }
     }
 
@@ -147,7 +143,7 @@ class DAJETPlayer {
         div.className = 'album-card';
         div.innerHTML = `
             <img src="${album.cover || 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgdmlld0JveD0iMCAwIDIwMCAyMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxjaXJjbGUgY3g9IjEwMCIgY3k9IjEwMCIgcj0iMTAwIiBmaWxsPSIjMzU1N2FhIi8+Cjx0ZXh0IHg9IjEwMCIgeT0iMTA1IiBmaWxsPSJ3aGl0ZSIgZm9udC1zaXplPSI0OCIgZm9udC1mYW1pbHk9IkFyaWFsIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj5EPC90ZXh0Pgo8L3N2Zz4K'}"
-                 alt="${album.title}" class="album-cover" loading="lazy">
+              alt="${album.title}" class="album-cover" loading="lazy">
             <div class="album-info-card">
                 <h3 class="album-title">${this.escapeHtml(album.title)}</h3>
                 <p class="album-track-count">${album.trackCount} треков</p>
@@ -157,9 +153,9 @@ class DAJETPlayer {
         return div;
     }
 
-    escapeHtml(txt) {
+    escapeHtml(text) {
         const d = document.createElement('div');
-        d.textContent = txt;
+        d.textContent = text;
         return d.innerHTML;
     }
 
@@ -185,8 +181,8 @@ class DAJETPlayer {
             this.displayAlbumTracks(album, tracks);
             this.showAlbumView();
         } catch (err) {
-            console.error('Ошибка загрузки треков', err);
-            this.showError(`Не удалось загрузить треки «${album.title}»`);
+            console.error('❌ Ошибка загрузки треков', err);
+            this.showError(`Не удалось загрузить треки альбома: ${album.title}`);
         }
     }
 
@@ -236,7 +232,7 @@ class DAJETPlayer {
         this.state.audio.src = track.file;
         this.state.audio.load();
 
-        this.elements.currentTrackTitle.textContent = track.title;
+        this.elements.currentTrackTitle.textContent  = track.title;
         this.elements.currentTrackArtist.textContent = track.artist;
         this.elements.currentTrackCover.src = track.cover ||
             this.state.currentAlbum?.cover ||
@@ -249,7 +245,7 @@ class DAJETPlayer {
                 document.dispatchEvent(new CustomEvent('music:play'));
             })
             .catch(err => {
-                console.error('Ошибка воспроизведения', err);
+                console.error('❌ Ошибка воспроизведения', err);
                 this.showError('Не удалось воспроизвести трек');
                 this.nextTrack();
             });
@@ -346,11 +342,11 @@ class DAJETPlayer {
         this.elements.progressBar.max = this.state.audio.duration || 100;
     }
 
-    formatTime(sec) {
-        if (isNaN(sec)) return '0:00';
-        const m = Math.floor(sec / 60);
-        const s = Math.floor(sec % 60);
-        return `${m}:${s.toString().padStart(2, '0')}`;
+    formatTime(seconds) {
+        if (isNaN(seconds)) return '0:00';
+        const mins = Math.floor(seconds / 60);
+        const secs = Math.floor(seconds % 60);
+        return `${mins}:${secs.toString().padStart(2, '0')}`;
     }
 
     setVolume(ev) {
@@ -415,45 +411,20 @@ class DAJETPlayer {
                 return;
             }
 
-            // Простой поиск по названиям альбомов
-            const found = window.ALBUMS.filter(alb => 
+            const found = window.ALBUMS.filter(alb =>
                 alb.title.toLowerCase().includes(query) ||
                 alb.tracksFile.toLowerCase().includes(query)
             );
-
-            // Если нужно искать внутри треков – раскоментировать нижний блок
-            // this.searchInTracks(query, found);
 
             this.elements.albumsGrid.innerHTML = '';
             found.forEach(alb => this.elements.albumsGrid.appendChild(this.createAlbumCard(alb)));
         }, 300);
     }
 
-    // Если захотите реализовать «поиск по названиям треков» – используйте эту
-    // вспомогательную функцию (она была в «дублирующем» блоке).
-    /*
-    async searchInTracks(query, matchedAlbums) {
-        const result = [];
-        for (const album of matchedAlbums) {
-            const resp = await fetch(album.tracksFile);
-            const txt = await resp.text();
-            const m = txt.match(/const\s+ALBUM_TRACKS\s*=\s*(\[[\s\S]*?\]);/);
-            if (!m) continue;
-            const tracks = JSON.parse(m[1]);
-            const trackMatches = tracks.filter(t => t.title.toLowerCase().includes(query));
-            if (trackMatches.length) {
-                result.push({ …album, filteredTracks: trackMatches });
-            }
-        }
-        // Далее – отрисовать result так же, как renderAlbums()
-    }
-    */
-
     /* ------------------------------------------------------------------ *
      *  Горячие клавиши
      * ------------------------------------------------------------------ */
     handleKeydown(ev) {
-        // Игнорируем ввод в полях <input> и <textarea>
         if (['INPUT', 'TEXTAREA'].includes(ev.target.tagName)) return;
 
         switch (ev.key) {
@@ -496,7 +467,7 @@ class DAJETPlayer {
      *  Ошибки аудио
      * ------------------------------------------------------------------ */
     handleError(err) {
-        console.error('Audio error:', err);
+        console.error('❌ Audio error:', err);
         this.showError('Ошибка воспроизведения');
         this.nextTrack();
     }
@@ -532,10 +503,10 @@ class DAJETPlayer {
     }
 
     loadState() {
-        const s = localStorage.getItem('playerState');
-        if (!s) return;
+        const saved = localStorage.getItem('playerState');
+        if (!saved) return;
         try {
-            const data = JSON.parse(s);
+            const data = JSON.parse(saved);
             this.state.isShuffled = data.isShuffled ?? false;
             this.state.repeatMode = data.repeatMode ?? 'all';
             if (typeof data.volume !== 'undefined') {
@@ -545,15 +516,15 @@ class DAJETPlayer {
 
             // UI‑синхронизация
             this.elements.shuffleBtn.style.opacity = this.state.isShuffled ? '1' : '0.5';
-            const txt = {
+            const repeatTxt = {
                 none: '🔁',
                 one:  '🔂',
                 all:  '🔁'
             }[this.state.repeatMode];
-            this.elements.repeatBtn.textContent = txt;
+            this.elements.repeatBtn.textContent = repeatTxt;
             this.elements.repeatBtn.style.opacity = this.state.repeatMode === 'none' ? '0.5' : '1';
         } catch (e) {
-            console.error('Не удалось загрузить состояние', e);
+            console.error('❌ Ошибка загрузки состояния:', e);
         }
     }
 }
