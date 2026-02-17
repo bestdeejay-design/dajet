@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DAJET - BEST — Галерея памяти</title>
+
+    <!-- Стили -->
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="strobe.css">
 </head>
@@ -13,7 +15,9 @@
         <header class="header">
             <h1 class="logo">DAJET</h1>
             <p class="subtitle">BEST — Галерея памяти</p>
-            <!-- Кнопка темы (id «theme-toggle», как ожидает ThemeManager) -->
+
+            <!-- Кнопка переключения темы.
+                 Важно – id = theme-toggle (как требует ThemeManager). -->
             <button id="theme-toggle" class="theme-toggle">🌙</button>
         </header>
 
@@ -24,8 +28,10 @@
 
         <!-- Основной контент -->
         <main class="main-content">
+            <!-- Сетка альбомов -->
             <div id="albumsGrid" class="albums-grid"></div>
 
+            <!-- Просмотр выбранного альбома -->
             <div id="albumView" class="album-view hidden">
                 <div class="album-header">
                     <img id="albumCover" src="" alt="Обложка альбома" class="album-cover-large">
@@ -42,14 +48,16 @@
         <!-- Плеер -->
         <div id="player" class="player hidden">
             <div class="player-content">
-                <img id="currentTrackCover" src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjQiIGhlaWdodD0iNjQiIHZpZXdCb3g9IjAgMCA2NCA2NCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGNpcmNsZSBjeD0iMzIiIGN5PSIzMiIgcj0iMzIiIGZpbGw9IiMzNTU3YWEiLz4KPHRleHQgeD0iMzIiIHk9IjM2IiBmaWxsPSJ3aGl0ZSIgZm9udC1zaXplPSIxNiIgZm9udC1mYW1pbHk9IkFyaWFsIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj5EPC90ZXh0Pgo8L3N2Zz4K"
+                <img id="currentTrackCover"
+                     src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjQiIGhlaWdodD0iNjQiIHZpZXdCb3g9IjAgMCA2NCA2NCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGNpcmNsZSBjeD0iMzIiIGN5PSIzMiIgcj0iMzIiIGZpbGw9IiMzNTU3YWEiLz4KPHRleHQgeD0iMzIiIHk9IjM2IiBmaWxsPSJ3aGl0ZSIgZm9udC1zaXplPSIxNiIgZm9udC1mYW1pbHk9IkFyaWFsIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj5EPC90ZXh0Pgo8L3N2Zz4K"
                      alt="Обложка трека" class="player-cover">
                 <div class="player-info">
                     <h3 id="currentTrackTitle">Выберите трек</h3>
                     <p id="currentTrackArtist">BEST</p>
                     <div class="progress-container">
                         <span id="currentTime">0:00</span>
-                        <input type="range" id="progressBar" class="progress-bar" min="0" max="100" value="0">
+                        <input type="range" id="progressBar" class="progress-bar"
+                               min="0" max="100" value="0">
                         <span id="duration">0:00</span>
                     </div>
                 </div>
@@ -63,17 +71,23 @@
                 </div>
                 <div class="volume-container">
                     <span>🔈</span>
-                    <input type="range" id="volumeSlider" class="volume-slider" min="0" max="100" value="70">
+                    <input type="range" id="volumeSlider" class="volume-slider"
+                           min="0" max="100" value="70">
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- overlay стробоскопа и модальное окно (добавляются автоматически, но их можно оставить в разметке) -->
+    <!-- overlay‑слой стробоскопа (будет создан в strobe.js – оставляем «на всякий случай») -->
     <div id="strobe-overlay" class="strobe-overlay" aria-hidden="true"></div>
 
-    <!-- Скрипты (порядок важен!) -->
-    <script src="themes/theme-manager.js"></script>
+    <!-- ПОДКЛЮЧЕНИЕ СКРИПТОВ -------------------------------------------------
+         ВАЖНО: порядок именно такой!
+         1️⃣ theme‑manager.js (должен быть доступен раньше, чем script.js)
+         2️⃣ script.js   (логика плеера)
+         3️⃣ strobe.js  (стробоскоп)
+    ----------------------------------------------------------------------- -->
+    <script src="themes/theme-manager.js"></script>   <!-- ← Путь исправлен -->
     <script src="script.js"></script>
     <script src="strobe.js"></script>
 </body>
