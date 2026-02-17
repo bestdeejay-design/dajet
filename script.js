@@ -175,41 +175,45 @@ class DAJETPlayer {
     }
 
     async loadAlbumTracks(album) {
-        try {
-            // Загрузка треков альбома
-            const tracksScript = document.createElement('script');
-            tracksScript.src = album.tracksFile;
-            document.head.appendChild(tracksScript);
-
-            tracksScript.onload = () => {
-                if (!window.ALBUM_TRACKS || !Array.isArray(window.ALBUM_TRACKS)) {
-                    console.error(`❌ Треки для альбома ${album.title} не загружены`);
-                    return;
-                }
-
-                this.state.currentAlbum = album;
-                this.state.currentPlaylist = [...window.ALBUM_TRACKS];
-                this.state.originalPlaylist = [...window.ALBUM_TRACKS];
-
-                this.displayAlbumTracks(album, window.ALBUM_TRACKS);
-                this.showAlbumView();
-
-                // Удаление скрипта после использования
-                setTimeout(() => {
-                    document.head.removeChild(tracksScript);
-                    delete window.ALBUM_TRACKS;
-                }, 1000);
-            };
-
-            tracksScript.onerror = () => {
-                console.error(`❌ Ошибка загрузки треков для альбома ${album.title}`);
-                this.showError(`Не удалось загрузить треки альбома: ${album.title}`);
-            };
-        } catch (error) {
-            console.error('Ошибка при загрузке треков альбома:', error);
-            this.showError('Произошла ошибка при загрузке альбома');
+    try {
+        // Загрузка содержимого JS-файла с треками через fetch
+        const response = await fetch(album.tracksFile);
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
         }
+        const jsContent = await response.text();
+
+        // Извлечение массива треков с помощью регулярного выражения
+        const regex = /const\s+ALBUM_TRACKS\s*=\s*(\[.*?\]);/s;
+        const match = jsContent.match(regex);
+
+        if (!match || !match[1]) {
+            console.error(`❌ Не найден массив ALBUM_TRACKS в файле ${album.tracksFile}`);
+            this.showError(`Не удалось загрузить треки альбома: ${album.title}`);
+            return;
+        }
+
+        // Парсинг JSON для получения массива треков
+        const tracks = JSON.parse(match[1]);
+
+        if (!Array.isArray(tracks)) {
+            throw new Error('Треки не являются массивом');
+        }
+
+        // Обновление состояния плеера
+        this.state.currentAlbum = album;
+        this.state.currentPlaylist = [...tracks];
+        this.state.originalPlaylist = [...tracks];
+
+        // Отображение треков в интерфейсе
+        this.displayAlbumTracks(album, tracks);
+        this.showAlbumView();
+
+    } catch (error) {
+        console.error('Ошибка при загрузке треков альбома:', error);
+        this.showError(`Не удалось загрузить треки альбома: ${album.title}`);
     }
+}
 
     displayAlbumTracks(album, tracks) {
         this.elements.albumCover.src = album.cover || 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTUwIiBoZWlnaHQ9IjE1MCIgdmlld0JveD0iMCAwIDE1MCAxNTAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxjaXJjbGUgY3g9Ijc1IiBjeT0iNzUiIHI9Ijc1IiBmaWxsPSIjMzU1N2FhIi8+Cjx0ZXh0IHg9Ijc1IiB5PSI4MCIgZmlsbD0id2hpdGUiIGZvbnQtc2l6ZT0iMzYiIGZvbnQtZmFtaWx5PSJBcmlhbCIgdGV4dC1hbmNob3I9Im1pZGRsZSI+RDwvdGV4dD4KPC9zdmc+Cg==';
