@@ -1,0 +1,8 @@
+{
+  "albumsFolder": "albums",
+  "outputFolder": "data",
+  "defaultArtist": "BEST",
+  "supportedAudio": [".mp3", ".wav", ".flac", ".ogg", ".m4a"],
+  "supportedImages": [".jpg", ".jpeg", ".png", ".webp"],
+  "coverNames": ["cover", "folder", "album"]
+}
