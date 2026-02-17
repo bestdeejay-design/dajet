@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DAJET - BEST — Галерея памяти</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Шапка -->
+        <header class="header">
+            <h1 class="logo">DAJET</h1>
+            <p class="subtitle">BEST — Галерея памяти</p>
+            <button id="themeToggle" class="theme-toggle">🌙</button>
+        </header>
+
+        <!-- Поиск -->
+        <div class="search-container">
+            <input type="text" id="searchInput" placeholder="Поиск альбомов или треков..." class="search-input">
+        </div>
+
+        <!-- Контент -->
+        <main class="main-content">
+            <!-- Сетка альбомов -->
+            <div id="albumsGrid" class="albums-grid"></div>
+            
+            <!-- Просмотр альбома -->
+            <div id="albumView" class="album-view hidden">
+                <div class="album-header">
+                    <img id="albumCover" src="" alt="Обложка альбома" class="album-cover">
+                    <div class="album-info">
+                        <h2 id="albumTitle"></h2>
+                        <p id="albumTrackCount"></p>
+                        <button id="backToAlbums" class="back-button">← Назад к альбомам</button>
+                    </div>
+                </div>
+                <div id="tracksList" class="tracks-list"></div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Плеер -->
+    <div id="player" class="player">
+        <div class="player-content">
+            <img id="currentCover" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAiIGhlaWdodD0iMTAwIiB2aWV3Qm94PSIwIDAgMTAwIDEwMCI+PHJlY3Qgd2lkdGg9IjEwMCIgaGVpZ2h0PSIxMDAiIGZpbGw9IiMzMzMiLz48dGV4dCB4PSI1MCIgeT0iNTAiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxNCIgZmlsbD0id2hpdGUiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGRvbWluYW50LWJhc2VsaW5lPSJtaWRkbGUiPkRBSlRFPC90ZXh0Pjwvc3ZnPg==" alt="Обложка трека" class="player-cover">
+            <div class="player-info">
+                <h3 id="currentTitle">Выберите трек</h3>
+                <p id="currentTime">0:00 / 0:00</p>
+            </div>
+            <div class="player-controls">
+                <button id="prevBtn" class="control-btn">⏮</button>
+                <button id="playBtn" class="control-btn play-btn">▶</button>
+                <button id="nextBtn" class="control-btn">⏭</button>
+                <button id="repeatBtn" class="control-btn">🔁</button>
+                <button id="shuffleBtn" class="control-btn">🔀</button>
+            </div>
+            <div class="progress-container">
+                <input type="range" id="progressBar" class="progress-bar" min="0" max="100" value="0">
+            </div>
+            <div class="volume-container">
+                <span>🔈</span>
+                <input type="range" id="volumeControl" class="volume-control" min="0" max="1" step="0.01" value="0.7">
+            </div>
+        </div>
+    </div>
+
+    <!-- Подключаем данные и скрипты -->
+    <script src="data/albums.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
