@@ -228,33 +228,35 @@ class DAJETPlayer {
     /* ------------------------------------------------------------------ *
      *  Управление воспроизведением
      * ------------------------------------------------------------------ */
-playTrack(idx) {
+async playTrack(idx) {
     if (idx < 0 || idx >= this.state.currentPlaylist.length) return;
 
     const track = this.state.currentPlaylist[idx];
     this.state.currentTrackIndex = idx;
 
-    // Устанавливаем путь к файлу и сразу сразу про‑игрываем
+    // Устанавливаем путь к файлу и воспроизводим
     this.state.audio.src = track.file;
-    // Убираем `this.state.audio.load();` – приводит к AbortError
-
+    
     this.elements.currentTrackTitle.textContent  = track.title;
     this.elements.currentTrackArtist.textContent = track.artist;
     this.elements.currentTrackCover.src = track.cover ||
         this.state.currentAlbum?.cover ||
         'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjQiIGhlaWdodD0iNjQiIHZpZXdCb3g9IjAgMCA2NCA2NCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGNpcmNsZSBjeD0iMzIiIGN5PSIzMiIgcj0iMzIiIGZpbGw9IiMzNTU3YWEiLz4KPHRleHQgeD0iMzIiIHk9IjM2IiBmaWxsPSJ3aGl0ZSIgZm9udC1zaXplPSIxNiIgZm9udC1mYW1pbHk9IkFyaWFsIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj5EPC90ZXh0Pgo8L3N2Zz4K';
 
-    this.state.audio.play()
-        .then(() => {
-            this.state.isPlaying = true;
-            this.updatePlayButton();
-            document.dispatchEvent(new CustomEvent('music:play'));
-        })
-        .catch(err => {
-            console.error('❌ Ошибка воспроизведения', err);
+    // Асинхронно загружаем трек и воспроизводим
+    try {
+        await this.state.audio.play();
+        this.state.isPlaying = true;
+        this.updatePlayButton();
+        document.dispatchEvent(new CustomEvent('music:play'));
+    } catch (err) {
+        console.error('❌ Ошибка воспроизведения', err);
+        // Для AbortError не пытаемся следующий трек
+        if (err.name !== 'AbortError') {
             this.showError('Не удалось воспроизвести трек');
             this.nextTrack();
-        });
+        }
+    }
 
     this.elements.player.classList.remove('hidden');
     this.saveState();
