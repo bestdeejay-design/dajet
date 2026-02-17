@@ -1,0 +1,457 @@
+/* DAJET Music Player Styles */
+
+/* CSS Variables for Themes */
+:root {
+  /* Dark Theme Colors */
+  --bg-primary: #121212;
+  --bg-secondary: #1e1e1e;
+  --bg-tertiary: #2d2d2d;
+  --accent-primary: #bb86fc;
+  --accent-secondary: #03dac6;
+  --text-primary: #ffffff;
+  --text-secondary: #b3b3b3;
+  --text-hint: #666666;
+  --border-color: #333333;
+  --shadow-color: rgba(0, 0, 0, 0.3);
+  --success-color: #4caf50;
+  --error-color: #f44336;
+  --warning-color: #ff9800;
+  --info-color: #2196f3;
+}
+
+/* Lounge Theme Colors */
+.theme-lounge {
+  --bg-primary: #f5f5f5;
+  --bg-secondary: #e0e0e0;
+  --bg-tertiary: #bdbdbd;
+  --accent-primary: #6200ea;
+  --accent-secondary: #018786;
+  --text-primary: #000000;
+  --text-secondary: #444444;
+  --text-hint: #777777;
+  --border-color: #cccccc;
+  --shadow-color: rgba(0, 0, 0, 0.1);
+}
+
+/* Base Styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  line-height: 1.6;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* Container */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  height: calc(100vh - 100px); /* Account for player controls */
+  overflow-y: auto;
+}
+
+/* Header */
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+header h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--accent-primary);
+}
+
+/* Screen Management */
+.screen {
+  display: none;
+}
+
+.screen.active {
+  display: block;
+}
+
+/* Search Section */
+.search-section {
+  margin-bottom: 30px;
+}
+
+#search-input {
+  width: 100%;
+  padding: 12px 20px;
+  font-size: 1rem;
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 30px;
+  color: var(--text-primary);
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+#search-input:focus {
+  border-color: var(--accent-primary);
+  box-shadow: 0 0 0 2px var(--accent-primary);
+}
+
+/* Sections */
+section h2 {
+  margin-bottom: 20px;
+  color: var(--accent-primary);
+  font-size: 1.5rem;
+}
+
+/* Albums Grid */
+.albums-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 20px;
+  margin-bottom: 40px;
+}
+
+.album-card {
+  background-color: var(--bg-secondary);
+  border-radius: 8px;
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+  box-shadow: 0 4px 8px var(--shadow-color);
+}
+
+.album-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px var(--shadow-color);
+}
+
+.album-cover {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  display: block;
+}
+
+.album-info {
+  padding: 15px;
+}
+
+.album-info h3 {
+  font-size: 1.1rem;
+  margin-bottom: 5px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.album-info p {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+}
+
+/* Tracks List */
+.tracks-list {
+  list-style: none;
+}
+
+.track-item {
+  display: flex;
+  align-items: center;
+  padding: 12px 15px;
+  background-color: var(--bg-secondary);
+  margin-bottom: 8px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.track-item:hover {
+  background-color: var(--bg-tertiary);
+}
+
+.track-item.playing {
+  background-color: var(--accent-primary);
+  color: var(--bg-primary);
+}
+
+.track-number {
+  margin-right: 15px;
+  color: var(--text-secondary);
+  min-width: 20px;
+}
+
+.track-info {
+  flex: 1;
+}
+
+.track-info .title {
+  font-weight: 600;
+  margin-bottom: 3px;
+}
+
+.track-info .artist {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+}
+
+.track-duration {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+}
+
+/* Player Controls */
+.player-controls {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 100px;
+  background-color: var(--bg-secondary);
+  border-top: 1px solid var(--border-color);
+  padding: 15px 20px;
+  display: flex;
+  align-items: center;
+  z-index: 1000;
+}
+
+.track-info {
+  min-width: 200px;
+  margin-right: 20px;
+}
+
+.track-info #track-title {
+  display: block;
+  font-weight: 600;
+  font-size: 1.1rem;
+  margin-bottom: 3px;
+}
+
+.track-info #track-artist {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+}
+
+.progress-container {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  max-width: 400px;
+  margin: 0 20px;
+}
+
+#current-time, #total-time {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  min-width: 40px;
+}
+
+#progress-bar {
+  flex: 1;
+  height: 5px;
+  background: var(--bg-tertiary);
+  border-radius: 5px;
+  outline: none;
+  margin: 0 10px;
+  -webkit-appearance: none;
+  cursor: pointer;
+}
+
+#progress-bar::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--accent-primary);
+  cursor: pointer;
+}
+
+.controls {
+  display: flex;
+  align-items: center;
+  margin: 0 20px;
+}
+
+.controls button {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  color: var(--text-primary);
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 50%;
+  transition: background-color 0.3s ease;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.controls button:hover {
+  background-color: var(--bg-tertiary);
+}
+
+#play-btn {
+  background-color: var(--accent-primary);
+  color: var(--bg-primary);
+  font-size: 1.2rem;
+  margin: 0 15px;
+}
+
+#play-btn:hover {
+  opacity: 0.9;
+}
+
+.volume-control {
+  display: flex;
+  align-items: center;
+  min-width: 120px;
+}
+
+#volume-slider {
+  flex: 1;
+  height: 5px;
+  background: var(--bg-tertiary);
+  border-radius: 5px;
+  outline: none;
+  -webkit-appearance: none;
+  cursor: pointer;
+}
+
+#volume-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--accent-primary);
+  cursor: pointer;
+}
+
+/* Buttons */
+button {
+  background-color: var(--bg-tertiary);
+  color: var(--text-primary);
+  border: none;
+  padding: 10px 20px;
+  border-radius: 30px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+button:hover {
+  background-color: var(--accent-primary);
+  color: var(--bg-primary);
+}
+
+/* Loading Spinner */
+.loading-spinner {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 2000;
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid var(--bg-tertiary);
+  border-top: 4px solid var(--accent-primary);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Visualizer Canvas */
+.visualizer-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: calc(100vh - 100px);
+  z-index: -1;
+  pointer-events: none;
+}
+
+/* Adjust container to account for visualizer */
+body:has(.visualizer-canvas) .container {
+  position: relative;
+  z-index: 10;
+  background-color: transparent;
+}
+
+/* Accessibility */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .container {
+    padding: 10px;
+  }
+
+  header h1 {
+    font-size: 1.5rem;
+  }
+
+  .albums-grid {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 15px;
+  }
+
+  .album-cover {
+    height: 150px;
+  }
+
+  .player-controls {
+    flex-direction: column;
+    height: 140px;
+    padding: 10px;
+  }
+
+  .track-info {
+    width: 100%;
+    margin-bottom: 10px;
+    text-align: center;
+  }
+
+  .progress-container {
+    max-width: 100%;
+    margin: 5px 0;
+  }
+
+  .controls {
+    margin: 10px 0;
+  }
+
+  .volume-control {
+    width: 100%;
+    margin-top: 10px;
+  }
+}
