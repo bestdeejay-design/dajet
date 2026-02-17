@@ -432,6 +432,13 @@ body {
     color: var(--text-secondary);
 }
 
+.logo,
+.theme-toggle {
+    min-width: 40px;            /* ширина кнопки темы */
+    min-height: 40px;           /* высота логотипа (по‑умолчанию) */
+}
+
+
 /* ---------- 15. Адаптивность --------------------------- */
 @media (max-width: 768px) {
     .header { flex-direction: column; gap: 15px; text-align: center; }
