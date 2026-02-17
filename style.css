@@ -2,7 +2,7 @@
    DAJET – единый файл стилей
    ========================================================== */
 
-/* ------------------- 1. Reset + переходы ------------------- */
+/* ---------- 1. Универсальный reset + переходы ----------------- */
 *,
 *::before,
 *::after {
@@ -15,7 +15,7 @@
                 box-shadow var(--transition-speed) ease;
 }
 
-/* ------------------- 2. Базовые переменные (Dark) --------- */
+/* ---------- 2. Базовые переменные (Dark) --------------------- */
 :root {
     --bg-primary: #0a0a0f;          /* главный фон */
     --bg-secondary: #12121a;        /* карточки, панель */
@@ -31,7 +31,7 @@
     --border-radius: 15px;
 }
 
-/* ------------------- 3. Lounge‑тема ----------------------- */
+/* ---------- 3. Lounge‑тема (data‑theme) ---------------------- */
 [data-theme="lounge"] {
     --bg-primary: #1a0f0a;
     --bg-secondary: #2a1810;
@@ -44,7 +44,7 @@
     --glass-border: rgba(255,150,80,0.15);
 }
 
-/* ------------------- 4. Общие стили ----------------------- */
+/* ---------- 4. Общие стили --------------------------------- */
 body {
     font-family: 'Arial', sans-serif;
     background: var(--bg-primary);
@@ -56,7 +56,7 @@ body {
     background-size: 40px 40px;
 }
 
-/* ------------------- 5. Container ------------------------ */
+/* ---------- 5. Container ----------------------------------- */
 .container {
     max-width: 1200px;
     margin: 0 auto;
@@ -68,7 +68,7 @@ body {
     z-index: 1;
 }
 
-/* ------------------- 6. SVG‑фон (тема) ------------------- */
+/* ---------- 6. SVG‑фон (тема) ------------------------------ */
 .theme-background {
     position: fixed;
     inset: 0;
@@ -82,13 +82,13 @@ body {
     object-fit: cover;
 }
 
-/* ------------------- 7. Кнопка темы ---------------------- */
+/* ---------- 7. Кнопка переключения темы (один блок) ----- */
 .theme-toggle {
     width: 40px;
     height: 40px;
     border-radius: 50%;
     border: none;
-    background: var(--glass-bg);
+    background: var(--glass-bg);          /* фон берётся из темы */
     color: var(--text-primary);
     cursor: pointer;
     font-size: 1.2rem;
@@ -104,17 +104,17 @@ body {
     color: #fff;
 }
 
-/* Иконки внутри кнопки (по желанию) */
-.icon-dark, .icon-lounge {
+/* Если вдруг используете иконки (необязательно) */
+.icon-dark,
+.icon-lounge {
     position: absolute;
     top: 50%; left: 50%;
     transform: translate(-50%, -50%);
 }
 [data-theme="lounge"] .icon-dark   { display: none; }
 [data-theme="lounge"] .icon-lounge { display: block; }
-[data-theme="dark"]   .icon-lounge { display: none; }
 
-/* ------------------- 8. Поиск --------------------------- */
+/* ---------- 8. Поиск -------------------------------------- */
 .search-container { margin-bottom: 30px; }
 #searchInput {
     width: 100%;
@@ -133,7 +133,7 @@ body {
     box-shadow: 0 0 0 3px rgba(124,77,255,0.2);
 }
 
-/* ------------------- 9. Сетка альбомов ----------------- */
+/* ---------- 9. Сетка альбомов --------------------------- */
 .albums-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(200px,1fr));
@@ -173,7 +173,7 @@ body {
     color: var(--text-secondary);
 }
 
-/* ------------------- 10. Просмотр альбома -------------- */
+/* ---------- 10. Просмотр альбома ------------------------ */
 .album-view { animation: fadeIn 0.3s ease; }
 .album-header {
     display: flex;
@@ -187,7 +187,8 @@ body {
     box-shadow: var(--shadow);
 }
 .album-cover-large {
-    width: 150px; height: 150px;
+    width: 150px;
+    height: 150px;
     border-radius: 10px;
     object-fit: cover;
 }
@@ -213,7 +214,7 @@ body {
 }
 .back-btn:hover { background: var(--accent-secondary); }
 
-/* ------------------- 11. Список треков ----------------- */
+/* ---------- 11. Список треков --------------------------- */
 .tracks-list {
     background: var(--bg-secondary);
     border-radius: var(--border-radius);
@@ -256,7 +257,7 @@ body {
 .track-title { font-weight: 500; margin-bottom: 3px; }
 .track-artist { font-size: 0.9rem; color: var(--text-secondary); }
 
-/* ------------------- 12. Плеер -------------------------- */
+/* ---------- 12. Плеер ----------------------------------- */
 .player {
     position: fixed;
     bottom: 0; left: 0; right: 0;
@@ -366,7 +367,7 @@ body {
     cursor: pointer;
 }
 
-/* ------------------- 13. Утилиты ------------------------ */
+/* ---------- 13. Утилиты ------------------------------- */
 .hidden { display: none !important; }
 .error-message {
     position: fixed;
@@ -380,7 +381,7 @@ body {
     font-size: 14px;
 }
 
-/* ------------------- 14. Анимации ------------------------ */
+/* ---------- 14. Анимации ------------------------------ */
 @keyframes fadeIn {
     from { opacity: 0; }
     to   { opacity: 1; }
@@ -390,7 +391,7 @@ body {
     to   { transform: translateY(0); }
 }
 
-/* ------------------- 15. Адаптивность --------------------- */
+/* ---------- 15. Адаптивность --------------------------- */
 @media (max-width: 768px) {
     .header { flex-direction: column; gap: 15px; text-align: center; }
     .subtitle { margin: 0; }
