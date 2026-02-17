@@ -13,7 +13,8 @@
         <header class="header">
             <h1 class="logo">DAJET</h1>
             <p class="subtitle">BEST — Галерея памяти</p>
-            <button id="themeToggle" class="theme-toggle">🌙</button>
+            <!-- Кнопка темы (id «theme-toggle», как ожидает ThemeManager) -->
+            <button id="theme-toggle" class="theme-toggle">🌙</button>
         </header>
 
         <!-- Поиск -->
@@ -23,10 +24,8 @@
 
         <!-- Основной контент -->
         <main class="main-content">
-            <!-- Сетка альбомов -->
             <div id="albumsGrid" class="albums-grid"></div>
-            
-            <!-- Просмотр альбома -->
+
             <div id="albumView" class="album-view hidden">
                 <div class="album-header">
                     <img id="albumCover" src="" alt="Обложка альбома" class="album-cover-large">
@@ -43,7 +42,8 @@
         <!-- Плеер -->
         <div id="player" class="player hidden">
             <div class="player-content">
-                <img id="currentTrackCover" src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjQiIGhlaWdodD0iNjQiIHZpZXdCb3g9IjAgMCA2NCA2NCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGNpcmNsZSBjeD0iMzIiIGN5PSIzMiIgcj0iMzIiIGZpbGw9IiMzNTU3YWEiLz4KPHRleHQgeD0iMzIiIHk9IjM2IiBmaWxsPSJ3aGl0ZSIgZm9udC1zaXplPSIxNiIgZm9udC1mYW1pbHk9IkFyaWFsIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj5EPC90ZXh0Pgo8L3N2Zz4K" alt="Обложка трека" class="player-cover">
+                <img id="currentTrackCover" src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjQiIGhlaWdodD0iNjQiIHZpZXdCb3g9IjAgMCA2NCA2NCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGNpcmNsZSBjeD0iMzIiIGN5PSIzMiIgcj0iMzIiIGZpbGw9IiMzNTU3YWEiLz4KPHRleHQgeD0iMzIiIHk9IjM2IiBmaWxsPSJ3aGl0ZSIgZm9udC1zaXplPSIxNiIgZm9udC1mYW1pbHk9IkFyaWFsIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj5EPC90ZXh0Pgo8L3N2Zz4K"
+                     alt="Обложка трека" class="player-cover">
                 <div class="player-info">
                     <h3 id="currentTrackTitle">Выберите трек</h3>
                     <p id="currentTrackArtist">BEST</p>
@@ -69,19 +69,11 @@
         </div>
     </div>
 
-    <!-- Слой стробоскопа -->
+    <!-- overlay стробоскопа и модальное окно (добавляются автоматически, но их можно оставить в разметке) -->
     <div id="strobe-overlay" class="strobe-overlay" aria-hidden="true"></div>
 
-    <!-- Модальное окно предупреждения -->
-    <div id="strobe-warning" class="modal hidden">
-        <h3>⚠️ Предупреждение о безопасности</h3>
-        <p>Этот эффект может вызвать дискомфорт у людей с фоточувствительной эпилепсией. 
-           Используйте с осторожностью и обязательно сделайте перерывы при длительном прослушивании.</p>
-        <button id="strobe-accept">Понятно, включить</button>
-        <button id="strobe-decline">Отмена</button>
-    </div>
-
-    <!-- Скрипты -->
+    <!-- Скрипты (порядок важен!) -->
+    <script src="theme-manager.js"></script>
     <script src="script.js"></script>
     <script src="strobe.js"></script>
 </body>
