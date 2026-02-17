@@ -8,7 +8,8 @@
     <!-- Стили -->
     <link rel="stylesheet" href="style.css" crossorigin="anonymous">
     <link rel="stylesheet" href="strobe.css" crossorigin="anonymous">
-    <link rel="stylesheet" href="rays.css" crossorigin="anonymous"> 
+    <link rel="stylesheet" href="rays.css" crossorigin="anonymous">
+    <link rel="stylesheet" href="effects.css">
 </head>
 <body>
     <div class="container">
@@ -84,6 +85,12 @@
     <!-- 2️⃣ overlay‑слой лучей – **должен быть до** подключения rays.js -->
     <div id="rays-overlay" class="rays-overlay" aria-hidden="true"></div>
 
+
+    <!-- index.html – сразу после стилей, перед вашими скриптами -->
+        <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+
+
     <!-- ПОДКЛЮЧЕНИЕ СКРИПТОВ -------------------------------------------------
          ВАЖНО: порядок именно такой!
          1️⃣ theme‑manager.js (должен быть доступен раньше, чем script.js)
@@ -94,5 +101,7 @@
     <script src="script.js"></script>
     <script src="strobe.js"></script>
     <script src="rays.js"></script>
+    <script src="effects-config.js">
+    </script> <script src="effects-manager.js"></script>
 </body>
 </html>
