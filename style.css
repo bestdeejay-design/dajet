@@ -88,7 +88,7 @@ body {
     height: 40px;
     border-radius: 50%;
     border: none;
-    background: var(--glass-bg);          /* фон берётся из темы */
+    background: var(--glass-bg);
     color: var(--text-primary);
     cursor: pointer;
     font-size: 1.2rem;
@@ -104,15 +104,17 @@ body {
     color: #fff;
 }
 
-/* Если вдруг используете иконки (необязательно) */
+/* Если в HTML у вас есть внутри кнопки два SVG‑иконки, они могут быть скрыты/показаны в зависимости от темы: */
 .icon-dark,
 .icon-lounge {
     position: absolute;
     top: 50%; left: 50%;
     transform: translate(-50%, -50%);
 }
-[data-theme="lounge"] .icon-dark   { display: none; }
+[data-theme="lounge"] .icon-dark {   display: none; }
 [data-theme="lounge"] .icon-lounge { display: block; }
+[data-theme="dark"] .icon-lounge {   display: none; }
+[data-theme="dark"] .icon-dark {    display: block; }
 
 /* ---------- 8. Поиск -------------------------------------- */
 .search-container { margin-bottom: 30px; }
@@ -389,6 +391,45 @@ body {
 @keyframes slideUp {
     from { transform: translateY(100%); }
     to   { transform: translateY(0); }
+}
+
+
+
+/* -------------------------------------------------------------
+   ОТДЕЛЬНЫЙ КОНСОЛИДИРОВАННЫЙ БЛОК ДЛЯ ШАПКИ И КНОПКИ ТЕМЫ
+   ------------------------------------------------------------- */
+
+/* только один раз – сейчас в конце файла */
+.header {
+    /* flex‑контейнер */
+    display: flex;
+    align-items: center;          /* вертикальное выравнивание */
+    justify-content: space-between;/* логотип слева, кнопка справа */
+    width: 100%;                  /* заполняет всю ширину контейнера */
+    padding: 15px 25px;           /* внутренний отступ (можно менять) */
+    margin-bottom: 20px;          /* отступ от контента */
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    backdrop-filter: blur(10px);
+}
+
+/* логотип – просто убираем лишние отступы */
+.logo {
+    margin: 0;
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: var(--accent-primary);
+}
+
+/* подпись (субтитр) – гибкая часть, которая растягивается */
+.subtitle {
+    flex: 1 1 auto;          /* позволяет занять всё свободное место */
+    text-align: center;      /* центрируем текст */
+    margin: 0 1rem;          /* небольшой отступ слева/справа */
+    font-size: 1.1rem;
+    color: var(--text-secondary);
 }
 
 /* ---------- 15. Адаптивность --------------------------- */
