@@ -1,3 +1,130 @@
+/* Общие стили */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Arial', sans-serif;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  transition: background-color var(--transition-speed) ease,
+              color var(--transition-speed) ease;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* CSS переменные для тем */
+:root {
+  /* Тема по умолчанию (Dark) */
+  --bg-primary: #0a0a0f;
+  --bg-secondary: #12121a;
+  --bg-overlay: rgba(20, 20, 35, 0.8);
+  --text-primary: #ffffff;
+  --text-secondary: #a0a0b0;
+  --accent-primary: #7c4dff;
+  --accent-secondary: #00bcd4;
+  --glass-bg: rgba(255, 255, 255, 0.05);
+  --glass-border: rgba(255, 255, 255, 0.1);
+  --shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  --transition-speed: 0.4s;
+  --border-radius: 15px;
+}
+
+/* Lounge тема */
+:root[data-theme="lounge"] {
+  --bg-primary: #1a0f0a;
+  --bg-secondary: #2a1810;
+  --bg-overlay: rgba(40, 20, 15, 0.85);
+  --text-primary: #f5e6d3;
+  --text-secondary: #c9b896;
+  --accent-primary: #ff6b35;
+  --accent-secondary: #ffb347;
+  --glass-bg: rgba(255, 180, 100, 0.08);
+  --glass-border: rgba(255, 150, 80, 0.15);
+  --glow-color: rgba(255, 120, 60, 0.3);
+  --shadow: 0 8px 32px rgba(100, 30, 10, 0.4);
+}
+
+/* Плавный переход между темами */
+* {
+  transition: background-color var(--transition-speed) ease,
+              color var(--transition-speed) ease,
+              border-color var(--transition-speed) ease,
+              box-shadow var(--transition-speed) ease;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  min-height: 100vh;
+  position: relative;
+  z-index: 1;
+}
+
+/* SVG фон (анимация) */
+.theme-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -2;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.theme-background svg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Стили для переключателя тем */
+.theme-toggle {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: none;
+  background: var(--accent-primary);
+  color: white;
+  cursor: pointer;
+  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  position: relative;
+  overflow: visible;
+}
+
+.theme-toggle:hover {
+  transform: scale(1.1);
+  background: var(--accent-secondary);
+}
+
+.icon-dark, .icon-lounge {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.icon-lounge {
+  display: none;
+}
+
+/* Стили для Lounge темы */
+:root[data-theme="lounge"] .icon-dark {
+  display: none;
+}
+
+:root[data-theme="lounge"] .icon-lounge {
+  display: block;
+}
+
 /* Сброс стилей */
 * {
     margin: 0;

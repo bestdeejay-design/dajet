@@ -151,15 +151,18 @@ class StrobeEffect {
     }
 
     /**
-     * Обновление темы (светлая/тёмная)
+     * Обновление темы (новая система тем)
      */
     updateTheme() {
-        const isDark = document.body.classList.contains('dark-theme');
+        // Проверяем текущую тему через атрибут data-theme
+        const currentTheme = document.documentElement.getAttribute('data-theme');
         const overlay = document.getElementById('strobe-overlay');
         
         if (overlay) {
-            if (isDark) {
+            if (currentTheme === 'dark') {
                 overlay.setAttribute('data-theme', 'dark');
+            } else if (currentTheme === 'lounge') {
+                overlay.setAttribute('data-theme', 'lounge');
             } else {
                 overlay.removeAttribute('data-theme');
             }
@@ -314,12 +317,16 @@ class StrobeEffect {
                     overlay.style.animation = `strobe-pulse 500ms infinite ease-in-out`;
                 }
                 
-                // Для тёмной темы используем другую анимацию
-                const isDark = document.body.classList.contains('dark-theme');
-                if (isDark && this.mode === 'beat-sync') {
+                // Для новых тем используем соответствующие анимации
+                const currentTheme = document.documentElement.getAttribute('data-theme');
+                if (currentTheme === 'dark' && this.mode === 'beat-sync') {
                     overlay.style.animation = `strobe-pulse-dark 250ms infinite ease-in-out`;
-                } else if (isDark) {
+                } else if (currentTheme === 'dark') {
                     overlay.style.animation = `strobe-pulse-dark 500ms infinite ease-in-out`;
+                } else if (currentTheme === 'lounge' && this.mode === 'beat-sync') {
+                    overlay.style.animation = `strobe-pulse-warm 250ms infinite ease-in-out`;
+                } else if (currentTheme === 'lounge') {
+                    overlay.style.animation = `strobe-pulse-warm 500ms infinite ease-in-out`;
                 }
             }
         }, 10);
@@ -455,5 +462,6 @@ window.StrobeEffect = {
     stop: () => StrobeEffectInstance?.stop(),
     toggle: () => StrobeEffectInstance?.toggle(),
     setIntensity: (intensity) => StrobeEffectInstance?.setIntensity(intensity),
-    setMode: (mode) => StrobeEffectInstance?.setMode(mode)
+    setMode: (mode) => StrobeEffectInstance?.setMode(mode),
+    onThemeChange: () => StrobeEffectInstance?.onThemeChange()
 };

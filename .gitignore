@@ -1,1 +1,4 @@
-Nothing should be ignored based on the provided file changes. The only modified file is `script.js`, which is a source code file and should not be added to .gitignore.
+```
+# Image files (not to be ignored based on file extension detection)
+# SVG files are source assets and should not be ignored
+```
