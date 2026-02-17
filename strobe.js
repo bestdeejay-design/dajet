@@ -14,6 +14,15 @@ class StrobeEffect {
             this.intensity = 0.15;
             return;
         }
+        
+        // Динамическая проверка изменения настроек prefers-reduced-motion
+        const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+        mediaQuery.addEventListener('change', (e) => {
+            this.prefersReducedMotion = e.matches;
+            if (e.matches) {
+                this.disable();
+            }
+        });
 
         // 2️⃣ Настройки из localStorage
         this.loadSettings();

@@ -141,6 +141,8 @@ class ThemeManager {
             const response = await fetch(`themes/${theme}.svg`);
             if (!response.ok) {
                 console.warn(`⚠️ Could not load ${theme}.svg background`);
+                // Создаем резервный градиент при отсутствии SVG
+                this.createFallbackGradient(bgContainer, theme);
                 return;
             }
 
@@ -151,7 +153,31 @@ class ThemeManager {
             bgContainer.setAttribute('data-current-theme', theme);
         } catch (error) {
             console.warn(`⚠️ Error loading theme background for ${theme}:`, error);
+            // Создаем резервный градиент при ошибке
+            const bgContainer = document.getElementById('theme-background');
+            if (bgContainer) {
+                this.createFallbackGradient(bgContainer, theme);
+            }
         }
+    }
+    
+    /**
+     * Создание резервного градиента при отсутствии SVG
+     */
+    createFallbackGradient(container, theme) {
+        const gradientDiv = document.createElement('div');
+        if (theme === 'dark') {
+            gradientDiv.style.background = 'linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%)';
+        } else { // lounge
+            gradientDiv.style.background = 'linear-gradient(135deg, #4a2300 0%, #6b3e00 50%, #8c5e00 100%)';
+        }
+        gradientDiv.style.position = 'absolute';
+        gradientDiv.style.top = '0';
+        gradientDiv.style.left = '0';
+        gradientDiv.style.width = '100%';
+        gradientDiv.style.height = '100%';
+        gradientDiv.style.zIndex = '-1';
+        container.appendChild(gradientDiv);
     }
 
     /**
