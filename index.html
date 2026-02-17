@@ -117,6 +117,9 @@
     <div class="spinner"></div>
     <span>Loading...</span>
   </div>
+  <div id="rays-overlay" class="rays-overlay"></div>
+  <div id="strobe-overlay" class="strobe-overlay"></div>
+  <div id="albumsGrid" class="albums-grid"></div>
 
   <script type="module" src="main.js"></script>
 
@@ -125,17 +128,15 @@
         <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
 
 
-    <!-- ПОДКЛЮЧЕНИЕ СКРИПТОВ -------------------------------------------------
-         ВАЖНО: порядок именно такой!
-         1️⃣ theme‑manager.js (должен быть доступен раньше, чем script.js)
-         2️⃣ script.js   (логика плеера)
-         3️⃣ strobe.js  (стробоскоп)
-    ----------------------------------------------------------------------- -->
-    <script src="themes/theme-manager.js"></script>   <!-- ← Путь исправлен -->
-    <script src="script.js"></script>
-    <script src="strobe.js"></script>
-    <script src="rays.js"></script>
-    <script src="effects-config.js">
-    </script> <script src="effects-manager.js"></script>
+  <!-- СКРИПТЫ (рекомендуется использовать defer) -->
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js" defer></script>
+
+  <script src="themes/theme-manager.js"       defer></script>
+  <script src="effects-config.js"           defer></script>
+  <script src="effects-manager.js"          defer></script>
+  <script src="script.js"                  defer></script>
+  <script src="strobe.js"                  defer></script>
+  <script src="rays.js"                    defer></script>
 </body>
 </html>
