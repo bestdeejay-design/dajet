@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DAJET - BEST — Галерея памяти</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="strobe.css">
 </head>
 <body>
     <div class="container">
@@ -68,7 +69,20 @@
         </div>
     </div>
 
+    <!-- Слой стробоскопа -->
+    <div id="strobe-overlay" class="strobe-overlay" aria-hidden="true"></div>
+
+    <!-- Модальное окно предупреждения -->
+    <div id="strobe-warning" class="modal hidden">
+        <h3>⚠️ Предупреждение о безопасности</h3>
+        <p>Этот эффект может вызвать дискомфорт у людей с фоточувствительной эпилепсией. 
+           Используйте с осторожностью и обязательно сделайте перерывы при длительном прослушивании.</p>
+        <button id="strobe-accept">Понятно, включить</button>
+        <button id="strobe-decline">Отмена</button>
+    </div>
+
     <!-- Скрипты -->
     <script src="script.js"></script>
+    <script src="strobe.js"></script>
 </body>
 </html>

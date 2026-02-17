@@ -99,6 +99,31 @@ class DAJETPlayer {
 
         // Горячие клавиши
         document.addEventListener('keydown', (e) => this.handleKeydown(e));
+        
+        // События для интеграции со стробоскопом
+        this.setupStrobeIntegration();
+    }
+
+    setupStrobeIntegration() {
+        // Интеграция с модулем стробоскопа
+        document.addEventListener('music:play', () => {
+            if (window.StrobeEffect) {
+                window.StrobeEffect.play();
+            }
+        });
+
+        document.addEventListener('music:pause', () => {
+            if (window.StrobeEffect) {
+                window.StrobeEffect.pause();
+            }
+        });
+
+        document.addEventListener('music:stop', () => {
+            if (window.StrobeEffect) {
+                window.StrobeEffect.stop();
+            }
+        });
+    }
     }
 
     toggleTheme() {
@@ -106,6 +131,11 @@ class DAJETPlayer {
         const isDark = document.body.classList.contains('dark-theme');
         localStorage.setItem('theme', isDark ? 'dark' : 'light');
         this.elements.themeToggle.textContent = isDark ? '☀️' : '🌙';
+        
+        // Уведомляем стробоскоп о смене темы
+        if (window.StrobeEffect && window.StrobeEffect.onThemeChange) {
+            window.StrobeEffect.onThemeChange();
+        }
     }
 
     async loadAlbums() {
@@ -251,7 +281,7 @@ class DAJETPlayer {
         this.elements.albumView.classList.remove('hidden');
     }
 
-    async playTrack(index) {
+    playTrack(index) {
         if (index < 0 || index >= this.state.currentPlaylist.length) {
             return;
         }
@@ -272,9 +302,12 @@ class DAJETPlayer {
                                                  'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjQiIGhlaWdodD0iNjQiIHZpZXdCb3g9IjAgMCA2NCA2NCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGNpcmNsZSBjeD0iMzIiIGN5PSIzMiIgcj0iMzIiIGZpbGw9IiMzNTU3YWEiLz4KPHRleHQgeD0iMzIiIHk9IjM2IiBmaWxsPSJ3aGl0ZSIgZm9udC1zaXplPSIxNiIgZm9udC1mYW1pbHk9IkFyaWFsIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj5EPC90ZXh0Pgo8L3N2Zz4K';
 
             // Воспроизведение
-            await this.state.audio.play();
+            this.state.audio.play();
             this.state.isPlaying = true;
             this.updatePlayButton();
+
+            // Отправляем событие воспроизведения для стробоскопа
+            document.dispatchEvent(new CustomEvent('music:play'));
 
             // Показ плеера
             this.elements.player.classList.remove('hidden');
@@ -292,11 +325,16 @@ class DAJETPlayer {
     togglePlay() {
         if (this.state.isPlaying) {
             this.state.audio.pause();
+            // Отправляем событие паузы для стробоскопа
+            document.dispatchEvent(new CustomEvent('music:pause'));
         } else {
             if (this.state.audio.src) {
                 this.state.audio.play();
+                // Отправляем событие воспроизведения для стробоскопа
+                document.dispatchEvent(new CustomEvent('music:play'));
             } else if (this.state.currentPlaylist.length > 0) {
                 this.playTrack(this.state.currentTrackIndex);
+                // Событие воспроизведения отправляется в playTrack
             }
         }
         this.state.isPlaying = !this.state.isPlaying;
@@ -309,6 +347,8 @@ class DAJETPlayer {
         this.state.isPlaying = false;
         this.updatePlayButton();
         this.updateProgress();
+        // Отправляем событие остановки для стробоскопа
+        document.dispatchEvent(new CustomEvent('music:stop'));
     }
 
     previousTrack() {
