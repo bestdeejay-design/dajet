@@ -1,43 +1,45 @@
 /* --------------------------------------------------------------
-   rays.css – световые лучи, проходящие через весь экран
+   rays.css – световые лучи
    -------------------------------------------------------------- */
 
-/* 1) Сам слой (позиционируем фиксировано, над всем) */
 .rays-overlay {
     position: fixed;
-    inset: 0;                     /* top / right / bottom / left = 0 */
-    pointer-events: none;         /* не мешаем кликам */
-    z-index: 9998;                /* чуть ниже стробо‑слоя (9999) */
-    background: transparent;     /* базовый фон – прозрачный */
-    overflow: hidden;             /* «обрезаем» лучи за пределами */
+    inset: 0;
+    pointer-events: none;
+    z-index: 9998;
+    background: transparent;
+    overflow: hidden;
 }
 
-/* 2) Три независимых «полосы» – они будут анимированы
-   (можно добавить сколько захотите) */
-.rays-overlay::before,
-.rays-overlay::after,
-.rays-overlay .ray-3 {
+/* первая полоса */
+.rays-overlay::before {
     content: "";
     position: absolute;
-    top: -150%;                  /* начинаем выше окна */
-    left: -150%;                 /* начинаем левее окна */
-    width: 300%;                 /* ширина > 100% → луч покрывает всё */
-    height: 300%;                /* высота > 100% → покрывает всё */
+    top: -150%;
+    left: -150%;
+    width: 300%;
+    height: 300%;
     background: repeating-linear-gradient(
-        45deg,                                   /* угол луча */
+        45deg,
         rgba(255,255,255,0) 0%,
         rgba(255,255,255,0) 45%,
         rgba(255,255,255,0.15) 47%,
         rgba(255,255,255,0) 49%,
         rgba(255,255,255,0) 100%
     );
-    mix-blend-mode: screen;      /* делает лучи ярче на тёмных участках */
-    opacity: 0.0;                 /* стартуем с нулевой прозрачности */
-    animation: ray-move-1 4.5s linear infinite;
+    mix-blend-mode: screen;
+    opacity: 0;
+    animation: ray-move-1 var(--ray-duration-1, 4.5s) linear infinite;
 }
 
-/* 2‑й луч – чуть другой угол, чуть медленнее */
+/* вторая полоса */
 .rays-overlay::after {
+    content: "";
+    position: absolute;
+    top: -150%;
+    left: -150%;
+    width: 300%;
+    height: 300%;
     background: repeating-linear-gradient(
         -30deg,
         rgba(255,255,255,0) 0%,
@@ -46,11 +48,18 @@
         rgba(255,255,255,0) 44%,
         rgba(255,255,255,0) 100%
     );
-    animation: ray-move-2 5.2s linear infinite;
+    mix-blend-mode: screen;
+    opacity: 0;
+    animation: ray-move-2 var(--ray-duration-2, 5.2s) linear infinite;
 }
 
-/* 3‑й луч – отдельный элемент, чтобы задать отдельный угол */
+/* третья полоса – отдельный элемент (нужен в разметке) */
 .rays-overlay .ray-3 {
+    position: absolute;
+    top: -150%;
+    left: -150%;
+    width: 300%;
+    height: 300%;
     background: repeating-linear-gradient(
         120deg,
         rgba(255,255,255,0) 0%,
@@ -59,10 +68,12 @@
         rgba(255,255,255,0) 54%,
         rgba(255,255,255,0) 100%
     );
-    animation: ray-move-3 6.0s linear infinite;
+    mix-blend-mode: screen;
+    opacity: 0;
+    animation: ray-move-3 var(--ray-duration-3, 6s) linear infinite;
 }
 
-/* --------------------- анимации --------------------- */
+/* -------------------- анимации -------------------- */
 @keyframes ray-move-1 {
     0%   { transform: translate(-50%, -50%) rotate(0deg); opacity: 0; }
     10%  { opacity: 0.4; }
@@ -82,12 +93,10 @@
     100% { transform: translate(30%, 70%) rotate(360deg); opacity: 0; }
 }
 
-/* ----------------- Управление (скрыть/показать) --------------- */
+/* скрытый слой */
 .rays-overlay.hidden { display: none; }
 
-/* --------------------------------------------------------------
-   (Опционально) Поддержка prefers‑reduced‑motion
-   -------------------------------------------------------------- */
+/* уважение к prefers-reduced-motion */
 @media (prefers-reduced-motion: reduce) {
     .rays-overlay,
     .rays-overlay::before,
