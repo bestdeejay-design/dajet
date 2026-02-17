@@ -2,7 +2,7 @@
    DAJET – единый файл стилей
    ========================================================== */
 
-/* ------------------- 1. Универсальный reset ------------------- */
+/* ------------------- 1. Reset + переходы ------------------- */
 *,
 *::before,
 *::after {
@@ -15,14 +15,14 @@
                 box-shadow var(--transition-speed) ease;
 }
 
-/* ------------------- 2. Базовые CSS‑переменные (Dark) ------- */
+/* ------------------- 2. Базовые переменные (Dark) --------- */
 :root {
-    --bg-primary: #0a0a0f;               /* тёмный фон */
-    --bg-secondary: #12121a;             /* карточки, панель */
+    --bg-primary: #0a0a0f;          /* главный фон */
+    --bg-secondary: #12121a;        /* карточки, панель */
     --bg-overlay: rgba(20,20,35,0.8);
     --text-primary: #ffffff;
     --text-secondary: #a0a0b0;
-    --accent-primary: #7c4dff;           /* кнопки, ссылки */
+    --accent-primary: #7c4dff;
     --accent-secondary: #00bcd4;
     --glass-bg: rgba(255,255,255,0.05);
     --glass-border: rgba(255,255,255,0.1);
@@ -31,7 +31,7 @@
     --border-radius: 15px;
 }
 
-/* ------------------- 3. Lounge‑тема (через data‑theme) --------- */
+/* ------------------- 3. Lounge‑тема ----------------------- */
 [data-theme="lounge"] {
     --bg-primary: #1a0f0a;
     --bg-secondary: #2a1810;
@@ -44,21 +44,19 @@
     --glass-border: rgba(255,150,80,0.15);
 }
 
-/* ------------------- 4. Общие стили --------------------------- */
+/* ------------------- 4. Общие стили ----------------------- */
 body {
     font-family: 'Arial', sans-serif;
     background: var(--bg-primary);
     color: var(--text-primary);
     min-height: 100vh;
     overflow-x: hidden;
-    transition: background-color var(--transition-speed) ease,
-                color var(--transition-speed) ease;
     background-image: radial-gradient(circle at 25% 25%, var(--accent-primary) 0.1px, transparent 0.1px),
                       radial-gradient(circle at 75% 75%, var(--accent-primary) 0.1px, transparent 0.1px);
     background-size: 40px 40px;
 }
 
-/* ------------------- 5. Контейнер --------------------------- */
+/* ------------------- 5. Container ------------------------ */
 .container {
     max-width: 1200px;
     margin: 0 auto;
@@ -70,11 +68,10 @@ body {
     z-index: 1;
 }
 
-/* ------------------- 6. Фон SVG (тема‑фон) ------------------- */
+/* ------------------- 6. SVG‑фон (тема) ------------------- */
 .theme-background {
     position: fixed;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
+    inset: 0;
     z-index: -2;
     pointer-events: none;
     overflow: hidden;
@@ -85,7 +82,7 @@ body {
     object-fit: cover;
 }
 
-/* ------------------- 7. Кнопка переключения темы ------------ */
+/* ------------------- 7. Кнопка темы ---------------------- */
 .theme-toggle {
     width: 40px;
     height: 40px;
@@ -107,7 +104,7 @@ body {
     color: #fff;
 }
 
-/* Иконки в кнопке (добавляем в HTML, если хотим) */
+/* Иконки внутри кнопки (по желанию) */
 .icon-dark, .icon-lounge {
     position: absolute;
     top: 50%; left: 50%;
@@ -117,10 +114,8 @@ body {
 [data-theme="lounge"] .icon-lounge { display: block; }
 [data-theme="dark"]   .icon-lounge { display: none; }
 
-/* ------------------- 8. Поиск ------------------------------- */
-.search-container {
-    margin-bottom: 30px;
-}
+/* ------------------- 8. Поиск --------------------------- */
+.search-container { margin-bottom: 30px; }
 #searchInput {
     width: 100%;
     padding: 12px 20px;
@@ -138,7 +133,7 @@ body {
     box-shadow: 0 0 0 3px rgba(124,77,255,0.2);
 }
 
-/* ------------------- 9. Сетка альбомов ---------------------- */
+/* ------------------- 9. Сетка альбомов ----------------- */
 .albums-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(200px,1fr));
@@ -178,7 +173,7 @@ body {
     color: var(--text-secondary);
 }
 
-/* ------------------- 10. Окно альбома --------------------- */
+/* ------------------- 10. Просмотр альбома -------------- */
 .album-view { animation: fadeIn 0.3s ease; }
 .album-header {
     display: flex;
@@ -192,8 +187,7 @@ body {
     box-shadow: var(--shadow);
 }
 .album-cover-large {
-    width: 150px;
-    height: 150px;
+    width: 150px; height: 150px;
     border-radius: 10px;
     object-fit: cover;
 }
@@ -205,6 +199,7 @@ body {
 .album-info p {
     font-size: 1.1rem;
     color: var(--text-secondary);
+    margin-bottom: 20px;
 }
 .back-btn {
     background: var(--accent-primary);
@@ -218,7 +213,7 @@ body {
 }
 .back-btn:hover { background: var(--accent-secondary); }
 
-/* ------------------- 11. Список треков -------------------- */
+/* ------------------- 11. Список треков ----------------- */
 .tracks-list {
     background: var(--bg-secondary);
     border-radius: var(--border-radius);
@@ -255,11 +250,13 @@ body {
     object-fit: cover;
     margin-right: 15px;
 }
-.track-details { flex-grow: 1; }
+.track-details {
+    flex-grow: 1;
+}
 .track-title { font-weight: 500; margin-bottom: 3px; }
 .track-artist { font-size: 0.9rem; color: var(--text-secondary); }
 
-/* ------------------- 12. Плеер ---------------------------- */
+/* ------------------- 12. Плеер -------------------------- */
 .player {
     position: fixed;
     bottom: 0; left: 0; right: 0;
@@ -369,7 +366,7 @@ body {
     cursor: pointer;
 }
 
-/* ------------------- 13. Утилиты -------------------------- */
+/* ------------------- 13. Утилиты ------------------------ */
 .hidden { display: none !important; }
 .error-message {
     position: fixed;
@@ -383,7 +380,7 @@ body {
     font-size: 14px;
 }
 
-/* ------------------- 14. Анимации ------------------------- */
+/* ------------------- 14. Анимации ------------------------ */
 @keyframes fadeIn {
     from { opacity: 0; }
     to   { opacity: 1; }
@@ -401,9 +398,11 @@ body {
     .album-cover-large { width: 120px; height: 120px; }
     .player-content { flex-wrap: wrap; }
     .player-info { min-width: 100%; text-align: center; }
-    .progress-container, .player-controls { justify-content: center; }
-    .volume-container { justify-content: center; margin-left:0; width:100%; margin-top:10px; }
-    .volume-slider { width: 150px; }
+    .progress-container,
+    .player-controls,
+    .volume-container { justify-content: center; }
+    .volume-container { margin-left:0; width:100%; margin-top:10px; }
+    .volume-slider { width:150px; }
 }
 @media (max-width: 480px) {
     .albums-grid { grid-template-columns: repeat(auto-fill, minmax(150px,1fr)); }
