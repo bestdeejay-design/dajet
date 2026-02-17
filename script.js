@@ -109,10 +109,32 @@ class DAJETPlayer {
     }
 
     async loadAlbums() {
-        if (!window.ALBUMS || !Array.isArray(window.ALBUMS)) {
-            console.error('❌ ALBUMS не найден или имеет неверный формат');
-            this.showError('Ошибка: файл с данными альбомов не загружен');
-            return;
+        // Wait for the ALBUMS data to be loaded
+        if (typeof window.ALBUMS === 'undefined' || !Array.isArray(window.ALBUMS)) {
+            // Try to load the albums.js file dynamically if not already loaded
+            try {
+                const script = document.createElement('script');
+                script.src = 'data/albums.js';
+                document.head.appendChild(script);
+
+                // Wait a bit for the script to load
+                await new Promise(resolve => {
+                    script.onload = resolve;
+                    // Fallback in case the script loads very quickly
+                    setTimeout(resolve, 100);
+                });
+
+                // Check again after loading
+                if (typeof window.ALBUMS === 'undefined' || !Array.isArray(window.ALBUMS)) {
+                    console.error('❌ ALBUMS не найден или имеет неверный формат');
+                    this.showError('Ошибка: файл с данными альбомов не загружен');
+                    return;
+                }
+            } catch (error) {
+                console.error('❌ Ошибка загрузки файла albums.js:', error);
+                this.showError('Ошибка: не удалось загрузить файл с альбомами');
+                return;
+            }
         }
 
         this.elements.albumsGrid.innerHTML = '';
