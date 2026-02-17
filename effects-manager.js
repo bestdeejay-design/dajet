@@ -195,6 +195,72 @@
         // trackPulse – будет вызываться из script.js (см. ниже)
     };
 
+   /* Добавьте в конец файла effects-manager.js (после initAll) */
+(() => {
+    const createSettingsButton = () => {
+        const header = document.querySelector('.header');
+        if (!header) return;
+        const btn = document.createElement('button');
+        btn.id = 'effects-toggle';
+        btn.className = 'control-btn';
+        btn.title = 'Настройки визуальных эффектов';
+        btn.innerHTML = '⚙️';
+        btn.style.marginLeft = '8px';
+        header.appendChild(btn);
+
+        // панель
+        const panel = document.createElement('div');
+        panel.id = 'effects-panel';
+        panel.style.cssText = `
+            position: absolute; top: 100%; right: 0;
+            background: var(--bg-secondary);
+            border: 1px solid var(--glass-border);
+            border-radius: 6px;
+            padding: 0.5rem 1rem;
+            box-shadow: var(--shadow);
+            display: none;
+            z-index: 10000;
+        `;
+        btn.addEventListener('click', () => {
+            panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
+        });
+        header.appendChild(panel);
+
+        const cfg = window.EffectsConfig.load();
+        const list = document.createElement('ul');
+        list.style.listStyle = 'none';
+        list.style.margin = 0;
+        list.style.padding = 0;
+        const items = [
+            { name: 'cardEntrance', label: 'Появление карточек' },
+            { name: 'cardHover',    label: 'Hover‑tilt' },
+            { name: 'clickRipple',  label: 'Ripple‑клик' },
+            { name: 'trackPulse',   label: 'Подсветка трека' },
+            { name: 'visualizer',   label: 'Визуализатор' }
+        ];
+        items.forEach(item => {
+            const li = document.createElement('li');
+            li.style.marginBottom = '0.3rem';
+            const cb = document.createElement('input');
+            cb.type = 'checkbox';
+            cb.id = `ef-${item.name}`;
+            cb.checked = !!cfg[item.name];
+            cb.addEventListener('change', () => {
+                if (cb.checked) window.EffectsManager.enable(item.name);
+                else            window.EffectsManager.disable(item.name);
+            });
+            const lbl = document.createElement('label');
+            lbl.htmlFor = cb.id;
+            lbl.textContent = ' ' + item.label;
+            li.append(cb, lbl);
+            list.appendChild(li);
+        });
+        panel.appendChild(list);
+    };
+    document.addEventListener('DOMContentLoaded', createSettingsButton);
+})();
+
+
     // Публично
     window.EffectsManager = API;
     // Вешаем init‑функцию на DOMContentLoaded (после ваших скриптов)
