@@ -124,7 +124,6 @@ class DAJETPlayer {
             }
         });
     }
-    }
 
     toggleTheme() {
         document.body.classList.toggle('dark-theme');
