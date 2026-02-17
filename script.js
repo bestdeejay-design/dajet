@@ -4,6 +4,7 @@
 
 class DAJETPlayer {
     constructor() {
+        // ---------------------- DOM‑элементы ----------------------
         this.elements = {
             themeToggle: document.getElementById('theme-toggle'),
             searchInput: document.getElementById('searchInput'),
@@ -30,6 +31,7 @@ class DAJETPlayer {
             repeatBtn: document.getElementById('repeatBtn')
         };
 
+        // ---------------------- Состояние ----------------------
         this.state = {
             currentAlbum: null,
             currentTrackIndex: 0,
@@ -42,6 +44,7 @@ class DAJETPlayer {
             searchTimeout: null
         };
 
+        // ---------------------- Инициализация ----------------------
         this.init();
     }
 
@@ -79,7 +82,9 @@ class DAJETPlayer {
      * ------------------------------------------------------------------ */
     bindEvents() {
         this.elements.themeToggle?.addEventListener('click', () => this.toggleTheme());
+
         this.elements.searchInput?.addEventListener('input', e => this.handleSearch(e));
+
         this.elements.backToAlbums?.addEventListener('click', () => this.showAlbums());
 
         this.elements.playBtn?.addEventListener('click', () => this.togglePlay());
@@ -182,7 +187,7 @@ class DAJETPlayer {
             this.showAlbumView();
         } catch (err) {
             console.error('❌ Ошибка загрузки треков', err);
-            this.showError(`Не удалось загрузить треки альбома: ${album.title}`);
+            this.showError(`Не удалось загрузить треки «${album.title}»`);
         }
     }
 
