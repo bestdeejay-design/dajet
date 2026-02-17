@@ -109,40 +109,32 @@ class DAJETPlayer {
     }
 
     async loadAlbums() {
-        // Wait for the ALBUMS data to be loaded
+        // Check if ALBUMS is already loaded
         if (typeof window.ALBUMS === 'undefined' || !Array.isArray(window.ALBUMS)) {
-            // Try to load the albums.js file dynamically if not already loaded
             try {
-                const script = document.createElement('script');
-                script.src = 'data/albums.js';
-                document.head.appendChild(script);
-
-                // Wait a bit for the script to load
-                await new Promise(resolve => {
-                    script.onload = resolve;
-                    // Fallback in case the script loads very quickly
-                    setTimeout(resolve, 100);
-                });
-
-                // Check again after loading
-                if (typeof window.ALBUMS === 'undefined' || !Array.isArray(window.ALBUMS)) {
-                    console.error('❌ ALBUMS не найден или имеет неверный формат');
-                    this.showError('Ошибка: файл с данными альбомов не загружен');
-                    return;
+                // Fetch the albums.js file content
+                const response = await fetch('data/albums.js');
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const text = await response.text();
+                
+                // Extract the ALBUMS array using eval
+                // First, we'll wrap the content to safely extract ALBUMS
+                const wrappedCode = `(function() { let ALBUMS; ${text}; return ALBUMS; })()`;
+                window.ALBUMS = eval(wrappedCode);
+                
+                if (!Array.isArray(window.ALBUMS)) {
+                    throw new Error('ALBUMS is not an array');
                 }
             } catch (error) {
-                console.error('❌ Ошибка загрузки файла albums.js:', error);
-                this.showError('Ошибка: не удалось загрузить файл с альбомами');
+                console.error('❌ Ошибка загрузки и парсинга файла albums.js:', error);
+                this.showError('Ошибка: не удалось загрузить и обработать файл с альбомами');
                 return;
             }
         }
 
-        this.elements.albumsGrid.innerHTML = '';
-
-        for (const album of window.ALBUMS) {
-            const albumCard = this.createAlbumCard(album);
-            this.elements.albumsGrid.appendChild(albumCard);
-        }
+        this.renderAlbums();
     }
 
     createAlbumCard(album) {
@@ -159,6 +151,15 @@ class DAJETPlayer {
         
         card.addEventListener('click', () => this.loadAlbumTracks(album));
         return card;
+    }
+
+    renderAlbums() {
+        this.elements.albumsGrid.innerHTML = '';
+
+        for (const album of window.ALBUMS) {
+            const albumCard = this.createAlbumCard(album);
+            this.elements.albumsGrid.appendChild(albumCard);
+        }
     }
 
     escapeHtml(text) {
