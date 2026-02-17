@@ -1,6 +1,15 @@
-/* Strobe effect styles - strobe.css */
+/**
+ * Strobe Effect Styles - strobe.css
+ * 
+ * Стили для безопасного эффекта стробоскопа на сайте DAJET.
+ * Важные особенности:
+ * - Эффект по умолчанию ВЫКЛЮЧЕН
+ * - Плавные переходы для уменьшения нагрузки на глаза
+ * - Ограничение частоты мерцания до безопасного уровня
+ * - Поддержка разных тем оформления
+ */
 
-/* Strobe overlay layer */
+/* Основной слой стробоскопа */
 .strobe-overlay {
   position: fixed;
   top: 0;
@@ -11,85 +20,100 @@
   z-index: 9999;
   opacity: 0;
   transition: opacity 0.3s ease;
-  background: transparent;
-  mix-blend-mode: screen;
+  mix-blend-mode: overlay;
+  background: white;
 }
 
+/* Активный слой стробоскопа */
 .strobe-overlay.active {
-  opacity: 0.15;
+  opacity: 0.15; /* Начальное значение интенсивности */
 }
 
-/* Keyframes for pulsation - safe frequency (2-4 Hz) */
-@keyframes strobe-pulse {
-  0%, 100% { 
-    background-color: rgba(255, 255, 255, 0); 
-    opacity: 0;
-  }
-  50% { 
-    background-color: rgba(255, 255, 255, 0.15); 
-    opacity: 0.15;
-  }
-}
-
-@keyframes strobe-pulse-dark {
-  0%, 100% { 
-    background-color: rgba(0, 0, 0, 0); 
-    opacity: 0;
-  }
-  50% { 
-    background-color: rgba(0, 0, 0, 0.15); 
-    opacity: 0.15;
-  }
-}
-
-/* Apply animations based on mode */
-.strobe-overlay.mode-constant.active {
+/* Анимации для светлой темы */
+.strobe-overlay.mode-constant {
   animation: strobe-pulse 500ms infinite ease-in-out;
 }
 
-.strobe-overlay.mode-constant.active[data-theme="dark"] {
-  animation: strobe-pulse-dark 500ms infinite ease-in-out;
-}
-
-.strobe-overlay.mode-beat.active {
+.strobe-overlay.mode-beat {
   animation: strobe-pulse 250ms infinite ease-in-out;
 }
 
-.strobe-overlay.mode-beat.active[data-theme="dark"] {
+@keyframes strobe-pulse {
+  0%, 100% { opacity: 0.05; }
+  50% { opacity: 0.15; }
+}
+
+/* Анимации для тёмной темы */
+.strobe-overlay[data-theme="dark"] {
+  background: white;
+}
+
+.strobe-overlay[data-theme="dark"].mode-constant {
+  animation: strobe-pulse-dark 500ms infinite ease-in-out;
+}
+
+.strobe-overlay[data-theme="dark"].mode-beat {
   animation: strobe-pulse-dark 250ms infinite ease-in-out;
 }
 
-/* Warning modal */
-#strobe-warning {
+@keyframes strobe-pulse-dark {
+  0%, 100% { opacity: 0.08; }
+  50% { opacity: 0.20; }
+}
+
+/* Анимации для lounge темы */
+.strobe-overlay[data-theme="lounge"] {
+  background: #ff6b35;
+}
+
+.strobe-overlay[data-theme="lounge"].mode-constant {
+  animation: strobe-pulse-warm 500ms infinite ease-in-out;
+}
+
+.strobe-overlay[data-theme="lounge"].mode-beat {
+  animation: strobe-pulse-warm 250ms infinite ease-in-out;
+}
+
+@keyframes strobe-pulse-warm {
+  0%, 100% { opacity: 0.08; }
+  50% { opacity: 0.25; }
+}
+
+/* Кнопка стробоскопа */
+#strobe-toggle.enabled {
+  background: #ff4757 !important;
+  transform: scale(1.1);
+}
+
+/* Модальное окно предупреждения */
+.modal {
   position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background: var(--bg-secondary);
-  padding: 25px;
+  background: white;
+  padding: 30px;
   border-radius: 15px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
   z-index: 10000;
-  box-shadow: var(--shadow);
-  backdrop-filter: blur(10px);
-  border: 1px solid var(--glass-border);
   max-width: 500px;
   width: 90%;
   text-align: center;
 }
 
-#strobe-warning h3 {
-  color: #ff6b6b;
-  margin-bottom: 15px;
-  font-size: 1.3rem;
+.modal h3 {
+  margin-top: 0;
+  color: #ff4757;
+  font-size: 1.5rem;
 }
 
-#strobe-warning p {
+.modal p {
   margin-bottom: 20px;
-  line-height: 1.5;
-  color: var(--text-primary);
+  line-height: 1.6;
+  color: #333;
 }
 
-#strobe-warning button {
+.modal button {
   margin: 0 10px;
   padding: 10px 20px;
   border: none;
@@ -100,67 +124,33 @@
 }
 
 #strobe-accept {
-  background: var(--accent-color);
+  background: #2ed573;
   color: white;
 }
 
 #strobe-accept:hover {
-  background: #2a4a99;
-  transform: scale(1.05);
+  background: #26d467;
+  transform: translateY(-2px);
 }
 
 #strobe-decline {
-  background: rgba(255, 107, 107, 0.2);
-  color: #ff6b6b;
-  border: 1px solid rgba(255, 107, 107, 0.3);
+  background: #ff6b6b;
+  color: white;
 }
 
 #strobe-decline:hover {
-  background: rgba(255, 107, 107, 0.3);
-  transform: scale(1.05);
-}
-
-/* Control button styling */
-#strobe-toggle {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  border: none;
-  background: var(--accent-color);
-  color: white;
-  cursor: pointer;
-  font-size: 1.2rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.2s ease;
-  position: relative;
-}
-
-#strobe-toggle:hover {
-  transform: scale(1.1);
-  background: #2a4a99;
-}
-
-#strobe-toggle.enabled {
-  background: #ff6b6b;
-}
-
-#strobe-toggle.enabled:hover {
   background: #ff5252;
+  transform: translateY(-2px);
 }
 
-/* Hide for users who prefer reduced motion */
+/* Поддержка prefers-reduced-motion */
 @media (prefers-reduced-motion: reduce) {
   .strobe-overlay {
-    display: none !important;
+    animation: none !important;
+    opacity: 0 !important;
   }
   
-  #strobe-toggle {
-    display: none !important;
-  }
-  
-  #strobe-warning {
-    display: none !important;
+  .modal {
+    animation: none !important;
   }
 }

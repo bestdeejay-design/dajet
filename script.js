@@ -3,7 +3,7 @@ class DAJETPlayer {
     constructor() {
         // DOM элементы
         this.elements = {
-            themeToggle: document.getElementById('themeToggle'),
+            themeToggle: document.getElementById('theme-toggle'),
             searchInput: document.getElementById('searchInput'),
             albumsGrid: document.getElementById('albumsGrid'),
             albumView: document.getElementById('albumView'),
@@ -60,18 +60,22 @@ class DAJETPlayer {
     }
 
     loadTheme() {
-        if (localStorage.getItem('theme') === 'dark') {
-            document.body.classList.add('dark-theme');
-            this.elements.themeToggle.textContent = '☀️';
-        } else {
-            document.body.classList.remove('dark-theme');
-            this.elements.themeToggle.textContent = '🌙';
+        // Используем ThemeManager для получения текущей темы
+        if (window.ThemeManager && typeof window.ThemeManager.getTheme === 'function') {
+            const currentTheme = window.ThemeManager.getTheme();
+            if (currentTheme === 'dark') {
+                document.documentElement.setAttribute('data-theme', 'dark');
+            } else if (currentTheme === 'lounge') {
+                document.documentElement.setAttribute('data-theme', 'lounge');
+            }
         }
     }
 
     bindEvents() {
-        // Переключение темы
-        this.elements.themeToggle.addEventListener('click', () => this.toggleTheme());
+        // Переключение темы - теперь через ThemeManager
+        if (this.elements.themeToggle) {
+            this.elements.themeToggle.addEventListener('click', () => this.toggleTheme());
+        }
 
         // Поиск
         this.elements.searchInput.addEventListener('input', (e) => this.handleSearch(e));
@@ -126,10 +130,10 @@ class DAJETPlayer {
     }
 
     toggleTheme() {
-        document.body.classList.toggle('dark-theme');
-        const isDark = document.body.classList.contains('dark-theme');
-        localStorage.setItem('theme', isDark ? 'dark' : 'light');
-        this.elements.themeToggle.textContent = isDark ? '☀️' : '🌙';
+        // Используем ThemeManager для переключения тем
+        if (window.ThemeManager && typeof window.ThemeManager.toggle === 'function') {
+            window.ThemeManager.toggle();
+        }
         
         // Уведомляем стробоскоп о смене темы
         if (window.StrobeEffect && window.StrobeEffect.onThemeChange) {
@@ -401,6 +405,184 @@ class DAJETPlayer {
         const seekTime = (event.target.value / 100) * this.state.audio.duration;
         this.state.audio.currentTime = seekTime;
     }
+
+    updateProgress() {
+        const percent = (this.state.audio.currentTime / this.state.audio.duration) * 100 || 0;
+        this.elements.progressBar.value = percent;
+        this.elements.currentTime.textContent = this.formatTime(this.state.audio.currentTime);
+    }
+
+    updateDuration() {
+        this.elements.duration.textContent = this.formatTime(this.state.audio.duration);
+    }
+
+    formatTime(seconds) {
+        if (isNaN(seconds)) return '0:00';
+        
+        const mins = Math.floor(seconds / 60);
+        const secs = Math.floor(seconds % 60);
+        return `${mins}:${secs.toString().padStart(2, '0')}`;
+    }
+
+    setVolume(event) {
+        const volume = event.target.value / 100;
+        this.state.audio.volume = volume;
+        localStorage.setItem('volume', volume);
+    }
+
+    loadState() {
+        const savedVolume = localStorage.getItem('volume');
+        if (savedVolume !== null) {
+            const volume = parseFloat(savedVolume);
+            this.state.audio.volume = volume;
+            this.elements.volumeSlider.value = volume * 100;
+        }
+    }
+
+    saveState() {
+        localStorage.setItem('currentTrackIndex', this.state.currentTrackIndex);
+        localStorage.setItem('currentAlbum', JSON.stringify(this.state.currentAlbum));
+        localStorage.setItem('isPlaying', this.state.isPlaying);
+    }
+
+    toggleShuffle() {
+        this.state.isShuffled = !this.state.isShuffled;
+        this.elements.shuffleBtn.style.opacity = this.state.isShuffled ? '1' : '0.5';
+        
+        if (this.state.isShuffled) {
+            // Перемешиваем плейлист
+            this.state.currentPlaylist = [...this.state.originalPlaylist];
+            this.shuffleArray(this.state.currentPlaylist);
+        } else {
+            // Возвращаем оригинальный порядок
+            this.state.currentPlaylist = [...this.state.originalPlaylist];
+        }
+    }
+
+    toggleRepeat() {
+        const modes = ['none', 'one', 'all'];
+        const currentIndex = modes.indexOf(this.state.repeatMode);
+        this.state.repeatMode = modes[(currentIndex + 1) % modes.length];
+        
+        this.elements.repeatBtn.textContent = {
+            'none': '🔁',
+            'one': '🔂',
+            'all': '🔁'
+        }[this.state.repeatMode];
+        
+        this.elements.repeatBtn.style.opacity = this.state.repeatMode === 'none' ? '0.5' : '1';
+    }
+
+    shuffleArray(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+    }
+
+    handleSearch(event) {
+        clearTimeout(this.state.searchTimeout);
+        const query = event.target.value.toLowerCase().trim();
+        
+        this.state.searchTimeout = setTimeout(() => {
+            if (query.length === 0) {
+                this.renderAlbums();
+                return;
+            }
+
+            const filteredAlbums = window.ALBUMS.filter(album => 
+                album.title.toLowerCase().includes(query) ||
+                album.tracksFile.toLowerCase().includes(query)
+            );
+
+            this.elements.albumsGrid.innerHTML = '';
+            filteredAlbums.forEach(album => {
+                const albumCard = this.createAlbumCard(album);
+                this.elements.albumsGrid.appendChild(albumCard);
+            });
+        }, 300);
+    }
+
+    handleKeydown(event) {
+        // Горячие клавиши для управления плеером
+        switch(event.code) {
+            case 'Space':
+                if (event.target.tagName !== 'INPUT') {
+                    event.preventDefault();
+                    this.togglePlay();
+                }
+                break;
+            case 'ArrowLeft':
+                if (event.target.tagName !== 'INPUT') {
+                    event.preventDefault();
+                    this.previousTrack();
+                }
+                break;
+            case 'ArrowRight':
+                if (event.target.tagName !== 'INPUT') {
+                    event.preventDefault();
+                    this.nextTrack();
+                }
+                break;
+            case 'ArrowUp':
+                if (event.target.tagName !== 'INPUT') {
+                    event.preventDefault();
+                    const newVolume = Math.min(1, this.state.audio.volume + 0.1);
+                    this.state.audio.volume = newVolume;
+                    this.elements.volumeSlider.value = newVolume * 100;
+                }
+                break;
+            case 'ArrowDown':
+                if (event.target.tagName !== 'INPUT') {
+                    event.preventDefault();
+                    const newVolume = Math.max(0, this.state.audio.volume - 0.1);
+                    this.state.audio.volume = newVolume;
+                    this.elements.volumeSlider.value = newVolume * 100;
+                }
+                break;
+        }
+    }
+
+    handleError(error) {
+        console.error('Ошибка аудио:', error);
+        this.showError('Ошибка воспроизведения аудио');
+        this.nextTrack(); // Переход к следующему треку при ошибке
+    }
+
+    showError(message) {
+        // Создание всплывающего сообщения об ошибке
+        const errorDiv = document.createElement('div');
+        errorDiv.className = 'error-message';
+        errorDiv.textContent = message;
+        errorDiv.style.cssText = `
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #ff4757;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            z-index: 10000;
+            font-size: 14px;
+        `;
+        
+        document.body.appendChild(errorDiv);
+        
+        setTimeout(() => {
+            errorDiv.remove();
+        }, 3000);
+    }
+
+    updatePlayButton() {
+        this.elements.playBtn.textContent = this.state.isPlaying ? '⏸' : '▶';
+    }
+}
+
+// Инициализация плеера после загрузки DOM
+document.addEventListener('DOMContentLoaded', () => {
+    new DAJETPlayer();
+});
 
     setVolume(event) {
         this.state.audio.volume = event.target.value / 100;
