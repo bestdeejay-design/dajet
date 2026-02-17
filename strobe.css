@@ -1,156 +1,132 @@
-/**
- * Strobe Effect Styles - strobe.css
- * 
- * Стили для безопасного эффекта стробоскопа на сайте DAJET.
- * Важные особенности:
- * - Эффект по умолчанию ВЫКЛЮЧЕН
- * - Плавные переходы для уменьшения нагрузки на глаза
- * - Ограничение частоты мерцания до безопасного уровня
- * - Поддержка разных тем оформления
- */
+/* ==========================================================
+   Strobe Effect – стили overlay
+   ========================================================== */
 
-/* Основной слой стробоскопа */
+/* -------------------- основной слой -------------------- */
 .strobe-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  z-index: 9999;
-  opacity: 0;
-  transition: opacity 0.3s ease;
-  mix-blend-mode: overlay;
-  background: white;
+    position: fixed;
+    inset: 0;                     /* 0 px от всех краёв */
+    pointer-events: none;
+    z-index: 9999;
+    background: var(--strobe-bg, rgba(255,255,255,0.2));
+    mix-blend-mode: screen;       /* ярче, чем overlay */
+    opacity: 0;                  /* управляется JS */
+    transition: opacity .1s linear;
 }
 
-/* Активный слой стробоскопа */
-.strobe-overlay.active {
-  opacity: 0.15; /* Начальное значение интенсивности */
+/* Тема‑зависимые цвета */
+[data-theme="dark"]   .strobe-overlay { --strobe-bg: rgba(255,255,255,0.25); }
+[data-theme="lounge"] .strobe-overlay { --strobe-bg: rgba(255,180,0,0.30); }
+
+/* -------------------- «лучи» (конусный градиент) ------ */
+.strobe-overlay::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: conic-gradient(
+        from 0deg,
+        rgba(255,255,255,0) 0deg,
+        rgba(255,255,255,0.45) 45deg,
+        rgba(255,255,255,0) 90deg
+    );
+    opacity: 0.6;                 /* умножается на основной opacity */
+    mix-blend-mode: screen;
+    pointer-events: none;
+    animation: rotate-beam 12s linear infinite;
+}
+[data-theme="dark"] .strobe-overlay::before {
+    background: conic-gradient(
+        from 0deg,
+        rgba(255,255,255,0) 0deg,
+        rgba(255,255,255,0.35) 45deg,
+        rgba(255,255,255,0) 90deg
+    );
+}
+[data-theme="lounge"] .strobe-overlay::before {
+    background: conic-gradient(
+        from 0deg,
+        rgba(255,180,0,0) 0deg,
+        rgba(255,180,0,0.35) 45deg,
+        rgba(255,180,0,0) 90deg
+    );
 }
 
-/* Анимации для светлой темы */
-.strobe-overlay.mode-constant {
-  animation: strobe-pulse 500ms infinite ease-in-out;
+/* вращение «лучей» */
+@keyframes rotate-beam {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(360deg); }
 }
 
-.strobe-overlay.mode-beat {
-  animation: strobe-pulse 250ms infinite ease-in-out;
+/* -------------------- анимация мерцания ------------- */
+.strobe-overlay.mode-constant,
+.strobe-overlay.mode-beat,
+.strobe-overlay.mode-beat-sync {   /* псевдоним для совместимости */
+    animation: strobe-pulse 500ms infinite ease-in-out;
+}
+.strobe-overlay.mode-beat,
+.strobe-overlay.mode-beat-sync {
+    animation-duration: 250ms;   /* 4 Гц = 250 ms */
 }
 
+/* ключевые кадры */
 @keyframes strobe-pulse {
-  0%, 100% { opacity: 0.05; }
-  50% { opacity: 0.15; }
+    0%,100% { opacity: var(--strobe-opacity, 0.15); }
+    50%     { opacity: 0; }
 }
 
-/* Анимации для тёмной темы */
-.strobe-overlay[data-theme="dark"] {
-  background: white;
-}
-
-.strobe-overlay[data-theme="dark"].mode-constant {
-  animation: strobe-pulse-dark 500ms infinite ease-in-out;
-}
-
-.strobe-overlay[data-theme="dark"].mode-beat {
-  animation: strobe-pulse-dark 250ms infinite ease-in-out;
-}
-
-@keyframes strobe-pulse-dark {
-  0%, 100% { opacity: 0.08; }
-  50% { opacity: 0.20; }
-}
-
-/* Анимации для lounge темы */
-.strobe-overlay[data-theme="lounge"] {
-  background: #ff6b35;
-}
-
-.strobe-overlay[data-theme="lounge"].mode-constant {
-  animation: strobe-pulse-warm 500ms infinite ease-in-out;
-}
-
-.strobe-overlay[data-theme="lounge"].mode-beat {
-  animation: strobe-pulse-warm 250ms infinite ease-in-out;
-}
-
-@keyframes strobe-pulse-warm {
-  0%, 100% { opacity: 0.08; }
-  50% { opacity: 0.25; }
-}
-
-/* Кнопка стробоскопа */
+/* -------------------- кнопка стробоскопа ------------- */
 #strobe-toggle.enabled {
-  background: #ff4757 !important;
-  transform: scale(1.1);
+    background: #ff6b6b !important;
+    transform: scale(1.1);
 }
 
-/* Модальное окно предупреждения */
+/* -------------------- модальное окно ----------------- */
 .modal {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background: white;
-  padding: 30px;
-  border-radius: 15px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-  z-index: 10000;
-  max-width: 500px;
-  width: 90%;
-  text-align: center;
+    position: fixed;
+    top: 50%; left: 50%;
+    transform: translate(-50%,-50%);
+    background: #fff;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    z-index: 10000;
+    max-width: 500px;
+    width: 90%;
+    text-align: center;
 }
-
 .modal h3 {
-  margin-top: 0;
-  color: #ff4757;
-  font-size: 1.5rem;
+    margin-top: 0;
+    color: #ff4757;
+    font-size: 1.5rem;
 }
-
 .modal p {
-  margin-bottom: 20px;
-  line-height: 1.6;
-  color: #333;
+    margin-bottom: 20px;
+    line-height: 1.6;
+    color: #333;
 }
-
 .modal button {
-  margin: 0 10px;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 25px;
-  cursor: pointer;
-  font-size: 1rem;
-  transition: all 0.2s ease;
+    margin: 0 10px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: all .2s ease;
 }
+#strobe-accept { background: #2ed573; color: #fff; }
+#strobe-accept:hover { background: #26d467; transform: translateY(-2px); }
+#strobe-decline { background: #ff6b6b; color: #fff; }
+#strobe-decline:hover { background: #ff5252; transform: translateY(-2px); }
 
-#strobe-accept {
-  background: #2ed573;
-  color: white;
-}
-
-#strobe-accept:hover {
-  background: #26d467;
-  transform: translateY(-2px);
-}
-
-#strobe-decline {
-  background: #ff6b6b;
-  color: white;
-}
-
-#strobe-decline:hover {
-  background: #ff5252;
-  transform: translateY(-2px);
-}
-
-/* Поддержка prefers-reduced-motion */
+/* -------------------- respects‑reduced‑motion --------- */
 @media (prefers-reduced-motion: reduce) {
-  .strobe-overlay {
-    animation: none !important;
-    opacity: 0 !important;
-  }
-  
-  .modal {
-    animation: none !important;
-  }
+    .strobe-overlay,
+    .strobe-overlay.active,
+    .strobe-overlay.mode-constant,
+    .strobe-overlay.mode-beat,
+    .strobe-overlay.mode-beat-sync {
+        animation: none !important;
+        opacity: 0 !important;
+    }
+    .modal { animation: none !important; }
 }
