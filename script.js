@@ -119,10 +119,16 @@ class DAJETPlayer {
                 }
                 const text = await response.text();
                 
-                // Extract the ALBUMS array using eval
-                // First, we'll wrap the content to safely extract ALBUMS
-                const wrappedCode = `(function() { let ALBUMS; ${text}; return ALBUMS; })()`;
-                window.ALBUMS = eval(wrappedCode);
+                // Extract the ALBUMS array using regex and JSON.parse
+                // Find the array between const ALBUMS = [ ... ];
+                const regex = /const\s+ALBUMS\s*=\s*(\[.*?\]);/s;
+                const match = text.match(regex);
+                
+                if (match && match[1]) {
+                    window.ALBUMS = JSON.parse(match[1]);
+                } else {
+                    throw new Error('Could not find ALBUMS array in the fetched data');
+                }
                 
                 if (!Array.isArray(window.ALBUMS)) {
                     throw new Error('ALBUMS is not an array');
