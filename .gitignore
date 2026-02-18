@@ -1,1 +1,46 @@
-Nothing needs to be added to .gitignore since only a JavaScript source file (`main.js`) was modified and no build artifacts, dependencies, or temporary files were detected in the changes.
+```
+# Backup files
+*.backup
+
+# Minified files
+*.min.js
+*.min.css
+
+# Optimized images directory
+optimized_images/
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Logs
+*.log
+
+# Environment files
+.env
+.env.local
+.env.*
+
+# Editor/IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*.tmp
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Coverage reports
+coverage/
+htmlcov/
+.coverage
+
+# Build artifacts
+dist/
+build/
+*.egg-info/
+```

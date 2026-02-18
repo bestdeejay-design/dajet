@@ -6,11 +6,7 @@
     <title>DAJET – creative memory gallery</title>
 
     <!-- Стили -->
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="strobe.css">
-    <link rel="stylesheet" href="rays.css">
-    <link rel="stylesheet" href="effects.css">   <!-- ← новые стили для эффектов -->
-
+    <link rel="stylesheet" href="style.min.css">
     <!-- Готовим overlay‑элементы до скриптов (чтобы они точно существовали) -->
 </head>
 <body>
@@ -93,18 +89,7 @@
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js" defer></script>
 
-    <!-- Основные модули проекта -->
-    <script src="themes/theme-manager.js" defer></script>
-    <script src="effects-config.js"   defer></script>
-    <script src="effects-manager.js"  defer></script>
-    <!--  script.js – основной плеер (он уже подписывается на DOMContentLoaded)  -->
-    <script src="script.js" defer></script>
-
-    <!--  strobe и rays – после плеера, но всё равно defer, так что порядок не важен -->
-    <script src="strobe.js" defer></script>
-    <script src="rays.js"   defer></script>
-
-    <!-- Если всё‑таки хотите запускать какой‑то «bootloader», подключайте его **последним** -->
-     <script src="main.js" type="module"></script> 
+    <script src="script.min.js" defer></script>
+    <script src="main.js" defer></script>
 </body>
 </html>
