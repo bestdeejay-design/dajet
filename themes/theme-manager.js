@@ -237,6 +237,12 @@ class CssVariableThemeManager extends ThemeManager {
   
   // Apply CSS variables for the theme
   applyCssVariables(themeName) {
+    // Ensure themeVariables is properly initialized
+    if (!this.themeVariables || !this.themeVariables[themeName]) {
+      console.warn(`Theme variables for '${themeName}' not found`);
+      return;
+    }
+    
     const themeVars = this.themeVariables[themeName];
     if (!themeVars) return;
     
