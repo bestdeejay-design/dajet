@@ -1,36 +1,57 @@
-// ---- effects-config.js ----
-// Точка входа для сохранения/чтения пользовательских настроек.
-// Все значения bool, хранится в localStorage под ключом "effectsConfig".
-window.EffectsConfig = (() => {
-    const KEY = 'effectsConfig';
-    const defaults = {
-        cardEntrance: true,
-        cardHover: true,
-        clickRipple: true,
-        trackPulse: true,
-        visualizer: true
-    };
-    const load = () => {
-        try {
-            const data = JSON.parse(localStorage.getItem(KEY));
-            return { ...defaults, ...(data || {}) };
-        } catch (e) {
-            console.warn('⚠️ Effects config corrupted → using defaults', e);
-            return { ...defaults };
-        }
-    };
-    const save = (obj) => {
-        try { localStorage.setItem(KEY, JSON.stringify(obj)); } catch (_) {}
-    };
-    const set = (name, value) => {
-        const cfg = load();
-        cfg[name] = Boolean(value);
-        save(cfg);
-        return cfg;
-    };
-    const get = (name) => {
-        const cfg = load();
-        return cfg[name];
-    };
-    return { load, set, get };
-})();
+/**
+ * Effects Configuration Module
+ * Defines settings for various visual effects
+ */
+
+const EFFECTS_CONFIG = {
+  strobe: {
+    enabled: false,
+    frequency: 3, // Hz
+    intensity: 0.15,
+    colors: {
+      dark: 'rgba(255, 255, 255, 0.15)',
+      lounge: 'rgba(255, 120, 60, 0.2)'
+    }
+  },
+  rays: {
+    enabled: true,
+    count: 12,
+    speed: 0.5,
+    colors: {
+      dark: ['#7c4dff', '#00bcd4'],
+      lounge: ['#ff6b35', '#ffb347']
+    }
+  },
+  visualizer: {
+    enabled: true,
+    type: 'bars', // bars, waves, particles
+    sensitivity: 0.8
+  }
+};
+
+// Additional configuration for effects
+const ADVANCED_EFFECTS_CONFIG = {
+  particleSystem: {
+    enabled: false,
+    particleCount: 100,
+    baseSize: 2,
+    maxSize: 6,
+    colors: {
+      dark: ['#7c4dff', '#00bcd4', '#ffffff'],
+      lounge: ['#ff6b35', '#ffb347', '#ffcc5c']
+    }
+  },
+  ambientLighting: {
+    enabled: true,
+    intensity: 0.3,
+    colors: {
+      dark: ['#7c4dff', '#00bcd4'],
+      lounge: ['#ff6b35', '#ffb347']
+    }
+  },
+  audioReactive: {
+    enabled: true,
+    sensitivity: 0.7,
+    smoothing: 0.85
+  }
+};
