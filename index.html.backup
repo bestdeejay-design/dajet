@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DAJET – creative memory gallery</title>
+
+    <!-- Стили -->
+    <link rel="stylesheet" href="style.min.css">
+    <!-- Готовим overlay‑элементы до скриптов (чтобы они точно существовали) -->
+</head>
+<body>
+    <div class="container">
+        <!-- Шапка -->
+        <header class="header">
+            <h1 class="logo">DAJET</h1>
+            <p class="subtitle">creative memory gallery</p>
+
+            <!-- Переключатель темы -->
+            <button id="theme-toggle" class="theme-toggle">🌙</button>
+
+            <!-- Кнопка «Настройки эффектов» (будет добавлена скриптом) -->
+        </header>
+
+        <!-- Поиск -->
+        <div class="search-container">
+            <input type="text" id="searchInput"
+                   placeholder="Поиск по альбомам и трекам...">
+        </div>
+
+        <!-- Основной контент -->
+        <main class="main-content">
+            <!-- Сетка альбомов -->
+            <div id="albumsGrid" class="albums-grid"></div>
+
+            <!-- Просмотр выбранного альбома -->
+            <div id="albumView" class="album-view hidden">
+                <div class="album-header">
+                    <img id="albumCover" src="" alt="Обложка альбома"
+                         class="album-cover-large">
+                    <div class="album-info">
+                        <h2 id="albumTitle"></h2>
+                        <p id="albumTrackCount"></p>
+                        <button id="backToAlbums" class="btn back-btn">← Назад к альбомам</button>
+                    </div>
+                </div>
+                <div id="tracksList" class="tracks-list"></div>
+            </div>
+        </main>
+
+        <!-- Плеер -->
+        <div id="player" class="player hidden">
+            <div class="player-content">
+                <img id="currentTrackCover"
+                     src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjQiIGhlaWdodD0iNjQiIHZpZXdCb3g9IjAgMCA2NCA2NCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGNpcmNsZSBjeD0iMzIiIGN5PSIzMiIgcj0iMzIiIGZpbGw9IiMzNTU3YWEiLz4KPHRleHQgeD0iMzIiIHk9IjM2IiBmaWxsPSJ3aGl0ZSIgZm9udC1zaXplPSIxNiIgZm9udC1mYW1pbHk9IkFyaWFsIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj5EPC90ZXh0Pgo8L3N2Zz4K"
+                     alt="Обложка трека" class="player-cover">
+                <div class="player-info">
+                    <h3 id="currentTrackTitle">Выберите трек</h3>
+                    <p id="currentTrackArtist">BEST</p>
+                    <div class="progress-container">
+                        <span id="currentTime">0:00</span>
+                        <input type="range" id="progressBar" class="progress-bar"
+                               min="0" max="100" value="0">
+                        <span id="duration">0:00</span>
+                    </div>
+                </div>
+                <div class="player-controls">
+                    <button id="prevBtn" class="control-btn">⏮</button>
+                    <button id="playBtn" class="control-btn play-btn">▶</button>
+                    <button id="stopBtn" class="control-btn">⏹</button>
+                    <button id="nextBtn" class="control-btn">⏭</button>
+                    <button id="shuffleBtn" class="control-btn">🔀</button>
+                    <button id="repeatBtn" class="control-btn">🔁</button>
+                </div>
+                <div class="volume-container">
+                    <span>🔈</span>
+                    <input type="range" id="volumeSlider" class="volume-slider"
+                           min="0" max="100" value="70">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- overlay‑слои (должны быть **до** подключения скриптов, иначе они не найдутся) -->
+    <div id="strobe-overlay" class="strobe-overlay" aria-hidden="true"></div>
+    <div id="rays-overlay"   class="rays-overlay"   aria-hidden="true"></div>
+
+    <!-- Скрипты (defer гарантирует, что DOM уже готов) -->
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js" defer></script>
+
+    <script src="script.min.js" defer></script>
+    <script src="main.js" defer></script>
+</body>
+</html>
