@@ -1,0 +1,114 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 100 100" preserveAspectRatio="none">
+  <defs>
+    <radialGradient id="bgGradient" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#0a0a0f"/>
+      <stop offset="100%" stop-color="#000005"/>
+    </radialGradient>
+    
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="1.5" result="coloredBlur"/>
+      <feMerge> 
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="100%" height="100%" fill="url(#bgGradient)" />
+  
+  <!-- Animated stars -->
+  <g id="stars">
+    <!-- Stars are created with different sizes, positions, and animations -->
+    <circle cx="10" cy="20" r="0.3" fill="#ffffff" opacity="0.8">
+      <animate attributeName="opacity" values="0.3;1;0.3" dur="4s" repeatCount="indefinite" begin="0s" />
+    </circle>
+    <circle cx="15" cy="35" r="0.2" fill="#ffffff" opacity="0.6">
+      <animate attributeName="opacity" values="0.2;0.8;0.2" dur="3s" repeatCount="indefinite" begin="0.5s" />
+    </circle>
+    <circle cx="25" cy="15" r="0.4" fill="#ffffff" opacity="0.9">
+      <animate attributeName="opacity" values="0.4;1;0.4" dur="5s" repeatCount="indefinite" begin="1s" />
+    </circle>
+    <circle cx="30" cy="45" r="0.3" fill="#ffffff" opacity="0.7">
+      <animate attributeName="opacity" values="0.3;0.9;0.3" dur="4.5s" repeatCount="indefinite" begin="1.5s" />
+    </circle>
+    <circle cx="40" cy="25" r="0.25" fill="#ffffff" opacity="0.5">
+      <animate attributeName="opacity" values="0.2;0.7;0.2" dur="3.5s" repeatCount="indefinite" begin="2s" />
+    </circle>
+    <circle cx="50" cy="10" r="0.35" fill="#ffffff" opacity="0.85">
+      <animate attributeName="opacity" values="0.3;1;0.3" dur="4.2s" repeatCount="indefinite" begin="0.2s" />
+    </circle>
+    <circle cx="60" cy="30" r="0.2" fill="#ffffff" opacity="0.6">
+      <animate attributeName="opacity" values="0.2;0.8;0.2" dur="3.8s" repeatCount="indefinite" begin="0.8s" />
+    </circle>
+    <circle cx="70" cy="20" r="0.4" fill="#ffffff" opacity="0.9">
+      <animate attributeName="opacity" values="0.4;1;0.4" dur="5.2s" repeatCount="indefinite" begin="1.2s" />
+    </circle>
+    <circle cx="80" cy="40" r="0.3" fill="#ffffff" opacity="0.75">
+      <animate attributeName="opacity" values="0.3;0.9;0.3" dur="4.8s" repeatCount="indefinite" begin="1.8s" />
+    </circle>
+    <circle cx="85" cy="15" r="0.25" fill="#ffffff" opacity="0.55">
+      <animate attributeName="opacity" values="0.2;0.75;0.2" dur="3.2s" repeatCount="indefinite" begin="2.5s" />
+    </circle>
+    <circle cx="90" cy="50" r="0.3" fill="#ffffff" opacity="0.8">
+      <animate attributeName="opacity" values="0.3;1;0.3" dur="4s" repeatCount="indefinite" begin="0.3s" />
+    </circle>
+    <circle cx="95" cy="70" r="0.2" fill="#ffffff" opacity="0.65">
+      <animate attributeName="opacity" values="0.2;0.85;0.2" dur="3.6s" repeatCount="indefinite" begin="0.9s" />
+    </circle>
+    <circle cx="20" cy="70" r="0.35" fill="#ffffff" opacity="0.7">
+      <animate attributeName="opacity" values="0.3;0.9;0.3" dur="4.4s" repeatCount="indefinite" begin="1.4s" />
+    </circle>
+    <circle cx="35" cy="80" r="0.2" fill="#ffffff" opacity="0.5">
+      <animate attributeName="opacity" values="0.2;0.7;0.2" dur="3.3s" repeatCount="indefinite" begin="2.1s" />
+    </circle>
+    <circle cx="55" cy="75" r="0.4" fill="#ffffff" opacity="0.9">
+      <animate attributeName="opacity" values="0.4;1;0.4" dur="5.5s" repeatCount="indefinite" begin="0.7s" />
+    </circle>
+    <circle cx="75" cy="85" r="0.3" fill="#ffffff" opacity="0.75">
+      <animate attributeName="opacity" values="0.3;0.9;0.3" dur="4.7s" repeatCount="indefinite" begin="1.6s" />
+    </circle>
+    <circle cx="45" cy="60" r="0.25" fill="#ffffff" opacity="0.6">
+      <animate attributeName="opacity" values="0.2;0.8;0.2" dur="3.9s" repeatCount="indefinite" begin="2.3s" />
+    </circle>
+  </g>
+  
+  <!-- Subtle moving particles -->
+  <g id="particles">
+    <circle cx="0" cy="0" r="0.1" fill="#7c4dff" opacity="0.3">
+      <animateTransform attributeName="transform" type="translate" 
+                        values="0,0; 100,100; 0,0" dur="20s" repeatCount="indefinite" />
+    </circle>
+    <circle cx="0" cy="100" r="0.1" fill="#00bcd4" opacity="0.3">
+      <animateTransform attributeName="transform" type="translate" 
+                        values="0,100; 100,0; 0,100" dur="25s" repeatCount="indefinite" />
+    </circle>
+    <circle cx="100" cy="0" r="0.1" fill="#7c4dff" opacity="0.3">
+      <animateTransform attributeName="transform" type="translate" 
+                        values="100,0; 0,100; 100,0" dur="30s" repeatCount="indefinite" />
+    </circle>
+    <circle cx="100" cy="100" r="0.1" fill="#00bcd4" opacity="0.3">
+      <animateTransform attributeName="transform" type="translate" 
+                        values="100,100; 0,0; 100,100" dur="22s" repeatCount="indefinite" />
+    </circle>
+  </g>
+  
+  <!-- Subtle light rays -->
+  <g id="rays" opacity="0.1">
+    <path d="M50,50 L60,20" stroke="#7c4dff" stroke-width="0.3">
+      <animate attributeName="stroke-width" values="0.1;0.5;0.1" dur="6s" repeatCount="indefinite" />
+    </path>
+    <path d="M50,50 L30,15" stroke="#00bcd4" stroke-width="0.2">
+      <animate attributeName="stroke-width" values="0.1;0.4;0.1" dur="7s" repeatCount="indefinite" />
+    </path>
+    <path d="M50,50 L75,40" stroke="#7c4dff" stroke-width="0.25">
+      <animate attributeName="stroke-width" values="0.1;0.45;0.1" dur="5.5s" repeatCount="indefinite" />
+    </path>
+    <path d="M50,50 L40,70" stroke="#00bcd4" stroke-width="0.2">
+      <animate attributeName="stroke-width" values="0.1;0.4;0.1" dur="6.5s" repeatCount="indefinite" />
+    </path>
+    <path d="M50,50 L20,55" stroke="#7c4dff" stroke-width="0.3">
+      <animate attributeName="stroke-width" values="0.1;0.5;0.1" dur="7.5s" repeatCount="indefinite" />
+    </path>
+  </g>
+</svg>
