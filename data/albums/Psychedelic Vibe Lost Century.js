@@ -34,9 +34,9 @@ const ALBUM_TRACKS = [
     "artist": "BEST"
   },
   {
-    "title": "Dreams don't end (Variation)",
-    "file": "albums/Psychedelic Vibe Lost Century/Dreams don't end (Variation).m4a",
-    "cover": "albums/Psychedelic Vibe Lost Century/Dreams don't end (Variation).jpg",
+    "title": "Dreams don-t end (Variation)",
+    "file": "albums/Psychedelic Vibe Lost Century/Dreams don-t end (Variation).m4a",
+    "cover": "albums/Psychedelic Vibe Lost Century/Dreams don-t end (Variation).jpg",
     "artist": "BEST"
   },
   {
