@@ -1,1 +1,1 @@
-(data/albums.js is a source file, so no need to ignore)
+Nothing needs to be added to .gitignore since only a JavaScript source file (`library.js`) was added, and no build artifacts, dependencies, or temporary files are present in the changes.
