@@ -212,7 +212,7 @@
         const panel = document.createElement('div');
         panel.id = 'effects-panel';
         panel.style.cssText = `
-            position: absolute; top: 100%; right: 0;
+            top: 100%; right: 0;
             background: var(--bg-secondary);
             border: 1px solid var(--glass-border);
             border-radius: 6px;
