@@ -7,7 +7,7 @@ const ALBUMS = [
     "title": "Album Second",
     "path": "albums/Album Second",
     "cover": "albums/Album Second/cover.jpg",
-    "tracksFile": "data/albums/Album Second.js",
+    "tracksFile": "data/albums/Album%20Second.js",
     "trackCount": 14,
     "year": null
   },
