@@ -100,9 +100,9 @@ const ALBUM_TRACKS = [
     "artist": "BEST"
   },
   {
-    "title": "Heaven's Door (Rain Waltz)",
-    "file": "albums/Psychedelic Vibe Lost Century/Heaven's Door (Rain Waltz).m4a",
-    "cover": "albums/Psychedelic Vibe Lost Century/Heaven's Door (Rain Waltz).jpg",
+    "title": "Heaven-s Door (Rain Waltz)",
+    "file": "albums/Psychedelic Vibe Lost Century/Heaven-s Door (Rain Waltz).m4a",
+    "cover": "albums/Psychedelic Vibe Lost Century/Heaven-s Door (Rain Waltz).jpg",
     "artist": "BEST"
   },
   {
