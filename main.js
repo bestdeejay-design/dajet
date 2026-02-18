@@ -3,7 +3,7 @@
 import './ui.js';
 import './state.js';
 import './search.js';
-import './albums.js';
+import './data/albums.js';
 import './visualizer.js';
 
 // Main entry point for the DAJET music player application
@@ -59,6 +59,6 @@ export default {
     ui: () => import('./ui.js'),
     state: () => import('./state.js'),
     search: () => import('./search.js'),
-    albums: () => import('./albums.js')
+    albums: () => import('./data/albums.js')
   }
 };
