@@ -1,5 +1,5 @@
 // Import all modules to ensure they're properly initialized
-import './player.js';
+//import './player.js';
 import './ui.js';
 import './state.js';
 import './search.js';
