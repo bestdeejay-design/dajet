@@ -7,7 +7,7 @@ const ALBUMS = [
     "title": "Album Second",
     "path": "albums/Album Second",
     "cover": "albums/Album Second/cover.jpg",
-    "tracksFile": "./albums/Album Second.js",
+    "tracksFile": "data/albums/Album Second.js",
     "trackCount": 14,
     "year": null
   },
@@ -16,7 +16,7 @@ const ALBUMS = [
     "title": "First Album",
     "path": "albums/First Album",
     "cover": "albums/First Album/cover.jpg",
-    "tracksFile": "./albums/First Album.js",
+    "tracksFile": "data/albums/First Album.js",
     "trackCount": 15,
     "year": null
   },
@@ -25,7 +25,7 @@ const ALBUMS = [
     "title": "Paradise Lost",
     "path": "albums/Paradise Lost",
     "cover": "albums/Paradise Lost/cover.jpg",
-    "tracksFile": "./albums/Paradise Lost.js",
+    "tracksFile": "data/albums/Paradise Lost.js",
     "trackCount": 3,
     "year": null
   },
@@ -34,7 +34,7 @@ const ALBUMS = [
     "title": "Psychedelic Vibe Lost Century",
     "path": "albums/Psychedelic Vibe Lost Century",
     "cover": "albums/Psychedelic Vibe Lost Century/cover.jpg",
-    "tracksFile": "./albums/Psychedelic Vibe Lost Century.js",
+    "tracksFile": "data/albums/Psychedelic Vibe Lost Century.js",
     "trackCount": 23,
     "year": null
   },
@@ -43,7 +43,7 @@ const ALBUMS = [
     "title": "The third album",
     "path": "albums/The third album",
     "cover": "albums/The third album/cover.jpg",
-    "tracksFile": "./albums/The third album.js",
+    "tracksFile": "data/albums/The third album.js",
     "trackCount": 23,
     "year": null
   },
@@ -52,7 +52,7 @@ const ALBUMS = [
     "title": "Whisper",
     "path": "albums/Whisper",
     "cover": "albums/Whisper/cover.jpg",
-    "tracksFile": "./albums/Whisper.js",
+    "tracksFile": "data/albums/Whisper.js",
     "trackCount": 8,
     "year": null
   }
