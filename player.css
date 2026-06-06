@@ -1,0 +1,346 @@
+/* player.css — стили плеера с вариантами оформления */
+
+/* ==================== БАЗОВЫЕ СТИЛИ ==================== */
+.player-bar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: var(--player-bg);
+    backdrop-filter: blur(16px);
+    border-top: 1px solid var(--border-light);
+    padding: 1rem 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    transform: translateY(100%);
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    z-index: 100;
+    box-shadow: 0 -5px 20px rgba(0,0,0,0.5);
+}
+
+.player-bar.active {
+    transform: translateY(0);
+}
+
+.player-main-row {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    width: 100%;
+}
+
+.track-info {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    min-width: 220px;
+}
+
+.track-cover {
+    width: 56px;
+    height: 56px;
+    border-radius: 8px;
+    object-fit: cover;
+    background: #2a2a2a;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+    transition: transform 0.3s;
+}
+
+.track-cover:hover {
+    transform: scale(1.05);
+}
+
+.track-details {
+    overflow: hidden;
+}
+
+.track-name {
+    font-weight: 500;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: var(--text-primary);
+}
+
+.album-name {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.player-controls {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    flex: 1;
+}
+
+.control-btn {
+    background: none;
+    border: none;
+    color: var(--text-primary);
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s, transform 0.1s;
+}
+
+.control-btn:hover {
+    background: rgba(255,255,255,0.1);
+}
+
+.control-btn:active {
+    transform: scale(0.95);
+}
+
+.control-btn.active {
+    color: var(--accent);
+    background: var(--accent-dim);
+}
+
+.play-pause-btn {
+    width: 48px;
+    height: 48px;
+}
+
+.control-btn svg {
+    width: 24px;
+    height: 24px;
+    fill: currentColor;
+}
+
+.play-pause-btn svg {
+    width: 30px;
+    height: 30px;
+}
+
+audio {
+    display: none;
+}
+
+.playlist-toggle {
+    background: none;
+    border: 1px solid var(--border-light);
+    color: var(--text-secondary);
+    padding: 0.5rem 1.2rem;
+    border-radius: 40px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: var(--transition);
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.playlist-toggle:hover {
+    background: rgba(255,255,255,0.05);
+    border-color: var(--border-hover);
+}
+
+.playlist-toggle svg {
+    width: 18px;
+    height: 18px;
+    fill: currentColor;
+}
+
+/* Кнопка переключения скина */
+.skin-toggle {
+    background: none;
+    border: 1px solid var(--border-light);
+    color: var(--text-secondary);
+    padding: 0.4rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    cursor: pointer;
+    transition: var(--transition);
+    white-space: nowrap;
+}
+
+.skin-toggle:hover {
+    background: rgba(255,255,255,0.05);
+    border-color: var(--accent);
+    color: var(--accent);
+}
+
+/* ==================== СКИН: CLASSIC (по умолчанию) ==================== */
+.player-classic .track-cover {
+    display: block;
+}
+
+.player-classic .track-details {
+    display: block;
+}
+
+.player-classic .player-controls {
+    flex: 1;
+}
+
+/* ==================== СКИН: MINIMAL ==================== */
+.player-minimal {
+    padding: 0.8rem 1.5rem;
+}
+
+.player-minimal .track-cover {
+    display: none;
+}
+
+.player-minimal .track-details {
+    display: none;
+}
+
+.player-minimal .track-info {
+    min-width: auto;
+    gap: 0;
+}
+
+.player-minimal .player-controls {
+    flex: 1;
+    justify-content: center;
+}
+
+.player-minimal .playlist-toggle span {
+    display: none;
+}
+
+.player-minimal .playlist-toggle {
+    padding: 0.5rem;
+}
+
+/* ==================== СКИН: COMPACT ==================== */
+.player-compact {
+    padding: 0.6rem 1rem;
+}
+
+.player-compact .track-cover {
+    width: 40px;
+    height: 40px;
+    border-radius: 6px;
+}
+
+.player-compact .track-name {
+    font-size: 0.85rem;
+}
+
+.player-compact .album-name {
+    font-size: 0.7rem;
+}
+
+.player-compact .control-btn {
+    width: 32px;
+    height: 32px;
+}
+
+.player-compact .control-btn svg {
+    width: 18px;
+    height: 18px;
+}
+
+.player-compact .play-pause-btn {
+    width: 38px;
+    height: 38px;
+}
+
+.player-compact .play-pause-btn svg {
+    width: 22px;
+    height: 22px;
+}
+
+.player-compact .player-controls {
+    gap: 0.4rem;
+}
+
+.player-compact .playlist-toggle {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.8rem;
+}
+
+/* ==================== АДАПТАЦИЯ ==================== */
+@media (max-width: 700px) {
+    .player-main-row {
+        flex-wrap: wrap;
+        gap: 0.8rem;
+    }
+
+    .track-info {
+        min-width: 100%;
+        order: 1;
+        justify-content: flex-start;
+    }
+
+    .player-controls {
+        order: 2;
+        width: 100%;
+        justify-content: center;
+        gap: 0.5rem;
+    }
+
+    .control-btn {
+        width: 36px;
+        height: 36px;
+    }
+
+    .play-pause-btn {
+        width: 42px;
+        height: 42px;
+    }
+
+    .control-btn svg {
+        width: 20px;
+        height: 20px;
+    }
+
+    .play-pause-btn svg {
+        width: 26px;
+        height: 26px;
+    }
+
+    .playlist-toggle {
+        order: 3;
+        width: 100%;
+        text-align: center;
+        justify-content: center;
+    }
+
+    .skin-toggle {
+        order: 4;
+        width: 100%;
+        text-align: center;
+    }
+
+    .playlist-panel {
+        width: 85%;
+        max-width: 320px;
+    }
+
+    .playlist-item-title {
+        font-size: 0.85rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .track-cover {
+        width: 48px;
+        height: 48px;
+    }
+
+    .track-name {
+        font-size: 0.9rem;
+    }
+
+    .album-name {
+        font-size: 0.7rem;
+    }
+
+    .playlist-panel {
+        width: 100%;
+        max-width: none;
+    }
+}
