@@ -539,8 +539,8 @@
       },
       {
         "name": "Paris… entre le rêve (Variation)",
-        "file": "albums/Legendary/Paris… entre le rêve  (Variation).m4a",
-        "cover": "albums/Legendary/Paris… entre le rêve  (Variation).jpg"
+        "file": "albums/Legendary/Paris… entre le rêve (Variation).m4a",
+        "cover": "albums/Legendary/Paris… entre le rêve (Variation).jpg"
       },
       {
         "name": "Perpetual Motion",
@@ -584,13 +584,8 @@
       },
       {
         "name": "Shh",
-        "file": "albums/Legendary/Shh .m4a",
-        "cover": "albums/Legendary/Shh .jpg"
-      },
-      {
-        "name": "Shh",
         "file": "albums/Legendary/Shh.m4a",
-        "cover": "albums/Legendary/Shh .jpg"
+        "cover": "albums/Legendary/Shh.jpg"
       },
       {
         "name": "Short Circuit (Psychedelic Jazz)",
@@ -603,9 +598,9 @@
         "cover": "albums/Legendary/Silence.jpg"
       },
       {
-        "name": "Silent Currents ( v2) (Variation)",
-        "file": "albums/Legendary/Silent Currents ( v2) (Variation).m4a",
-        "cover": "albums/Legendary/Silent Currents ( v2) (Variation).jpg"
+        "name": "Silent Currents (v2) (Variation)",
+        "file": "albums/Legendary/Silent Currents (v2) (Variation).m4a",
+        "cover": "albums/Legendary/Silent Currents (v2) (Variation).jpg"
       },
       {
         "name": "Silicon Tears (Variation)",
@@ -659,13 +654,8 @@
       },
       {
         "name": "We float on a melody",
-        "file": "albums/Legendary/We float on a melody .m4a",
-        "cover": "albums/Legendary/We float on a melody .jpg"
-      },
-      {
-        "name": "We float on a melody",
         "file": "albums/Legendary/We float on a melody.m4a",
-        "cover": "albums/Legendary/We float on a melody .jpg"
+        "cover": "albums/Legendary/We float on a melody.jpg"
       },
       {
         "name": "You not be me",
@@ -712,7 +702,7 @@
       {
         "name": "Рай не Лечит",
         "file": "albums/Paradise Lost/Рай не Лечит.m4a",
-        "cover": "albums/Paradise Lost/Рай не лечит.jpg"
+        "cover": "albums/Paradise Lost/Рай не Лечит.jpg"
       }
     ]
   },
@@ -873,7 +863,7 @@
       },
       {
         "name": "Mirage (Variation)",
-        "file": "albums/Psychedelic Vibe Lost Century/Mirage  (Variation).m4a",
+        "file": "albums/Psychedelic Vibe Lost Century/Mirage (Variation).m4a",
         "cover": "albums/Psychedelic Vibe Lost Century/Mirage (Variation).jpg"
       },
       {
@@ -958,7 +948,7 @@
       },
       {
         "name": "Rain Will Wash (Variation)",
-        "file": "albums/Psychedelic Vibe Lost Century/Rain Will Wash  (Variation).m4a",
+        "file": "albums/Psychedelic Vibe Lost Century/Rain Will Wash (Variation).m4a",
         "cover": "albums/Psychedelic Vibe Lost Century/Rain Will Wash (Variation).jpg"
       },
       {
@@ -1189,7 +1179,7 @@
       },
       {
         "name": "Mirage",
-        "file": "albums/Whisper/Mirage .m4a",
+        "file": "albums/Whisper/Mirage.m4a",
         "cover": "albums/Whisper/Mirage.jpg"
       },
       {

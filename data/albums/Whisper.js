@@ -16,9 +16,9 @@ const ALBUM_TRACKS = [
     "artist": "BEST"
   },
   {
-    "file": "albums/Whisper/Mirage .m4a",
+    "file": "albums/Whisper/Mirage.m4a",
     "cover": null,
-    "title": "Mirage ",
+    "title": "Mirage",
     "artist": "BEST"
   },
   {
