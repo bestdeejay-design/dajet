@@ -1,5 +1,3 @@
-// rays.js — эффекты, переключаемые темой
-
 (function() {
     const RAYS_CONFIG = {
         beams: {
@@ -37,11 +35,26 @@
         }
     };
 
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    function clearEffects(className) {
+        const container = document.querySelector('.background-effects');
+        if (!container) return;
+        if (className) {
+            container.querySelectorAll('.' + className).forEach(el => el.remove());
+        } else {
+            container.querySelectorAll('.ray-beam, .sphere, .particle').forEach(el => el.remove());
+        }
+    }
+
     function createBeams(config) {
         const container = document.querySelector('.background-effects');
         if (!container) return;
 
-        container.querySelectorAll('.ray-beam, .sphere').forEach(el => el.remove());
+        clearEffects('ray-beam');
+        clearEffects('sphere');
+
+        if (prefersReducedMotion) return;
 
         const count = config.count || 12;
         const speedMin = config.speedMin || 6;
@@ -81,28 +94,27 @@
 
             const ray = document.createElement('div');
             ray.className = 'ray-beam';
+
+            ray.style.cssText = [
+                'position: absolute',
+                'pointer-events: none',
+                'will-change: transform',
+                'mix-blend-mode: screen',
+                'left: 0',
+                'top: 0',
+                `width: ${length}px`,
+                `height: ${width}px`,
+                `background: linear-gradient(90deg, transparent 0%, ${color} 15%, ${color} 85%, transparent 100%)`,
+                'filter: blur(20px)',
+                `transform: translate(${fixedX}px, ${fixedY}px) rotate(${angleStart}deg)`,
+                'opacity: 0.8'
+            ].join('; ');
+
             ray.style.setProperty('--fixed-x', fixedX + 'px');
             ray.style.setProperty('--fixed-y', fixedY + 'px');
             ray.style.setProperty('--angle-start', angleStart + 'deg');
             ray.style.setProperty('--angle-end', angleEnd + 'deg');
             ray.style.setProperty('--speed', speed + 's');
-            ray.style.transformOrigin = edge === 'bottom' ? 'left bottom' : 'left top';
-
-            ray.style.cssText += `
-                left: 0;
-                top: 0;
-                width: ${length}px;
-                height: ${width}px;
-                background: linear-gradient(90deg, 
-                    transparent 0%, 
-                    ${color} 15%, 
-                    ${color} 85%, 
-                    transparent 100%);
-                filter: blur(20px);
-                animation: swing var(--speed) ease-in-out infinite alternate;
-                transform: translate(${fixedX}px, ${fixedY}px) rotate(${angleStart}deg);
-                opacity: 0.8;
-            `;
 
             container.appendChild(ray);
         }
@@ -112,7 +124,10 @@
         const container = document.querySelector('.background-effects');
         if (!container) return;
 
-        container.querySelectorAll('.ray-beam, .sphere').forEach(el => el.remove());
+        clearEffects('ray-beam');
+        clearEffects('sphere');
+
+        if (prefersReducedMotion) return;
 
         const minCount = config.minCount || 2;
         const maxCount = config.maxCount || 5;
@@ -138,24 +153,24 @@
 
             const sphere = document.createElement('div');
             sphere.className = 'sphere';
+
+            sphere.style.cssText = [
+                'position: absolute',
+                'pointer-events: none',
+                'will-change: transform, opacity',
+                'mix-blend-mode: screen',
+                `left: ${posX}%`,
+                `top: ${posY}%`,
+                `width: ${size}px`,
+                `height: ${size}px`,
+                `background: radial-gradient(circle at 30% 30%, hsla(${hue}, 100%, 70%, ${intensity}) 0%, hsla(${hue}, 100%, 50%, ${intensity * 0.7}) 40%, transparent 70%)`,
+                'border-radius: 50%',
+                'filter: blur(40px)'
+            ].join('; ');
+
             sphere.style.setProperty('--scale-min', scaleMin);
             sphere.style.setProperty('--scale-max', scaleMax);
             sphere.style.setProperty('--pulse-speed', pulseSpeed + 's');
-
-            sphere.style.cssText += `
-                left: ${posX}%;
-                top: ${posY}%;
-                width: ${size}px;
-                height: ${size}px;
-                background: radial-gradient(circle at 30% 30%, 
-                    hsla(${hue}, 100%, 70%, ${intensity}) 0%, 
-                    hsla(${hue}, 100%, 50%, ${intensity * 0.7}) 40%, 
-                    transparent 70%);
-                border-radius: 50%;
-                transform: translate(-50%, -50%) scale(${scaleMin});
-                filter: blur(40px);
-                animation: pulseCustom var(--pulse-speed) ease-in-out infinite alternate;
-            `;
 
             container.appendChild(sphere);
         }
@@ -165,7 +180,9 @@
         const container = document.querySelector('.background-effects');
         if (!container) return;
 
-        container.querySelectorAll('.particle').forEach(p => p.remove());
+        clearEffects('particle');
+
+        if (prefersReducedMotion) return;
 
         const count = config.count || 40;
         const minSize = config.minSize || 1;
@@ -192,18 +209,20 @@
 
             const left = Math.random() * 100;
 
-            particle.style.cssText = `
-                left: ${left}%;
-                bottom: -10px;
-                width: ${size}px;
-                height: ${size}px;
-                background: ${colorBase}, ${opacity});
-                border-radius: 50%;
-                box-shadow: 0 0 10px ${colorBase}, ${opacity * 2});
-                animation: float ${speed}s linear infinite;
-                animation-delay: -${delay}s;
-                z-index: 2;
-            `;
+            particle.style.cssText = [
+                'position: absolute',
+                'border-radius: 50%',
+                'z-index: 2',
+                `left: ${left}%`,
+                'bottom: -10px',
+                `width: ${size}px`,
+                `height: ${size}px`,
+                `background: ${colorBase}, ${opacity})`,
+                `box-shadow: 0 0 10px ${colorBase}, ${opacity * 2})`,
+                `animation: float ${speed}s linear infinite`,
+                `animation-delay: -${delay}s`
+            ].join('; ');
+
             container.appendChild(particle);
         }
     }
@@ -229,6 +248,13 @@
     }
 
     window.addEventListener('themeChanged', (e) => {
+        createParticles(RAYS_CONFIG.particles);
         applyEffects(e.detail.theme);
+    });
+
+    window.matchMedia('(prefers-reduced-motion: reduce)').addEventListener('change', (e) => {
+        if (e.matches) {
+            clearEffects();
+        }
     });
 })();

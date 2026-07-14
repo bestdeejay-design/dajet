@@ -1,17 +1,14 @@
-/* rays.css — стили для фоновых эффектов */
-
 .background-effects {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    z-index: -1;
+    z-index: 0;
     overflow: hidden;
     pointer-events: none;
 }
 
-/* Лучи */
 .ray-beam {
     position: absolute;
     pointer-events: none;
@@ -19,7 +16,6 @@
     mix-blend-mode: screen;
 }
 
-/* Анимация качания (изменение угла) */
 @keyframes swing {
     0% {
         transform: translate(var(--fixed-x), var(--fixed-y)) rotate(var(--angle-start));
@@ -29,11 +25,9 @@
     }
 }
 
-/* Частицы (пузырьки) */
 .particle {
     position: absolute;
     border-radius: 50%;
-    animation: float 15s infinite linear;
     z-index: 2;
 }
 
@@ -44,7 +38,6 @@
     100% { transform: translateY(-100vh) translateX(20px); opacity: 0; }
 }
 
-/* Красные шары для светлой темы */
 .sphere {
     position: absolute;
     pointer-events: none;
@@ -52,7 +45,6 @@
     mix-blend-mode: screen;
 }
 
-/* Кастомная пульсация для шаров с переменными масштаба */
 @keyframes pulseCustom {
     0% {
         transform: translate(-50%, -50%) scale(var(--scale-min, 0.8));
@@ -61,5 +53,14 @@
     100% {
         transform: translate(-50%, -50%) scale(var(--scale-max, 1.2));
         opacity: 1;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .ray-beam,
+    .particle,
+    .sphere {
+        animation: none !important;
+        display: none;
     }
 }

@@ -1,5 +1,3 @@
-// script.js — галерея и тема
-
 (function() {
     let albums = [];
 
@@ -14,12 +12,20 @@
             albums = await response.json();
             loadingEl.style.display = 'none';
             renderGallery();
-            
-            if (typeof gsap !== 'undefined') {
-                gsap.fromTo('.album-card', 
+
+            if (window.__GSAP_LOADED && typeof gsap !== 'undefined') {
+                gsap.fromTo('.album-card',
                     { y: 30, opacity: 0 },
                     { y: 0, opacity: 1, duration: 0.6, stagger: 0.05, ease: 'power2.out' }
                 );
+            } else {
+                document.querySelectorAll('.album-card').forEach(c => c.classList.add('visible'));
+            }
+
+            if ('requestAnimationFrame' in window) {
+                requestAnimationFrame(() => {
+                    document.querySelectorAll('.album-card').forEach(c => c.classList.add('visible'));
+                });
             }
         } catch (err) {
             loadingEl.style.display = 'none';
@@ -33,11 +39,14 @@
         albums.forEach(album => {
             const card = document.createElement('div');
             card.className = 'album-card';
-            
-            const coverHtml = album.cover 
+            card.setAttribute('role', 'button');
+            card.setAttribute('tabindex', '0');
+            card.setAttribute('aria-label', album.title + ': ' + album.tracks.length + ' треков');
+
+            const coverHtml = album.cover
                 ? `<img class="album-cover" src="${Player.escapeHtml(album.cover)}" alt="${Player.escapeHtml(album.title)}" loading="lazy">`
-                : `<div class="album-cover" style="background:#2a2a2a; display:flex; align-items:center; justify-content:center; color:#666;">📀</div>`;
-            
+                : `<div class="album-cover" style="background:#2a2a2a; display:flex; align-items:center; justify-content:center; color:#666;" aria-hidden="true">📀</div>`;
+
             card.innerHTML = `
                 ${coverHtml}
                 <div class="album-info">
@@ -45,8 +54,8 @@
                     <div class="album-meta">${album.tracks.length} files</div>
                 </div>
             `;
-            
-            card.addEventListener('click', () => {
+
+            function handleAlbumClick() {
                 const elements = Player.getElements();
                 if (!elements.playerBar.classList.contains('active')) {
                     elements.playerBar.classList.add('active');
@@ -69,8 +78,16 @@
                 } else {
                     Player.togglePlaylistPanel();
                 }
+            }
+
+            card.addEventListener('click', handleAlbumClick);
+            card.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    handleAlbumClick();
+                }
             });
-            
+
             gallery.appendChild(card);
         });
     }
@@ -88,6 +105,9 @@
         } else {
             sunIcon.style.display = 'none';
             moonIcon.style.display = 'block';
+        }
+        if (themeToggle) {
+            themeToggle.setAttribute('aria-pressed', theme === 'light' ? 'true' : 'false');
         }
         window.dispatchEvent(new CustomEvent('themeChanged', { detail: { theme } }));
     }
