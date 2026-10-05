@@ -1,0 +1,56 @@
+name: Проверка целостности коллекции
+
+# Раз в неделю (и по кнопке) сверяем все файлы коллекции с манифестом
+# контрольных сумм. Если что-то повредилось, изменилось или пропало —
+# workflow упадёт и создаст issue с отчётом.
+
+on:
+  schedule:
+    - cron: '17 4 * * 1'   # каждый понедельник в 04:17 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v5
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v5
+        with:
+          node-version: '22'
+
+      - name: Сверить файлы с CHECKSUMS.sha256
+        id: verify
+        run: |
+          set +e
+          node tools/verify-checksums.js > report.txt 2>&1
+          code=$?
+          echo "exit_code=$code" >> "$GITHUB_OUTPUT"
+          cat report.txt
+          exit 0
+
+      - name: Отчёт о дубликатах (информационно)
+        run: node tools/report-duplicates.js | tee duplicates.txt
+
+      - name: Создать issue при расхождениях
+        if: steps.verify.outputs.exit_code != '0'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          if gh issue list --label integrity --state open --limit 1 | grep -q .; then
+            echo "Открытый issue уже есть — добавляем комментарий"
+            gh issue comment "$(gh issue list --label integrity --state open --limit 1 --json number --jq '.[0].number')" \
+              --body "Повторная проверка $(date -u +%Y-%m-%d) снова нашла расхождения:$(printf '\n\n')\`\`\`$(cat report.txt)\`\`\`"
+          else
+            gh label create integrity --color B60205 --description "Проверка целостности файлов коллекции" 2>/dev/null || true
+            gh issue create --label integrity \
+              --title "Целостность коллекции: найдены расхождения ($(date -u +%Y-%m-%d))" \
+              --body "Автоматическая проверка по CHECKSUMS.sha256 нашла расхождения.$(printf '\n\n')$(cat report.txt)$(printf '\n\n')Если файлы не менялись намеренно — восстановите их из резервной копии."
+          fi
+          exit 1

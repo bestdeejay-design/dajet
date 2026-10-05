@@ -1,16 +1,22 @@
 {
     "name": "DAJET · creative memory gallery",
     "short_name": "DAJET",
-    "description": "Музыкальная галерея с треками, созданными с помощью Riffusion.",
-    "start_url": "/",
+    "description": "Музыкальная галерея BEST: треки, созданные с помощью Riffusion.",
+    "lang": "ru",
+    "dir": "ltr",
+    "start_url": "./",
+    "scope": "./",
+    "id": "/",
     "display": "standalone",
+    "orientation": "any",
     "background_color": "#0b0b0b",
     "theme_color": "#0b0b0b",
     "icons": [
         {
-            "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E🎵%3C/text%3E%3C/svg%3E",
-            "sizes": "100x100",
-            "type": "image/svg+xml"
+            "src": "icon.svg",
+            "sizes": "any",
+            "type": "image/svg+xml",
+            "purpose": "any maskable"
         }
     ]
 }

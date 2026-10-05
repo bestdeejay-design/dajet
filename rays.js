@@ -1,4 +1,7 @@
 (function() {
+    // Если storage.js не загрузился — берём тему по умолчанию.
+    const Store = typeof DAJETStorage !== 'undefined' ? DAJETStorage : { get: (key, fallbackValue = null) => fallbackValue };
+
     const RAYS_CONFIG = {
         beams: {
             count: 12,
@@ -35,7 +38,16 @@
         }
     };
 
-    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const prefersReducedMotion = motionQuery.matches;
+    // На телефонах и слабых устройствах меньше элементов — это заметно
+    // снижает нагрузку на GPU, анимации остаются плавными.
+    const isSmallScreen = window.matchMedia('(max-width: 700px)').matches;
+    const quality = isSmallScreen ? 0.45 : 1;
+
+    function scaled(count) {
+        return Math.max(1, Math.round(count * quality));
+    }
 
     function clearEffects(className) {
         const container = document.querySelector('.background-effects');
@@ -56,7 +68,7 @@
 
         if (prefersReducedMotion) return;
 
-        const count = config.count || 12;
+        const count = scaled(config.count || 12);
         const speedMin = config.speedMin || 6;
         const speedMax = config.speedMax || 14;
         const minWidth = config.minWidth || 20;
@@ -131,7 +143,7 @@
 
         const minCount = config.minCount || 2;
         const maxCount = config.maxCount || 5;
-        const count = Math.floor(Math.random() * (maxCount - minCount + 1)) + minCount;
+        const count = scaled(Math.floor(Math.random() * (maxCount - minCount + 1)) + minCount);
 
         const minSize = config.minSize || 300;
         const maxSize = config.maxSize || 700;
@@ -184,7 +196,7 @@
 
         if (prefersReducedMotion) return;
 
-        const count = config.count || 40;
+        const count = scaled(config.count || 40);
         const minSize = config.minSize || 1;
         const maxSize = config.maxSize || 4;
         const minSpeed = config.minSpeed || 8;
@@ -237,9 +249,13 @@
 
     function init() {
         createParticles(RAYS_CONFIG.particles);
-        const savedTheme = localStorage.getItem('theme') || 'dark';
+        const savedTheme = Store.get('theme', 'dark');
         applyEffects(savedTheme);
     }
+
+    document.addEventListener('visibilitychange', () => {
+        document.documentElement.classList.toggle('effects-paused', document.hidden);
+    });
 
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', init);
@@ -252,9 +268,13 @@
         applyEffects(e.detail.theme);
     });
 
-    window.matchMedia('(prefers-reduced-motion: reduce)').addEventListener('change', (e) => {
-        if (e.matches) {
-            clearEffects();
-        }
-    });
+    if (motionQuery.addEventListener) {
+        motionQuery.addEventListener('change', (e) => {
+            if (e.matches) {
+                clearEffects();
+            } else {
+                applyEffects(document.documentElement.getAttribute('data-theme') || 'dark');
+            }
+        });
+    }
 })();

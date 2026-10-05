@@ -56,6 +56,13 @@
     }
 }
 
+/* Когда вкладка неактивна, анимации останавливаем — экономим батарею и CPU */
+.effects-paused .ray-beam,
+.effects-paused .particle,
+.effects-paused .sphere {
+    animation-play-state: paused;
+}
+
 @media (prefers-reduced-motion: reduce) {
     .ray-beam,
     .particle,
