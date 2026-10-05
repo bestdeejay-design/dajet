@@ -25,16 +25,16 @@ jobs:
     timeout-minutes: 90
     steps:
       - name: Checkout repo
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           ref: ${{ github.ref_name }}
           # Полная история не нужна — хватает последнего коммита
           fetch-depth: 1
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
-          node-version: '20'
+          node-version: '22'
 
       # ffmpeg/ffprobe уже есть на ubuntu-latest, но на всякий случай проверим
       - name: Проверить инструменты анализа аудио
