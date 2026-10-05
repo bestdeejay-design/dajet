@@ -4,11 +4,19 @@ on:
   push:
     paths:
       - 'albums/**'
+      - '.github/scripts/generate-library.js'
+      - '.github/workflows/generate-playlist.yml'
   workflow_dispatch:
 
-# Добавляем разрешения на запись
+# Разрешение на запись, чтобы workflow мог закоммитить обновлённый library.json
 permissions:
   contents: write
+
+# Два одновременных запуска (например, быстрая загрузка нескольких альбомов)
+# больше не будут конфликтовать при git push.
+concurrency:
+  group: generate-library
+  cancel-in-progress: false
 
 jobs:
   build:
@@ -16,11 +24,19 @@ jobs:
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20'
+
+      - name: Проверка синтаксиса JS
+        run: |
+          for f in player.js script.js rays.js storage.js .github/scripts/generate-library.js; do
+            node --check "$f"
+          done
 
       - name: Generate library.json
         run: node .github/scripts/generate-library.js
@@ -30,7 +46,13 @@ jobs:
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
           git add library.json
-          git diff --quiet && git diff --staged --quiet || git commit -m "Auto-update library.json"
-          git push
+          if git diff --quiet && git diff --staged --quiet; then
+            echo "library.json не изменился"
+            exit 0
+          fi
+          git commit -m "Auto-update library.json"
+          # Подстраховка от гонок: подтягиваем свежие изменения перед push
+          git pull --rebase --autostash origin "${GITHUB_REF_NAME}"
+          git push origin "HEAD:${GITHUB_REF_NAME}"
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Используем автоматический токен
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

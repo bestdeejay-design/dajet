@@ -21,6 +21,31 @@
     transform: translateY(0);
 }
 
+.player-notice {
+    margin: 0;
+    padding: 0.35rem 0.75rem;
+    border-radius: 10px;
+    background: rgba(255, 138, 138, 0.14);
+    border: 1px solid rgba(255, 138, 138, 0.35);
+    color: var(--text-error, #ff8a8a);
+    font-size: 0.8rem;
+    text-align: center;
+}
+
+.player-notice[hidden] {
+    display: none;
+}
+
+/* Плавный «пульс» обложки, пока трек буферизуется */
+.player-bar.buffering .track-cover {
+    animation: coverPulse 1.2s ease-in-out infinite;
+}
+
+@keyframes coverPulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.55; }
+}
+
 .player-main-row {
     display: flex;
     align-items: center;
@@ -388,7 +413,32 @@ audio {
 }
 
 @media (max-width: 800px) {
-    .player-main-row {
+    .player-notice {
+    margin: 0;
+    padding: 0.35rem 0.75rem;
+    border-radius: 10px;
+    background: rgba(255, 138, 138, 0.14);
+    border: 1px solid rgba(255, 138, 138, 0.35);
+    color: var(--text-error, #ff8a8a);
+    font-size: 0.8rem;
+    text-align: center;
+}
+
+.player-notice[hidden] {
+    display: none;
+}
+
+/* Плавный «пульс» обложки, пока трек буферизуется */
+.player-bar.buffering .track-cover {
+    animation: coverPulse 1.2s ease-in-out infinite;
+}
+
+@keyframes coverPulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.55; }
+}
+
+.player-main-row {
         flex-wrap: wrap;
         gap: 0.5rem;
     }

@@ -3,34 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="DAJET — creative memory gallery. Музыкальная галерея с треками, созданными с помощью Riffusion.">
+    <meta name="description" content="DAJET — creative memory gallery. Музыкальная галерея BEST: 10 альбомов, 227 треков, созданных с помощью Riffusion.">
     <meta name="theme-color" content="#0b0b0b" media="(prefers-color-scheme: dark)">
-    <meta name="theme-color" content="#0f172a" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#f5f5f7" media="(prefers-color-scheme: light)">
     <meta name="color-scheme" content="dark light">
-    <link rel="canonical" href="https://dajet.ru">
+    <link rel="canonical" href="https://dj1.ru/">
 
     <!-- Open Graph -->
     <meta property="og:title" content="DAJET · creative memory gallery">
-    <meta property="og:description" content="Музыкальная галерея с треками, созданными с помощью Riffusion.">
+    <meta property="og:description" content="Музыкальная галерея BEST: треки, созданные с помощью Riffusion.">
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://dajet.ru">
-    <meta property="og:image" content="https://dajet.ru/albums/Album%20Second/cover.jpg">
+    <meta property="og:site_name" content="DAJET">
+    <meta property="og:url" content="https://dj1.ru/">
+    <meta property="og:image" content="https://dj1.ru/albums/Album%20Second/cover.jpg">
+    <meta property="og:image:alt" content="Обложка альбома Album Second">
     <meta property="og:locale" content="ru_RU">
 
     <!-- Twitter Cards -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="DAJET · creative memory gallery">
-    <meta name="twitter:description" content="Музыкальная галерея с треками, созданными с помощью Riffusion.">
-    <meta name="twitter:image" content="https://dajet.ru/albums/Album%20Second/cover.jpg">
+    <meta name="twitter:description" content="Музыкальная галерея BEST: треки, созданные с помощью Riffusion.">
+    <meta name="twitter:image" content="https://dj1.ru/albums/Album%20Second/cover.jpg">
+    <meta name="twitter:image:alt" content="Обложка альбома Album Second">
 
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎵</text></svg>">
+    <link rel="icon" href="icon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="icon.svg">
     <link rel="manifest" href="manifest.json">
 
     <title>DAJET · creative memory gallery</title>
-
-    <!-- Preconnect hints -->
-    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
-    <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
 
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="player.css">
@@ -42,23 +42,20 @@
         "@context": "https://schema.org",
         "@type": "MusicAlbum",
         "name": "DAJET · creative memory gallery",
-        "url": "https://dajet.ru",
-        "description": "Музыкальная галерея с треками, созданными с помощью Riffusion.",
+        "url": "https://dj1.ru/",
+        "description": "Музыкальная галерея BEST: треки, созданные с помощью Riffusion.",
+        "image": "https://dj1.ru/albums/Album%20Second/cover.jpg",
         "byArtist": {
             "@type": "Person",
             "name": "BEST"
         }
     }
     </script>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"
-        defer
-        crossorigin="anonymous"
-        integrity="sha512-7eHRwcbYkK4d9g/6tD/mhkf++eoTHwpNM9woBxtPUBWm67zeAfFC+HrdoE2GanKeocly/VxeLvIqwvCdk7qScg==">
-    </script>
 </head>
 <body>
-    <div class="background-effects"></div>
+    <div class="background-effects" aria-hidden="true"></div>
+
+    <a class="skip-link" href="#gallery">Перейти к альбомам</a>
 
     <header class="header">
         <div class="header-row">
@@ -78,8 +75,13 @@
 
     <main>
         <section class="gallery" id="gallery" aria-label="Альбомы"></section>
-        <div class="loading" id="loading" role="status" aria-live="polite">Загрузка коллекции...</div>
+        <div class="loading" id="loading" role="status" aria-live="polite">Загрузка коллекции…</div>
         <div class="error" id="error" role="alert" aria-live="assertive" style="display: none;"></div>
+        <noscript>
+            <p class="error" style="display: block;">
+                Для воспроизведения музыки нужен JavaScript. Пожалуйста, включите его в настройках браузера.
+            </p>
+        </noscript>
     </main>
 
     <footer class="site-footer">
@@ -88,9 +90,10 @@
     </footer>
 
     <div class="player-bar" id="playerBar" role="region" aria-label="Аудиоплеер">
+        <p class="player-notice" id="playerNotice" role="status" aria-live="polite" hidden></p>
         <div class="player-main-row">
             <div class="track-info" id="trackInfo">
-                <img class="track-cover" id="currentTrackCover" src="" alt="Обложка трека" loading="lazy">
+                <img class="track-cover" id="currentTrackCover" src="icon.svg" alt="Обложка трека" loading="lazy" decoding="async" width="56" height="56">
                 <div class="track-details">
                     <div class="track-name" id="currentTrackName">Выберите трек</div>
                     <div class="album-name" id="currentAlbumName"></div>
@@ -115,18 +118,18 @@
                             <path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z"/>
                         </svg>
                     </button>
-                    <button class="control-btn" id="shuffleBtn" title="Перемешивать" aria-label="Перемешивать треки">
+                    <button class="control-btn" id="shuffleBtn" title="Перемешивать" aria-label="Перемешивать треки" aria-pressed="false">
                         <svg viewBox="0 0 24 24" aria-hidden="true">
                             <path d="M10.59 9.17L5.41 4 4 5.41l5.17 5.17 1.42-1.41zM14.5 4l2.04 2.04L4 18.59 5.41 20 17.96 7.46 20 9.5V4h-5.5zm0 9.41l-1.41 1.41 3.13 3.13L14.5 20H20v-5.5l-2.04 2.04-3.13-3.13z"/>
                         </svg>
                     </button>
-                    <button class="control-btn" id="repeatBtn" title="Режим повтора" aria-label="Режим повтора">
+                    <button class="control-btn" id="repeatBtn" title="Режим повтора" aria-label="Режим повтора" aria-pressed="false">
                         <svg viewBox="0 0 24 24" aria-hidden="true">
                             <path d="M7 7h10v3l4-4-4-4v3H5v6h2V7zm10 10H7v-3l-4 4 4 4v-3h12v-6h-2v4z"/>
                         </svg>
                     </button>
                 </div>
-                <div class="player-progress" id="progressContainer" role="slider" aria-label="Прогресс трека" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" tabindex="0">
+                <div class="player-progress" id="progressContainer" role="slider" aria-label="Прогресс трека" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-valuetext="0:00 из 0:00" tabindex="0">
                     <div class="progress-track">
                         <div class="progress-fill" id="progressFill"></div>
                         <div class="progress-thumb" id="progressThumb"></div>
@@ -149,8 +152,8 @@
                     </button>
                     <input type="range" class="volume-slider" id="volumeSlider" min="0" max="1" step="0.05" value="0.8" aria-label="Громкость" title="Громкость">
                 </div>
-                <button class="skin-toggle" id="skinToggle" aria-label="Переключить оформление">Classic</button>
-                <button class="playlist-toggle" id="togglePlaylist" aria-label="Открыть плейлист" aria-haspopup="true" aria-expanded="false">
+                <button class="skin-toggle" id="skinToggle" aria-label="Переключить оформление плеера">Classic</button>
+                <button class="playlist-toggle" id="togglePlaylist" aria-label="Открыть плейлист" aria-haspopup="dialog" aria-expanded="false" aria-controls="playlistPanel">
                     <svg viewBox="0 0 24 24" aria-hidden="true">
                         <path d="M3 13h12v-2H3v2zm0-6v2h18V7H3zm0 10h6v-2H3v2zm15-3h2v-3h3v-2h-3V7h-2v3h-3v2h3v3z"/>
                     </svg>
@@ -160,7 +163,7 @@
         </div>
     </div>
 
-    <div class="playlist-panel" id="playlistPanel" role="dialog" aria-label="Плейлист" aria-hidden="true">
+    <div class="playlist-panel" id="playlistPanel" role="dialog" aria-modal="false" aria-label="Плейлист" aria-hidden="true">
         <div class="playlist-header">
             <h2 id="playlistAlbumTitle">Плейлист</h2>
             <button class="close-panel" id="closePlaylist" aria-label="Закрыть плейлист">&times;</button>
@@ -169,15 +172,7 @@
     </div>
     <div class="overlay" id="overlay" aria-hidden="true"></div>
 
-    <script>
-        window.__GSAP_LOADED = false;
-        document.querySelector('script[src*="gsap"]').addEventListener('load', function() {
-            window.__GSAP_LOADED = true;
-        });
-        document.querySelector('script[src*="gsap"]').addEventListener('error', function() {
-            console.warn('GSAP failed to load, animations disabled');
-        });
-    </script>
+    <script src="storage.js" defer></script>
     <script src="player.js" defer></script>
     <script src="script.js" defer></script>
     <script src="rays.js" defer></script>

@@ -148,6 +148,11 @@ body {
     opacity: 0;
     transform: translateY(20px);
     will-change: transform, opacity;
+    /* Задержка зависит от индекса карточки (--i), задаётся в script.js */
+    transition: opacity 0.5s ease calc(var(--i, 0) * 45ms),
+                transform 0.5s cubic-bezier(0.16, 1, 0.3, 1) calc(var(--i, 0) * 45ms),
+                box-shadow 0.3s ease,
+                border-color 0.3s ease;
 }
 
 .album-card.visible {
@@ -172,6 +177,14 @@ body {
     object-fit: cover;
     background: #1e1e1e;
     display: block;
+}
+
+.album-cover--fallback {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3rem;
+    color: var(--text-hint);
 }
 
 .album-info {
@@ -274,6 +287,16 @@ body {
     outline-offset: 2px;
 }
 
+.playlist-item.is-unavailable {
+    opacity: 0.5;
+}
+
+.playlist-item.is-unavailable .playlist-item-title::after {
+    content: " · недоступен";
+    font-size: 0.75rem;
+    color: var(--text-error, #ff8a8a);
+}
+
 .playlist-item.active {
     background: rgba(255,255,255,0.08);
     border-left: 3px solid var(--accent);
@@ -332,6 +355,45 @@ body {
 
 .error {
     color: var(--text-error);
+}
+
+.retry-btn {
+    margin-left: 0.5rem;
+    padding: 0.4rem 0.9rem;
+    border-radius: 999px;
+    border: 1px solid var(--border-hover);
+    background: var(--card-bg);
+    color: var(--text-primary);
+    font: inherit;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.retry-btn:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+}
+
+.retry-btn:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+}
+
+.skip-link {
+    position: absolute;
+    left: -9999px;
+    top: 0;
+    z-index: 999;
+    padding: 0.75rem 1.25rem;
+    background: var(--card-bg);
+    color: var(--text-primary);
+    border: 1px solid var(--border-hover);
+    border-radius: 0 0 12px 0;
+    text-decoration: none;
+}
+
+.skip-link:focus {
+    left: 0;
 }
 
 @media (max-width: 700px) {
@@ -422,6 +484,7 @@ body {
         animation: none;
         opacity: 1;
         transform: none;
+        transition: none;
     }
 
     .album-card:hover {

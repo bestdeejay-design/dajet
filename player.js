@@ -1,4 +1,11 @@
 const Player = (function() {
+    // Если storage.js по какой-то причине не загрузился — работаем без сохранения настроек.
+    const Store = typeof DAJETStorage !== 'undefined' ? DAJETStorage : {
+        get: (key, fallbackValue = null) => fallbackValue,
+        set: () => false,
+        getNumber: (key, fallbackValue) => fallbackValue
+    };
+
     const REPEAT_MODES = { NONE: 0, ONE: 1, ALL: 2 };
 
     const SKINS = ['classic', 'minimal', 'compact'];
@@ -12,12 +19,17 @@ const Player = (function() {
     let shuffleCurrentIndex = 0;
     let currentSkin = 'classic';
     let isSeeking = false;
+    // Защита от «петли» на битых файлах: считаем подряд идущие сбои загрузки.
+    let consecutiveErrors = 0;
+    let failedTracks = new Set();
+    const MAX_CONSECUTIVE_ERRORS = 3;
 
     let elements = {};
 
     function init() {
         elements = {
             playerBar: document.getElementById('playerBar'),
+            playerNotice: document.getElementById('playerNotice'),
             audioPlayer: document.getElementById('audioPlayer'),
             currentTrackCover: document.getElementById('currentTrackCover'),
             currentTrackName: document.getElementById('currentTrackName'),
@@ -45,11 +57,39 @@ const Player = (function() {
             volumeBtn: document.getElementById('volumeBtn')
         };
 
+        if (!elements.audioPlayer || !elements.playPauseBtn) {
+            console.error('Плеер: не найдены обязательные элементы разметки, инициализация пропущена');
+            return;
+        }
+
         loadSkin();
         loadVolume();
         bindEvents();
         updateRepeatButton();
-        elements.pauseIcon.style.display = 'none';
+        setPlayIcon(false);
+    }
+
+    function setPlayIcon(isPlaying) {
+        if (elements.playIcon) elements.playIcon.style.display = isPlaying ? 'none' : 'block';
+        if (elements.pauseIcon) elements.pauseIcon.style.display = isPlaying ? 'block' : 'none';
+        elements.playPauseBtn.setAttribute('aria-label', isPlaying ? 'Пауза' : 'Воспроизвести');
+    }
+
+    function showNotice(message, timeout = 6000) {
+        const notice = elements.playerNotice;
+        if (!notice) return;
+        notice.textContent = message;
+        notice.hidden = false;
+        if (showNotice.timer) clearTimeout(showNotice.timer);
+        if (timeout) {
+            showNotice.timer = setTimeout(() => { notice.hidden = true; }, timeout);
+        }
+    }
+
+    function hideNotice() {
+        if (!elements.playerNotice) return;
+        if (showNotice.timer) clearTimeout(showNotice.timer);
+        elements.playerNotice.hidden = true;
     }
 
     function bindEvents() {
@@ -61,6 +101,9 @@ const Player = (function() {
         ap.addEventListener('timeupdate', handleTimeUpdate);
         ap.addEventListener('loadedmetadata', handleLoadedMetadata);
         ap.addEventListener('error', handleAudioError);
+        ap.addEventListener('waiting', () => elements.playerBar.classList.add('buffering'));
+        ap.addEventListener('playing', () => elements.playerBar.classList.remove('buffering'));
+        ap.addEventListener('canplay', () => elements.playerBar.classList.remove('buffering'));
 
         elements.prevBtn.addEventListener('click', prevTrack);
         elements.nextBtn.addEventListener('click', nextTrack);
@@ -81,25 +124,43 @@ const Player = (function() {
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape' && isPlaylistVisible()) {
                 togglePlaylistPanel();
+                return;
             }
-            if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
-            if (e.code === 'Space') {
+
+            // Не перехватываем клавиши, когда пользователь работает с полем ввода,
+            // кнопкой, ссылкой или слайдером: иначе Space не нажимает кнопку,
+            // а стрелки не дают прокручивать страницу.
+            const target = e.target;
+            const isInteractive = target && (
+                /^(INPUT|TEXTAREA|SELECT)$/.test(target.tagName) ||
+                (target.closest && target.closest('button, a, [contenteditable="true"]'))
+            );
+            if (isInteractive) return;
+
+            const insidePlayer = !!(target && target.closest && target.closest('.player-bar'));
+
+            if (e.code === 'Space' || e.key === ' ') {
                 e.preventDefault();
                 togglePlayPause();
+                return;
             }
             if (e.key === 'ArrowRight') {
                 e.preventDefault();
                 seekRelative(5);
+                return;
             }
             if (e.key === 'ArrowLeft') {
                 e.preventDefault();
                 seekRelative(-5);
+                return;
             }
-            if (e.key === 'ArrowUp') {
+            // Вверх/вниз листают страницу — реагируем только внутри плеера.
+            if (insidePlayer && e.key === 'ArrowUp') {
                 e.preventDefault();
                 adjustVolume(0.05);
+                return;
             }
-            if (e.key === 'ArrowDown') {
+            if (insidePlayer && e.key === 'ArrowDown') {
                 e.preventDefault();
                 adjustVolume(-0.05);
             }
@@ -120,20 +181,56 @@ const Player = (function() {
         handleVolumeChange();
     }
 
+    function describeAudioError(code) {
+        // MediaError может отсутствовать (старые движки, jsdom) — не падаем.
+        const ERR = typeof MediaError !== 'undefined' ? MediaError : {
+            MEDIA_ERR_ABORTED: 1, MEDIA_ERR_NETWORK: 2, MEDIA_ERR_DECODE: 3, MEDIA_ERR_SRC_NOT_SUPPORTED: 4
+        };
+        switch (code) {
+            case ERR.MEDIA_ERR_ABORTED: return 'загрузка прервана';
+            case ERR.MEDIA_ERR_NETWORK: return 'сетевая ошибка';
+            case ERR.MEDIA_ERR_DECODE: return 'файл повреждён';
+            case ERR.MEDIA_ERR_SRC_NOT_SUPPORTED: return 'файл недоступен или формат не поддерживается';
+            default: return 'не удалось воспроизвести';
+        }
+    }
+
     function handleAudioError() {
         const ap = elements.audioPlayer;
-        let msg = 'Ошибка воспроизведения';
-        if (ap.error) {
-            switch (ap.error.code) {
-                case MediaError.MEDIA_ERR_ABORTED: msg = 'Воспроизведение прервано'; break;
-                case MediaError.MEDIA_ERR_NETWORK: msg = 'Сетевая ошибка'; break;
-                case MediaError.MEDIA_ERR_DECODE: msg = 'Ошибка декодирования аудио'; break;
-                case MediaError.MEDIA_ERR_SRC_NOT_SUPPORTED: msg = 'Формат не поддерживается'; break;
+        const reason = describeAudioError(ap.error && ap.error.code);
+        const album = currentAlbum;
+        const track = album && album.tracks[currentTrackIndex];
+        const trackName = track ? track.name : 'Трек';
+        console.error('Ошибка воспроизведения:', trackName, '—', reason, ap.error);
+
+        // Показываем корректное состояние кнопки и сообщаем пользователю.
+        setPlayIcon(false);
+        elements.playerBar.classList.remove('buffering');
+        if (track && track.file) failedTracks.add(track.file);
+        markTrackUnavailable(currentTrackIndex);
+
+        // Пытаемся автоматически перейти к следующему треку, но не зацикливаемся.
+        consecutiveErrors++;
+        if (consecutiveErrors <= MAX_CONSECUTIVE_ERRORS && currentAlbum && currentTrackIndex >= 0) {
+            showNotice(`«${trackName}» не воспроизводится (${reason}). Переключаю на следующий трек…`);
+            setTimeout(() => {
+                if (currentAlbum && currentTrackIndex >= 0) nextTrack();
+            }, 1200);
+        } else {
+            showNotice(`«${trackName}» не воспроизводится (${reason}). Попробуйте выбрать другой трек.`, 0);
+            if ('mediaSession' in navigator) {
+                try { navigator.mediaSession.playbackState = 'none'; } catch (err) { /* не критично */ }
             }
         }
-        console.error('Audio error:', msg);
-        if (elements.currentTrackName) {
-            elements.currentTrackName.textContent = msg;
+    }
+
+    function markTrackUnavailable(index) {
+        if (index < 0 || !elements.playlistContainer) return;
+        const items = elements.playlistContainer.querySelectorAll('.playlist-item');
+        const item = items[index];
+        if (item) {
+            item.classList.add('is-unavailable');
+            item.setAttribute('aria-disabled', 'true');
         }
     }
 
@@ -188,16 +285,25 @@ const Player = (function() {
     }
 
     function handleVolumeChange() {
-        const v = parseFloat(elements.volumeSlider.value);
-        elements.audioPlayer.volume = v;
-        localStorage.setItem('playerVolume', v);
+        // Значение обязательно зажимаем в 0..1: присвоение volume вне диапазона
+        // бросает IndexSizeError в браузере.
+        const raw = parseFloat(elements.volumeSlider.value);
+        const v = isFinite(raw) ? Math.max(0, Math.min(1, raw)) : 0.8;
+        elements.volumeSlider.value = v;
+        try {
+            elements.audioPlayer.volume = v;
+        } catch (err) {
+            console.warn('Не удалось изменить громкость:', err && err.message);
+        }
+        Store.set('playerVolume', v);
         updateVolumeIcon(v);
     }
 
     function loadVolume() {
-        const saved = localStorage.getItem('playerVolume');
-        const v = saved !== null ? parseFloat(saved) : 0.8;
-        elements.audioPlayer.volume = v;
+        const v = Store.getNumber('playerVolume', 0.8, 0, 1);
+        try {
+            elements.audioPlayer.volume = v;
+        } catch (err) { /* игнорируем, громкость останется по умолчанию */ }
         elements.volumeSlider.value = v;
         updateVolumeIcon(v);
     }
@@ -225,39 +331,50 @@ const Player = (function() {
     }
 
     function handlePlay() {
-        elements.playIcon.style.display = 'none';
-        elements.pauseIcon.style.display = 'block';
+        setPlayIcon(true);
+        consecutiveErrors = 0;
+        elements.playerBar.classList.remove('buffering');
     }
 
     function handlePause() {
-        elements.playIcon.style.display = 'block';
-        elements.pauseIcon.style.display = 'none';
+        setPlayIcon(false);
     }
 
     function updateMediaSession(album, track) {
-        if ('mediaSession' in navigator) {
-            const coverSrc = track.cover || album.cover || createFallbackCover(512);
+        if (!('mediaSession' in navigator) || typeof MediaMetadata === 'undefined') return;
 
+        const coverSrc = track.cover || album.cover || createFallbackCover(512);
+
+        try {
             navigator.mediaSession.metadata = new MediaMetadata({
                 title: track.name,
                 artist: album.title,
                 album: album.title,
                 artwork: [
-                    { src: coverSrc, sizes: '512x512', type: 'image/jpeg' }
+                    { src: toUrlPath(coverSrc), sizes: '512x512' }
                 ]
             });
-
-            navigator.mediaSession.setActionHandler('play', () => {
-                elements.audioPlayer.play().catch(() => {});
-            });
-            navigator.mediaSession.setActionHandler('pause', () => {
-                elements.audioPlayer.pause();
-            });
-            navigator.mediaSession.setActionHandler('previoustrack', prevTrack);
-            navigator.mediaSession.setActionHandler('nexttrack', nextTrack);
-            navigator.mediaSession.setActionHandler('seekbackward', () => seekRelative(-10));
-            navigator.mediaSession.setActionHandler('seekforward', () => seekRelative(10));
+        } catch (err) {
+            console.warn('Media Session metadata недоступны:', err && err.message);
         }
+
+        // Часть браузеров не поддерживает отдельные действия и бросает исключение —
+        // изолируем каждый вызов, чтобы не сломать переключение трека.
+        const handlers = {
+            play: () => { elements.audioPlayer.play().catch(() => {}); },
+            pause: () => { elements.audioPlayer.pause(); },
+            previoustrack: prevTrack,
+            nexttrack: nextTrack,
+            seekbackward: () => seekRelative(-10),
+            seekforward: () => seekRelative(10)
+        };
+        Object.keys(handlers).forEach((action) => {
+            try {
+                navigator.mediaSession.setActionHandler(action, handlers[action]);
+            } catch (err) {
+                /* действие не поддерживается этим браузером */
+            }
+        });
     }
 
     function selectTrack(album, trackIndex) {
@@ -270,14 +387,18 @@ const Player = (function() {
         }
 
         const track = album.tracks[trackIndex];
-        if (!track) return;
+        if (!track) {
+            console.warn('Трек не найден:', album && album.id, trackIndex);
+            return;
+        }
 
         currentTrackIndex = trackIndex;
-        elements.audioPlayer.src = track.file;
+        hideNotice();
+        elements.audioPlayer.src = toUrlPath(track.file);
         elements.audioPlayer.load();
 
         const playPromise = elements.audioPlayer.play();
-        if (playPromise) {
+        if (playPromise && playPromise.catch) {
             playPromise.catch(() => {});
         }
 
@@ -285,7 +406,7 @@ const Player = (function() {
         elements.currentAlbumName.textContent = album.title;
 
         const coverSrc = track.cover || album.cover || createFallbackCover();
-        elements.currentTrackCover.src = coverSrc;
+        elements.currentTrackCover.src = toUrlPath(coverSrc);
 
         updateMediaSession(album, track);
         highlightPlaylistItem(trackIndex);
@@ -445,22 +566,32 @@ const Player = (function() {
             const item = document.createElement('div');
             item.className = 'playlist-item';
             item.setAttribute('role', 'option');
+            item.setAttribute('tabindex', '0');
             item.setAttribute('aria-selected', idx === currentTrackIndex ? 'true' : 'false');
             if (idx === currentTrackIndex) item.classList.add('active');
+            if (failedTracks.has(track.file)) item.classList.add('is-unavailable');
 
             const coverImg = track.cover || currentAlbum.cover || createFallbackCover(40);
 
             item.innerHTML = `
-                <img class="playlist-item-cover" src="${coverImg}" alt="${escapeHtml(track.name)}" loading="lazy">
+                <img class="playlist-item-cover" src="${escapeHtml(toUrlPath(coverImg))}" alt="" loading="lazy" decoding="async">
                 <div class="playlist-item-info">
                     <div class="playlist-item-title">${escapeHtml(track.name)}</div>
                     <div class="playlist-item-album">${escapeHtml(currentAlbum.title)}</div>
                 </div>
             `;
 
-            item.addEventListener('click', () => {
+            const choose = () => {
                 selectTrack(currentAlbum, idx);
                 if (isPlaylistVisible()) togglePlaylistPanel();
+            };
+
+            item.addEventListener('click', choose);
+            item.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    choose();
+                }
             });
 
             elements.playlistContainer.appendChild(item);
@@ -483,19 +614,19 @@ const Player = (function() {
             elements.overlay.classList.remove('visible');
             elements.overlay.setAttribute('aria-hidden', 'true');
             elements.togglePlaylist.setAttribute('aria-expanded', 'false');
+            // Возвращаем фокус туда, откуда панель открывали, если он был внутри неё.
+            if (elements.playlistPanel.contains(document.activeElement)) {
+                elements.togglePlaylist.focus();
+            }
         } else {
             elements.playlistPanel.classList.add('open');
             elements.playlistPanel.setAttribute('aria-hidden', 'false');
             elements.overlay.classList.add('visible');
             elements.overlay.setAttribute('aria-hidden', 'false');
             elements.togglePlaylist.setAttribute('aria-expanded', 'true');
-            if (currentAlbum) {
-                elements.playlistAlbumTitle.textContent = currentAlbum.title;
-                renderPlaylist();
-            } else {
-                elements.playlistAlbumTitle.textContent = 'Плейлист';
-                renderPlaylist();
-            }
+            elements.playlistAlbumTitle.textContent = currentAlbum ? currentAlbum.title : 'Плейлист';
+            renderPlaylist();
+            if (elements.closePlaylist) elements.closePlaylist.focus();
         }
     }
 
@@ -510,9 +641,23 @@ const Player = (function() {
     }
 
     function escapeHtml(text) {
-        const d = document.createElement('div');
-        d.textContent = text;
-        return d.innerHTML;
+        return String(text == null ? '' : text)
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#39;');
+    }
+
+    /**
+     * Безопасное превращение пути к файлу в URL.
+     * Имена треков содержат пробелы, апострофы, «&», кириллицу — всё это
+     * должно быть закодировано, иначе в отдельных браузерах ссылка ломается.
+     */
+    function toUrlPath(path) {
+        if (!path) return '';
+        if (/^(data:|blob:|https?:)/i.test(path)) return path;
+        return String(path).split('/').map((segment) => encodeURIComponent(segment)).join('/');
     }
 
     function createFallbackCover(size = 100) {
@@ -540,7 +685,7 @@ const Player = (function() {
     }
 
     function loadSkin() {
-        const savedSkin = localStorage.getItem('playerSkin');
+        const savedSkin = Store.get('playerSkin');
         if (savedSkin && SKINS.includes(savedSkin)) {
             currentSkin = savedSkin;
         }
@@ -551,7 +696,7 @@ const Player = (function() {
         const currentIndex = SKINS.indexOf(currentSkin);
         const nextIndex = (currentIndex + 1) % SKINS.length;
         currentSkin = SKINS[nextIndex];
-        localStorage.setItem('playerSkin', currentSkin);
+        Store.set('playerSkin', currentSkin);
         applySkin();
     }
 
@@ -576,6 +721,8 @@ const Player = (function() {
         setCurrentTrackIndex,
         getElements,
         renderPlaylist,
-        escapeHtml
+        escapeHtml,
+        toUrlPath,
+        showNotice
     };
 })();
