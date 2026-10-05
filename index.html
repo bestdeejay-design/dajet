@@ -60,6 +60,10 @@
     <header class="header">
         <div class="header-row">
             <h1>DAJET</h1>
+            <button id="playAllBtn" class="play-all-btn" title="Слушать всю коллекцию подряд">
+                <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
+                <span>Слушать всё</span>
+            </button>
             <button id="themeToggle" class="theme-toggle"
                 title="Сменить тему"
                 aria-label="Сменить тему"
@@ -142,6 +146,9 @@
             </div>
 
             <audio id="audioPlayer" preload="metadata"></audio>
+            <!-- Служебный элемент: заранее подгружает следующий трек, чтобы
+                 переключение было мгновенным. Ничего не воспроизводит. -->
+            <audio id="prefetchPlayer" preload="none" muted aria-hidden="true"></audio>
 
             <div class="player-side">
                 <div class="volume-control" id="volumeControl">

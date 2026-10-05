@@ -19,25 +19,41 @@ const Player = (function() {
     // ослабляем больше, чем на 12 дБ (запас, чтобы не упереться в клиппинг).
     const MAX_GAIN_DB = typeof CONFIG.maxGainUpDb === 'number' ? CONFIG.maxGainUpDb : 6;
     const MIN_GAIN_DB = typeof CONFIG.maxGainDownDb === 'number' ? CONFIG.maxGainDownDb : -12;
+    // Запас по истинному пику (дБ), который оставляем при подстройке громкости.
+    const PEAK_HEADROOM_DB = typeof CONFIG.peakHeadroomDb === 'number' ? CONFIG.peakHeadroomDb : 1;
+    // Код ошибки «загрузка прервана»: возникает, когда МЫ переключаем трек,
+    // а не когда что-то сломалось.
+    const ERR_ABORTED = 1;
     // Аудио и обложки могут лежать на внешнем хранилище (см. config.js).
     const MEDIA_BASE = typeof CONFIG.mediaBase === 'string' ? CONFIG.mediaBase : '';
 
     const SKINS = ['classic', 'minimal', 'compact'];
     const SKIN_LABELS = { classic: 'Classic', minimal: 'Minimal', compact: 'Compact' };
 
+    let library = [];                 // все альбомы коллекции (для непрерывного прослушивания)
     let currentAlbum = null;
     let currentTrackIndex = -1;
     let repeatMode = REPEAT_MODES.ALL;
     let shuffleOn = false;
-    let shuffleIndices = [];
+    let shuffleOrder = [];            // порядок перемешивания по всей коллекции
     let shuffleCurrentIndex = 0;
+    let prefetchedFile = null;
+    let bufferingTimer = null;
+    let lastNoticeKind = null;
+    let mediaSessionTick = 0;
     let currentSkin = 'classic';
     let isSeeking = false;
+    // Сколько секунд «пустого» вступления пропустить у текущего трека.
+    let pendingTrim = null;
     // Защита от «петли» на битых файлах: считаем подряд идущие сбои загрузки.
     let consecutiveErrors = 0;
     let normalizeOn = true;
     let baseVolume = 0.8;
     let failedTracks = new Set();
+    let audioGraph = null;            // Web Audio для iOS: { ctx, gain }
+    let audioCtx = null;              // контекст создаём один раз, маршрутизируем только «живой»
+    let nativeVolumeSupported = null; // определяется один раз при запуске
+    let hasPlayedOnce = false;
     const MAX_CONSECUTIVE_ERRORS = 3;
 
     let elements = {};
@@ -71,6 +87,8 @@ const Player = (function() {
             durationTime: document.getElementById('durationTime'),
             volumeSlider: document.getElementById('volumeSlider'),
             volumeBtn: document.getElementById('volumeBtn'),
+            prefetchPlayer: document.getElementById('prefetchPlayer'),
+            playAllBtn: document.getElementById('playAllBtn'),
             normalizeBtn: document.getElementById('normalizeBtn'),
             lyricsBtn: document.getElementById('lyricsBtn'),
             lyricsPanel: document.getElementById('lyricsPanel'),
@@ -88,6 +106,7 @@ const Player = (function() {
         // Обложка трека существует с самого начала — обработчик ставим сразу,
         // иначе «сломанная» картинка возможна ещё до выбора трека.
         attachCoverFallback(elements.currentTrackCover, 120);
+        nativeVolumeWorks();
         normalizeOn = Store.get('playerNormalize', '1') !== '0';
         updateNormalizeButton();
         updateLyricsButton();
@@ -109,6 +128,7 @@ const Player = (function() {
         notice.textContent = message;
         notice.classList.toggle('is-info', kind === 'info');
         notice.hidden = false;
+        lastNoticeKind = kind;
         if (showNotice.timer) clearTimeout(showNotice.timer);
         if (timeout) {
             showNotice.timer = setTimeout(() => { notice.hidden = true; }, timeout);
@@ -119,6 +139,7 @@ const Player = (function() {
         if (!elements.playerNotice) return;
         if (showNotice.timer) clearTimeout(showNotice.timer);
         elements.playerNotice.hidden = true;
+        lastNoticeKind = null;
     }
 
     function bindEvents() {
@@ -130,9 +151,18 @@ const Player = (function() {
         ap.addEventListener('timeupdate', handleTimeUpdate);
         ap.addEventListener('loadedmetadata', handleLoadedMetadata);
         ap.addEventListener('error', handleAudioError);
-        ap.addEventListener('waiting', () => elements.playerBar.classList.add('buffering'));
-        ap.addEventListener('playing', () => elements.playerBar.classList.remove('buffering'));
-        ap.addEventListener('canplay', () => elements.playerBar.classList.remove('buffering'));
+        ap.addEventListener('waiting', handleBufferingStart);
+        // Обрезку вступления пробуем на нескольких событиях: в разных
+        // браузерах готовность к перемотке наступает по-разному.
+        ap.addEventListener('playing', () => { clearBuffering(); prefetchNextTrack(); applyStartTrim(); wakeAudioContext(); });
+        ap.addEventListener('canplay', () => { clearBuffering(); applyStartTrim(); });
+        ap.addEventListener('loadedmetadata', () => { clearBuffering(); updatePositionState(true); });
+        ap.addEventListener('stalled', handleBufferingStart);
+
+        // Первое касание/клавиша — единственная возможность разбудить звук в iOS
+        ['pointerdown', 'touchstart', 'keydown'].forEach((eventName) => {
+            document.addEventListener(eventName, wakeAudioContext, { passive: true });
+        });
 
         elements.prevBtn.addEventListener('click', prevTrack);
         elements.nextBtn.addEventListener('click', nextTrack);
@@ -153,6 +183,7 @@ const Player = (function() {
 
         elements.volumeSlider.addEventListener('input', handleVolumeChange);
 
+        if (elements.playAllBtn) elements.playAllBtn.addEventListener('click', playAll);
         if (elements.normalizeBtn) elements.normalizeBtn.addEventListener('click', toggleNormalize);
         if (elements.lyricsBtn) elements.lyricsBtn.addEventListener('click', toggleLyricsPanel);
         if (elements.closeLyrics) elements.closeLyrics.addEventListener('click', toggleLyricsPanel);
@@ -199,6 +230,11 @@ const Player = (function() {
             if (insidePlayer && e.key === 'ArrowDown') {
                 e.preventDefault();
                 adjustVolume(-0.05);
+                return;
+            }
+            // M — выключить/включить звук (учитываем и русскую раскладку).
+            if (e.key === 'm' || e.key === 'M' || e.key === 'ь' || e.key === 'Ь') {
+                toggleMute();
             }
         });
     }
@@ -217,6 +253,29 @@ const Player = (function() {
         handleVolumeChange();
     }
 
+    /**
+     * Если трек грузится долго (медленный интернет, большой файл), человек
+     * должен видеть, что сайт работает, а не думать, что всё зависло.
+     */
+    function handleBufferingStart() {
+        elements.playerBar.classList.add('buffering');
+        if (bufferingTimer) clearTimeout(bufferingTimer);
+        bufferingTimer = setTimeout(() => {
+            if (elements.audioPlayer.readyState < 3 && !elements.audioPlayer.paused) {
+                showNotice('Загружаю трек…', 0, 'info');
+            }
+        }, 3000);
+    }
+
+    function clearBuffering() {
+        elements.playerBar.classList.remove('buffering');
+        if (bufferingTimer) {
+            clearTimeout(bufferingTimer);
+            bufferingTimer = null;
+        }
+        if (lastNoticeKind === 'info') hideNotice();
+    }
+
     function describeAudioError(code) {
         // MediaError может отсутствовать (старые движки, jsdom) — не падаем.
         const ERR = typeof MediaError !== 'undefined' ? MediaError : {
@@ -233,7 +292,17 @@ const Player = (function() {
 
     function handleAudioError() {
         const ap = elements.audioPlayer;
-        const reason = describeAudioError(ap.error && ap.error.code);
+        const code = ap.error && ap.error.code;
+
+        // Нет источника — событие не про наш трек (бывает при очистке плеера).
+        if (!ap.getAttribute('src')) return;
+
+        // «Загрузка прервана» — это мы сами переключили трек или браузер
+        // отменил загрузку (частый случай при быстрых кликах по плейлисту).
+        // Считать это сбоем нельзя: иначе плеер начинал бы пропускать треки.
+        if (code === ERR_ABORTED) return;
+
+        const reason = describeAudioError(code);
         const album = currentAlbum;
         const track = album && album.tracks[currentTrackIndex];
         const trackName = track ? track.name : 'Трек';
@@ -277,6 +346,27 @@ const Player = (function() {
 
     function handleLoadedMetadata() {
         updateDuration();
+        applyStartTrim();
+    }
+
+    /**
+     * Треки коллекции начинаются с 0.4–1.1 с тишины — при непрерывном
+     * прослушивании это превращается в заметные паузы между песнями.
+     * Генератор библиотеки измеряет эту тишину и записывает в поле trim;
+     * здесь мы просто перематываем начало. Значение применяется один раз
+     * при загрузке трека, чтобы не мешать ручной перемотке.
+     */
+    function applyStartTrim() {
+        if (pendingTrim == null) return;
+        const trim = pendingTrim;
+        pendingTrim = null;
+        const ap = elements.audioPlayer;
+        if (!isFinite(ap.duration) || ap.duration <= trim + 1) return;
+        try {
+            if (ap.currentTime < trim) ap.currentTime = trim;
+        } catch (err) {
+            // некоторые браузеры не дают перематывать до готовности — не беда
+        }
     }
 
     function updateProgress() {
@@ -286,7 +376,10 @@ const Player = (function() {
         elements.progressFill.style.width = pct + '%';
         elements.progressThumb.style.left = pct + '%';
         elements.progressContainer.setAttribute('aria-valuenow', Math.round(pct));
+        elements.progressContainer.setAttribute('aria-valuetext',
+            formatTime(ap.currentTime) + ' из ' + formatTime(ap.duration));
         elements.currentTime.textContent = formatTime(ap.currentTime);
+        updatePositionState(false);
     }
 
     function updateDuration() {
@@ -346,23 +439,126 @@ const Player = (function() {
      * его значение в пределах ±6/−12 дБ.
      */
     function gainDbFor(track) {
-        if (!normalizeOn || !track || typeof track.lufs !== 'number' || !isFinite(track.lufs)) return 0;
-        let gain = TARGET_LUFS - track.lufs;
+        if (!normalizeOn || !track) return 0;
+        let gain = 0;
+        if (typeof track.lufs === 'number' && isFinite(track.lufs)) {
+            gain = TARGET_LUFS - track.lufs;
+        }
+        // Запас по истинному пику. У большинства треков коллекции пик выше
+        // 0 dBTP, поэтому «слепое» усиление срезало бы вершины и давало
+        // искажения. Здесь усиление ограничено так, чтобы до потолка
+        // оставался PEAK_HEADROOM_DB.
+        if (typeof track.peak === 'number' && isFinite(track.peak)) {
+            gain = Math.min(gain, -track.peak - PEAK_HEADROOM_DB);
+        }
         if (gain > MAX_GAIN_DB) gain = MAX_GAIN_DB;
         if (gain < MIN_GAIN_DB) gain = MIN_GAIN_DB;
         return gain;
     }
 
-    function applyVolume() {
+    function effectiveVolume() {
         const track = currentAlbum && currentTrackIndex >= 0 ? currentAlbum.tracks[currentTrackIndex] : null;
         const gain = gainDbFor(track);
-        const effective = Math.max(0, Math.min(1, baseVolume * Math.pow(10, gain / 20)));
+        return {
+            gain,
+            value: Math.max(0, Math.min(1, baseVolume * Math.pow(10, gain / 20)))
+        };
+    }
+
+    /**
+     * На iPhone/iPad свойство audio.volume не работает (браузер его игнорирует).
+     * В этом случае громкость и выравнивание проводим через Web Audio API —
+     * иначе «Ровно» на iOS молча ничего бы не делало.
+     */
+    function nativeVolumeWorks() {
+        if (nativeVolumeSupported !== null) return nativeVolumeSupported;
         try {
-            elements.audioPlayer.volume = effective;
+            const ap = elements.audioPlayer;
+            const probe = 0.123;
+            const prev = ap.volume;
+            ap.volume = probe;
+            const works = Math.abs(ap.volume - probe) < 0.01;
+            ap.volume = prev;
+            nativeVolumeSupported = works;
+            if (!works) {
+                console.warn('Браузер игнорирует audio.volume (iOS) — включаю регулировку через Web Audio');
+            }
+            return works;
+        } catch (err) {
+            nativeVolumeSupported = false;
+            return false;
+        }
+    }
+
+    function ensureAudioGraph() {
+        if (audioGraph) return audioGraph;
+        const Ctx = window.AudioContext || window.webkitAudioContext;
+        if (!Ctx) return null;
+        try {
+            if (!audioCtx) audioCtx = new Ctx();
+
+            // Звук направляем в граф ТОЛЬКО когда контекст уже работает.
+            // Если маршрутизировать через «спящий» контекст, на iOS вместо
+            // музыки будет полная тишина — это хуже, чем просто ровная
+            // громкость чуть громче желаемой.
+            if (audioCtx.state !== 'running') {
+                audioCtx.resume().catch(() => {});
+                return null;
+            }
+
+            const source = audioCtx.createMediaElementSource(elements.audioPlayer);
+            const gainNode = audioCtx.createGain();
+            gainNode.gain.value = 1;
+            source.connect(gainNode);
+            gainNode.connect(audioCtx.destination);
+            audioGraph = { ctx: audioCtx, gain: gainNode };
+            return audioGraph;
+        } catch (err) {
+            console.warn('Web Audio недоступен, громкость остаётся системной:', err && err.message);
+            return null;
+        }
+    }
+
+    /**
+     * Будим аудиоконтекст на действиях пользователя. После того как он
+     * проснулся, применяем громкость — тогда граф создастся и «Ровно»
+     * заработает. До этого музыка играет обычным путём, без тишины.
+     */
+    function wakeAudioContext() {
+        if (!audioCtx) return;
+        if (audioCtx.state === 'running') {
+            if (!audioGraph) applyVolume();
+            return;
+        }
+        audioCtx.resume().then(() => {
+            if (audioCtx && audioCtx.state === 'running' && !audioGraph) applyVolume();
+        }).catch(() => {});
+    }
+
+    function applyVolume() {
+        const { gain, value } = effectiveVolume();
+        // Подпись «Ровно: … дБ» показываем сразу, независимо от пути громкости.
+        updateNormalizeHint(gain);
+        try {
+            if (nativeVolumeWorks()) {
+                elements.audioPlayer.volume = value;
+            } else if (!hasPlayedOnce && !audioGraph) {
+                // До первого воспроизведения AudioContext был бы «спящим»,
+                // поэтому отложим создание графа до первого play.
+                return;
+            } else {
+                // Путь для iOS: громкость элемента не действует, применяем gain.
+                const graph = ensureAudioGraph();
+                if (graph) {
+                    elements.audioPlayer.volume = 1;
+                    graph.gain.gain.value = value;
+                } else {
+                    elements.audioPlayer.volume = value;
+                }
+            }
         } catch (err) {
             console.warn('Не удалось изменить громкость:', err && err.message);
         }
-        updateNormalizeHint(gain);
     }
 
     function updateNormalizeHint(gain) {
@@ -419,6 +615,16 @@ const Player = (function() {
         setPlayIcon(true);
         consecutiveErrors = 0;
         elements.playerBar.classList.remove('buffering');
+        hasPlayedOnce = true;
+        if (!nativeVolumeWorks()) {
+            // Мы внутри пользовательского действия — самое время поднять граф.
+            // Если контекст ещё не запустился, звук пойдёт обычным путём
+            // (без «Ровно», но и без тишины), а граф включится позже.
+            ensureAudioGraph();
+            wakeAudioContext();
+            applyVolume();
+        }
+        updatePositionState(true);
     }
 
     function handlePause() {
@@ -480,6 +686,9 @@ const Player = (function() {
 
         currentTrackIndex = trackIndex;
         hideNotice();
+        pendingTrim = typeof track.trim === 'number' && isFinite(track.trim) && track.trim > 0
+            ? track.trim
+            : null;
         elements.audioPlayer.src = toUrlPath(track.file);
         elements.audioPlayer.load();
 
@@ -493,6 +702,7 @@ const Player = (function() {
 
         const coverSrc = track.cover || album.cover || createFallbackCover();
         attachCoverFallback(elements.currentTrackCover, 120);
+        nativeVolumeWorks();
         elements.currentTrackCover.src = toUrlPath(coverSrc);
 
         applyVolume();
@@ -511,9 +721,11 @@ const Player = (function() {
         saveSession(album, trackIndex);
 
         if (shuffleOn) {
-            generateShuffleIndices();
-            shuffleCurrentIndex = shuffleIndices.indexOf(trackIndex);
+            if (shuffleOrder.length === 0) buildShuffleOrder();
+            syncShuffleCursor();
         }
+        prefetchNextTrack();
+        announceTrackChange(album, trackIndex);
     }
 
     function playCurrent() {
@@ -563,12 +775,41 @@ const Player = (function() {
         }
     }
 
+    function albumIndex(album) {
+        if (!album) return -1;
+        return library.indexOf(album);
+    }
+
+    /**
+     * Переход к следующему/предыдущему альбому. Возвращает false, если
+     * двигаться некуда (библиотека не задана или альбом один).
+     */
+    function moveToAdjacentAlbum(direction) {
+        if (!currentAlbum || library.length < 2) return false;
+        const idx = albumIndex(currentAlbum);
+        if (idx === -1) return false;
+
+        let next = idx + direction;
+        if (next < 0) next = library.length - 1;
+        if (next >= library.length) next = 0;
+
+        const album = library[next];
+        if (!album || !album.tracks || album.tracks.length === 0) return false;
+
+        const trackIndex = direction > 0 ? 0 : album.tracks.length - 1;
+        selectTrack(album, trackIndex);
+        return true;
+    }
+
     function navigateSequential(direction) {
         let newIndex = currentTrackIndex + direction;
         const trackCount = currentAlbum.tracks.length;
 
         if (newIndex >= trackCount || newIndex < 0) {
             if (repeatMode === REPEAT_MODES.ALL) {
+                // Сначала пробуем продолжить следующим альбомом — так коллекция
+                // играет подряд, а не зацикливается на одном альбоме.
+                if (moveToAdjacentAlbum(direction)) return;
                 newIndex = direction > 0 ? 0 : trackCount - 1;
             } else if (repeatMode === REPEAT_MODES.ONE) {
                 restartCurrentTrack();
@@ -581,13 +822,13 @@ const Player = (function() {
     }
 
     function navigateShuffle(direction) {
-        if (shuffleIndices.length === 0) generateShuffleIndices();
+        if (shuffleOrder.length === 0) buildShuffleOrder();
 
-        let newShuffleIndex = shuffleCurrentIndex + direction;
+        let next = shuffleCurrentIndex + direction;
 
-        if (newShuffleIndex >= shuffleIndices.length || newShuffleIndex < 0) {
+        if (next >= shuffleOrder.length || next < 0) {
             if (repeatMode === REPEAT_MODES.ALL) {
-                newShuffleIndex = direction > 0 ? 0 : shuffleIndices.length - 1;
+                next = direction > 0 ? 0 : shuffleOrder.length - 1;
             } else if (repeatMode === REPEAT_MODES.ONE) {
                 restartCurrentTrack();
                 return;
@@ -596,9 +837,43 @@ const Player = (function() {
             }
         }
 
-        shuffleCurrentIndex = newShuffleIndex;
-        const newTrackIndex = shuffleIndices[shuffleCurrentIndex];
-        selectTrack(currentAlbum, newTrackIndex);
+        const entry = shuffleOrder[next];
+        const album = library[entry.ai] || currentAlbum;
+        if (!album || !album.tracks[entry.ti]) return;
+
+        shuffleCurrentIndex = next;
+        selectTrack(album, entry.ti);
+    }
+
+    /**
+     * Перемешивание идёт по всей коллекции, а не только по текущему альбому:
+     * при 227 треках «случайный порядок» в пределах одного альбома звучит
+     * предсказуемо.
+     */
+    function buildShuffleOrder() {
+        const source = library.length ? library : (currentAlbum ? [currentAlbum] : []);
+        shuffleOrder = [];
+        source.forEach((album, ai) => {
+            if (!album || !Array.isArray(album.tracks)) return;
+            album.tracks.forEach((track, ti) => shuffleOrder.push({ ai, ti }));
+        });
+
+        for (let i = shuffleOrder.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [shuffleOrder[i], shuffleOrder[j]] = [shuffleOrder[j], shuffleOrder[i]];
+        }
+
+        syncShuffleCursor();
+    }
+
+    function syncShuffleCursor() {
+        const ai = albumIndex(currentAlbum);
+        if (ai === -1 || currentTrackIndex < 0) {
+            shuffleCurrentIndex = 0;
+            return;
+        }
+        const found = shuffleOrder.findIndex((e) => e.ai === ai && e.ti === currentTrackIndex);
+        shuffleCurrentIndex = found === -1 ? 0 : found;
     }
 
     function restartCurrentTrack() {
@@ -609,34 +884,15 @@ const Player = (function() {
         }
     }
 
-    function generateShuffleIndices() {
-        if (!currentAlbum) return;
-        const n = currentAlbum.tracks.length;
-        shuffleIndices = Array.from({ length: n }, (_, i) => i);
-
-        for (let i = shuffleIndices.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [shuffleIndices[i], shuffleIndices[j]] = [shuffleIndices[j], shuffleIndices[i]];
-        }
-
-        if (currentTrackIndex >= 0) {
-            shuffleCurrentIndex = shuffleIndices.indexOf(currentTrackIndex);
-            if (shuffleCurrentIndex === -1) {
-                shuffleIndices.unshift(currentTrackIndex);
-                shuffleCurrentIndex = 0;
-            }
-        } else {
-            shuffleCurrentIndex = 0;
-        }
-    }
-
     function toggleShuffle() {
-        if (!currentAlbum) return;
+        if (!currentAlbum && library.length === 0) return;
         shuffleOn = !shuffleOn;
         if (shuffleOn) {
-            generateShuffleIndices();
+            buildShuffleOrder();
+            showNotice('Перемешиваю всю коллекцию: ' + shuffleOrder.length + ' треков', 3000, 'info');
         } else {
-            shuffleIndices = [];
+            shuffleOrder = [];
+            showNotice('Перемешивание выключено: треки идут по порядку', 3000, 'info');
         }
         updateShuffleButton();
     }
@@ -704,6 +960,16 @@ const Player = (function() {
             item.classList.toggle('active', i === index);
             item.setAttribute('aria-selected', i === index ? 'true' : 'false');
         });
+
+        // Активный трек не должен «уезжать» за пределы экрана, когда играет
+        // следующий, — но панель при этом не должна прыгать без нужды.
+        if (isPlaylistVisible() && items[index] && typeof items[index].scrollIntoView === 'function') {
+            try {
+                items[index].scrollIntoView({ block: 'nearest' });
+            } catch (err) {
+                items[index].scrollIntoView();
+            }
+        }
     }
 
     function saveSession(album, trackIndex) {
@@ -738,6 +1004,7 @@ const Player = (function() {
         elements.currentTrackName.textContent = track.name;
         elements.currentAlbumName.textContent = album.title;
         attachCoverFallback(elements.currentTrackCover, 120);
+        nativeVolumeWorks();
         elements.currentTrackCover.src = toUrlPath(track.cover || album.cover || createFallbackCover());
         elements.playlistAlbumTitle.textContent = album.title;
         renderPlaylist();
@@ -750,6 +1017,106 @@ const Player = (function() {
 
         showNotice(`Продолжаем с трека «${track.name}» — нажмите воспроизведение`, 6000, 'info');
         return true;
+    }
+
+    /**
+     * Ссылка на трек, который зазвучит следующим, — с учётом перемешивания,
+     * повтора и перехода между альбомами.
+     */
+    function nextTrackRef() {
+        if (!currentAlbum || currentTrackIndex < 0) return null;
+
+        if (shuffleOn && shuffleOrder.length > 0) {
+            const next = (shuffleCurrentIndex + 1) % shuffleOrder.length;
+            const entry = shuffleOrder[next];
+            const album = library[entry.ai] || currentAlbum;
+            if (album && album.tracks && album.tracks[entry.ti]) {
+                return { album, index: entry.ti, track: album.tracks[entry.ti] };
+            }
+            return null;
+        }
+
+        const nextIndex = currentTrackIndex + 1;
+        if (nextIndex < currentAlbum.tracks.length) {
+            return { album: currentAlbum, index: nextIndex, track: currentAlbum.tracks[nextIndex] };
+        }
+
+        if (repeatMode === REPEAT_MODES.ALL && library.length > 1) {
+            const idx = albumIndex(currentAlbum);
+            const album = library[(idx + 1) % library.length];
+            if (album && album.tracks && album.tracks[0]) {
+                return { album, index: 0, track: album.tracks[0] };
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Заранее подгружаем следующий трек, чтобы переключение было мгновенным.
+     * На медленном соединении и при экономии трафика не делаем этого.
+     */
+    function prefetchNextTrack() {
+        const el = elements.prefetchPlayer;
+        if (!el) return;
+
+        const ref = nextTrackRef();
+        if (!ref || !ref.track || !ref.track.file) return;
+
+        const conn = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+        if (conn) {
+            if (conn.saveData) return;
+            if (typeof conn.effectiveType === 'string' && /^(slow-2g|2g|3g)$/.test(conn.effectiveType)) return;
+            if (typeof conn.downlink === 'number' && conn.downlink > 0 && conn.downlink < 1) return;
+        }
+
+        const url = toUrlPath(ref.track.file);
+        if (prefetchedFile === url) return;
+        prefetchedFile = url;
+        try {
+            el.preload = 'auto';
+            el.src = url;
+            el.load();
+        } catch (err) {
+            /* префетч — необязательная оптимизация */
+        }
+    }
+
+    function announceTrackChange(album, trackIndex) {
+        if (typeof CustomEvent !== 'function') return;
+        try {
+            window.dispatchEvent(new CustomEvent('dajet:trackchange', {
+                detail: { albumId: album && album.id, trackIndex }
+            }));
+        } catch (err) {
+            /* событие не критично для работы плеера */
+        }
+    }
+
+    /**
+     * Позиция трека для системного плеера (экран блокировки, часы, авто).
+     * Вызывается не чаще раза в секунду.
+     */
+    function updatePositionState(force) {
+        if (!('mediaSession' in navigator)) return;
+        const session = navigator.mediaSession;
+        if (!session || typeof session.setPositionState !== 'function') return;
+
+        const ap = elements.audioPlayer;
+        if (!ap.duration || !isFinite(ap.duration) || ap.duration <= 0) return;
+
+        const now = Date.now();
+        if (!force && now - mediaSessionTick < 1000) return;
+        mediaSessionTick = now;
+
+        try {
+            session.setPositionState({
+                duration: ap.duration,
+                playbackRate: ap.playbackRate || 1,
+                position: Math.max(0, Math.min(ap.currentTime || 0, ap.duration))
+            });
+        } catch (err) {
+            /* часть браузеров не поддерживает — просто пропускаем */
+        }
     }
 
     function currentTrack() {
@@ -845,6 +1212,41 @@ const Player = (function() {
             renderPlaylist();
             if (elements.closePlaylist) elements.closePlaylist.focus();
         }
+    }
+
+    /** «Слушать всё»: запускаем коллекцию с первого трека и идём подряд. */
+    function playAll() {
+        const album = library.length ? library[0] : currentAlbum;
+        if (!album || !album.tracks || album.tracks.length === 0) {
+            showNotice('Пока нет треков для воспроизведения', 4000, 'info');
+            return;
+        }
+        showPlayer();
+        if (shuffleOn && shuffleOrder.length > 0) {
+            const entry = shuffleOrder[0];
+            const first = library[entry.ai] || album;
+            selectTrack(first, entry.ti);
+            return;
+        }
+        selectTrack(album, 0);
+    }
+
+    function toggleMute() {
+        const slider = elements.volumeSlider;
+        if (baseVolume > 0.001) {
+            Store.set('playerVolumeBeforeMute', baseVolume);
+            slider.value = 0;
+        } else {
+            slider.value = Store.getNumber('playerVolumeBeforeMute', 0.8, 0, 1);
+        }
+        handleVolumeChange();
+    }
+
+    function setLibrary(albums) {
+        library = Array.isArray(albums)
+            ? albums.filter((a) => a && Array.isArray(a.tracks) && a.tracks.length > 0)
+            : [];
+        if (shuffleOn) buildShuffleOrder();
     }
 
     function showPlayer() {
@@ -958,6 +1360,12 @@ const Player = (function() {
         showNotice,
         applyVolume,
         restoreSession,
-        attachCoverFallback
+        attachCoverFallback,
+        setLibrary,
+        playAll,
+        toggleMute,
+        getShuffleOrderLength: () => shuffleOrder.length,
+        getLibrary: () => library,
+        isNativeVolumeSupported: () => nativeVolumeSupported !== false
     };
 })();

@@ -8,85 +8,99 @@
         "name": "Awakening",
         "file": "albums/Album Second/Awakening.m4a",
         "cover": "albums/Album Second/Awakening.jpg",
-        "lufs": -14
+        "lufs": -14,
+        "peak": 0.4
       },
       {
         "name": "Bus Stop in the Rain",
         "file": "albums/Album Second/Bus Stop in the Rain.m4a",
         "cover": "albums/Album Second/Bus Stop in the Rain.jpg",
-        "lufs": -13.8
+        "lufs": -13.8,
+        "peak": 0.7
       },
       {
         "name": "Circles On Rewind",
         "file": "albums/Album Second/Circles On Rewind.m4a",
         "cover": "albums/Album Second/Circles On Rewind.jpg",
-        "lufs": -14.2
+        "lufs": -14.2,
+        "peak": 0.4
       },
       {
         "name": "Ke Kai Wā",
         "file": "albums/Album Second/Ke Kai Wā.m4a",
         "cover": "albums/Album Second/Ke Kai Wā.jpg",
-        "lufs": -13.7
+        "lufs": -13.7,
+        "peak": 0.2
       },
       {
         "name": "Move With Me, Myself",
         "file": "albums/Album Second/Move With Me, Myself.m4a",
         "cover": "albums/Album Second/Move With Me, Myself.jpg",
-        "lufs": -13.8
+        "lufs": -13.8,
+        "peak": 0.9
       },
       {
         "name": "Pictures of Places",
         "file": "albums/Album Second/Pictures of Places.m4a",
         "cover": "albums/Album Second/Pictures of Places.jpg",
-        "lufs": -13.6
+        "lufs": -13.6,
+        "peak": 0.2
       },
       {
         "name": "Pratibimb (Reflections)",
         "file": "albums/Album Second/Pratibimb (Reflections).m4a",
         "cover": "albums/Album Second/Pratibimb (Reflections).jpg",
-        "lufs": -13.4
+        "lufs": -13.4,
+        "peak": -0.1
       },
       {
         "name": "Rewind (Cover 2)",
         "file": "albums/Album Second/Rewind (Cover 2).m4a",
         "cover": "albums/Album Second/Rewind (Cover 2).jpg",
-        "lufs": -13.8
+        "lufs": -13.8,
+        "peak": 0.8
       },
       {
         "name": "Rewind (Cover)",
         "file": "albums/Album Second/Rewind (Cover).m4a",
         "cover": "albums/Album Second/Rewind (Cover).jpg",
-        "lufs": -14.2
+        "lufs": -14.2,
+        "peak": 0.6
       },
       {
         "name": "Rewind",
         "file": "albums/Album Second/Rewind.m4a",
         "cover": "albums/Album Second/Rewind.jpg",
-        "lufs": -14.1
+        "lufs": -14.1,
+        "peak": 0.1
       },
       {
         "name": "Sablier (Hourglass)",
         "file": "albums/Album Second/Sablier (Hourglass).m4a",
         "cover": "albums/Album Second/Sablier (Hourglass).jpg",
-        "lufs": -14.4
+        "lufs": -14.4,
+        "peak": 0.3
       },
       {
         "name": "Sandsong",
         "file": "albums/Album Second/Sandsong.m4a",
         "cover": "albums/Album Second/Sandsong.jpg",
-        "lufs": -13.7
+        "lufs": -13.7,
+        "peak": 0.2
       },
       {
         "name": "Suraj Ke Saath",
         "file": "albums/Album Second/Suraj Ke Saath.m4a",
         "cover": "albums/Album Second/Suraj Ke Saath.jpg",
-        "lufs": -14
+        "lufs": -14,
+        "peak": 0.1
       },
       {
         "name": "Timeless Sand",
         "file": "albums/Album Second/Timeless Sand.m4a",
         "cover": "albums/Album Second/Timeless Sand.jpg",
-        "lufs": -14.1
+        "lufs": -14.1,
+        "peak": 0.2
       }
     ]
   },
@@ -99,91 +113,107 @@
         "name": "2AM Calling",
         "file": "albums/First Album/2AM Calling.m4a",
         "cover": "albums/First Album/2AM Calling.jpg",
-        "lufs": -13.7
+        "lufs": -13.7,
+        "peak": 0.1
       },
       {
         "name": "Another Life",
         "file": "albums/First Album/Another Life.m4a",
         "cover": "albums/First Album/Another Life.jpg",
-        "lufs": -13.5
+        "lufs": -13.5,
+        "peak": 0.4
       },
       {
         "name": "Bedroom Light",
         "file": "albums/First Album/Bedroom Light.m4a",
         "cover": "albums/First Album/Bedroom Light.jpg",
-        "lufs": -13.7
+        "lufs": -13.7,
+        "peak": -0.3
       },
       {
         "name": "Beyond Me",
         "file": "albums/First Album/Beyond Me.m4a",
         "cover": "albums/First Album/Beyond Me.jpg",
-        "lufs": -13.7
+        "lufs": -13.7,
+        "peak": -0.7
       },
       {
         "name": "Devil's Dice",
         "file": "albums/First Album/Devil's Dice.m4a",
         "cover": "albums/First Album/Devil's Dice.jpg",
-        "lufs": -14.4
+        "lufs": -14.4,
+        "peak": 0.3
       },
       {
         "name": "Eternal Nights",
         "file": "albums/First Album/Eternal Nights.m4a",
         "cover": "albums/First Album/Eternal Nights.jpg",
-        "lufs": -13.2
+        "lufs": -13.2,
+        "peak": 0.4
       },
       {
         "name": "Glass Eyes",
         "file": "albums/First Album/Glass Eyes.m4a",
         "cover": "albums/First Album/Glass Eyes.jpg",
-        "lufs": -14
+        "lufs": -14,
+        "peak": 0.1,
+        "trim": 0.43
       },
       {
         "name": "La Forteresse",
         "file": "albums/First Album/La Forteresse.m4a",
         "cover": "albums/First Album/La Forteresse.jpg",
-        "lufs": -14.1
+        "lufs": -14.1,
+        "peak": 0.4
       },
       {
         "name": "Le Silence Entre Nous",
         "file": "albums/First Album/Le Silence Entre Nous.m4a",
         "cover": "albums/First Album/Le Silence Entre Nous.jpg",
-        "lufs": -14
+        "lufs": -14,
+        "peak": 0.3
       },
       {
         "name": "Post Parade",
         "file": "albums/First Album/Post Parade.m4a",
         "cover": "albums/First Album/Post Parade.jpg",
-        "lufs": -13.9
+        "lufs": -13.9,
+        "peak": -0.1
       },
       {
         "name": "Reflexos da Vida",
         "file": "albums/First Album/Reflexos da Vida.m4a",
         "cover": "albums/First Album/Reflexos da Vida.jpg",
-        "lufs": -13.7
+        "lufs": -13.7,
+        "peak": 0.3
       },
       {
         "name": "Static Playback",
         "file": "albums/First Album/Static Playback.m4a",
         "cover": "albums/First Album/Static Playback.jpg",
-        "lufs": -14
+        "lufs": -14,
+        "peak": 0.2
       },
       {
         "name": "Sweet Poison (Si Douce)",
         "file": "albums/First Album/Sweet Poison (Si Douce).m4a",
         "cover": "albums/First Album/Sweet Poison (Si Douce).jpg",
-        "lufs": -14
+        "lufs": -14,
+        "peak": 0.5
       },
       {
         "name": "Voice Note Loop",
         "file": "albums/First Album/Voice Note Loop.m4a",
         "cover": "albums/First Album/Voice Note Loop.jpg",
-        "lufs": -13.7
+        "lufs": -13.7,
+        "peak": 0
       },
       {
         "name": "Ya Lalli",
         "file": "albums/First Album/Ya Lalli.m4a",
         "cover": "albums/First Album/Ya Lalli.jpg",
-        "lufs": -13.7
+        "lufs": -13.7,
+        "peak": 0.2
       }
     ]
   },
@@ -196,235 +226,284 @@
         "name": "After the Rain (Variation)",
         "file": "albums/Garage vibe/After the Rain (Variation).m4a",
         "cover": "albums/Garage vibe/After the Rain (Variation).jpg",
-        "lufs": -13.4
+        "lufs": -13.4,
+        "peak": -0.7
       },
       {
         "name": "After the Rain",
         "file": "albums/Garage vibe/After the Rain.m4a",
         "cover": "albums/Garage vibe/After the Rain.jpg",
-        "lufs": -12.4
+        "lufs": -12.4,
+        "peak": 0.7
       },
       {
         "name": "Ashes in the Receiver",
         "file": "albums/Garage vibe/Ashes in the Receiver.m4a",
         "cover": "albums/Garage vibe/Ashes in the Receiver.jpg",
-        "lufs": -13.1
+        "lufs": -13.1,
+        "peak": 0.3,
+        "trim": 0.41
       },
       {
         "name": "Bleach Boy (Variation 2)",
         "file": "albums/Garage vibe/Bleach Boy (Variation 2).m4a",
         "cover": "albums/Garage vibe/Bleach Boy (Variation 2).jpg",
-        "lufs": -9
+        "lufs": -9,
+        "peak": 0.8
       },
       {
         "name": "Bleach Boy (Variation)",
         "file": "albums/Garage vibe/Bleach Boy (Variation).m4a",
         "cover": "albums/Garage vibe/Bleach Boy (Variation).jpg",
-        "lufs": -12.7
+        "lufs": -12.7,
+        "peak": 0.8,
+        "trim": 0.8
       },
       {
         "name": "Bleach Boy germ",
         "file": "albums/Garage vibe/Bleach Boy germ.m4a",
         "cover": "albums/Garage vibe/Bleach Boy germ.jpg",
-        "lufs": -13.5
+        "lufs": -13.5,
+        "peak": -0.6
       },
       {
         "name": "can you hear",
         "file": "albums/Garage vibe/can you hear.m4a",
         "cover": "albums/Garage vibe/can you hear.jpg",
-        "lufs": -13
+        "lufs": -13,
+        "peak": 0.4,
+        "trim": 0.84
       },
       {
         "name": "Echo Chamber",
         "file": "albums/Garage vibe/Echo Chamber.m4a",
         "cover": "albums/Garage vibe/Echo Chamber.jpg",
-        "lufs": -12.4
+        "lufs": -12.4,
+        "peak": 1,
+        "trim": 0.7
       },
       {
         "name": "Echo Station (drier vox-10s)",
         "file": "albums/Garage vibe/Echo Station (drier vox-10s).m4a",
         "cover": "albums/Garage vibe/Echo Station (drier vox-10s).jpg",
-        "lufs": -11.5
+        "lufs": -11.5,
+        "peak": -0.2
       },
       {
         "name": "Echo Station",
         "file": "albums/Garage vibe/Echo Station.m4a",
         "cover": "albums/Garage vibe/Echo Station.jpg",
-        "lufs": -12.9
+        "lufs": -12.9,
+        "peak": 0.5
       },
       {
         "name": "Laundry Day Ghost",
         "file": "albums/Garage vibe/Laundry Day Ghost.m4a",
         "cover": "albums/Garage vibe/Laundry Day Ghost.jpg",
-        "lufs": -13.4
+        "lufs": -13.4,
+        "peak": 0.2
       },
       {
         "name": "Milk Carton Saint (Variation)",
         "file": "albums/Garage vibe/Milk Carton Saint (Variation).m4a",
         "cover": "albums/Garage vibe/Milk Carton Saint (Variation).jpg",
-        "lufs": -12.4
+        "lufs": -12.4,
+        "peak": 0.4,
+        "trim": 0.6
       },
       {
         "name": "Milk Carton Saint",
         "file": "albums/Garage vibe/Milk Carton Saint.m4a",
         "cover": "albums/Garage vibe/Milk Carton Saint.jpg",
-        "lufs": -12.1
+        "lufs": -12.1,
+        "peak": 0.6
       },
       {
         "name": "Neon Pulse (Variation)",
         "file": "albums/Garage vibe/Neon Pulse (Variation).m4a",
         "cover": "albums/Garage vibe/Neon Pulse (Variation).jpg",
-        "lufs": -13.2
+        "lufs": -13.2,
+        "peak": 0.1
       },
       {
         "name": "Neon Pulse",
         "file": "albums/Garage vibe/Neon Pulse.m4a",
         "cover": "albums/Garage vibe/Neon Pulse.jpg",
-        "lufs": -12.3
+        "lufs": -12.3,
+        "peak": 0.2
       },
       {
         "name": "Night Radio (Variation 2)",
         "file": "albums/Garage vibe/Night Radio (Variation 2).m4a",
         "cover": "albums/Garage vibe/Night Radio (Variation 2).jpg",
-        "lufs": -12.8
+        "lufs": -12.8,
+        "peak": 0.2
       },
       {
         "name": "Night Radio (Variation)",
         "file": "albums/Garage vibe/Night Radio (Variation).m4a",
         "cover": "albums/Garage vibe/Night Radio (Variation).jpg",
-        "lufs": -12.8
+        "lufs": -12.8,
+        "peak": 0.5
       },
       {
         "name": "Northern Light",
         "file": "albums/Garage vibe/Northern Light.m4a",
         "cover": "albums/Garage vibe/Northern Light.jpg",
-        "lufs": -13.3
+        "lufs": -13.3,
+        "peak": 0.9,
+        "trim": 0.61
       },
       {
         "name": "Obey The Machine",
         "file": "albums/Garage vibe/Obey The Machine.m4a",
         "cover": "albums/Garage vibe/Obey The Machine.jpg",
-        "lufs": -12.7
+        "lufs": -12.7,
+        "peak": 0.7,
+        "trim": 0.43
       },
       {
         "name": "One Truth (Variation)",
         "file": "albums/Garage vibe/One Truth (Variation).m4a",
         "cover": "albums/Garage vibe/One Truth (Variation).jpg",
-        "lufs": -12.8
+        "lufs": -12.8,
+        "peak": 0.3
       },
       {
         "name": "One Truth",
         "file": "albums/Garage vibe/One Truth.m4a",
         "cover": "albums/Garage vibe/One Truth.jpg",
-        "lufs": -12.5
+        "lufs": -12.5,
+        "peak": 0.2
       },
       {
         "name": "Paper Boats",
         "file": "albums/Garage vibe/Paper Boats.m4a",
         "cover": "albums/Garage vibe/Paper Boats.jpg",
-        "lufs": -13.1
+        "lufs": -13.1,
+        "peak": 0.4
       },
       {
         "name": "Plastic Ocean (Variation 2)",
         "file": "albums/Garage vibe/Plastic Ocean (Variation 2).m4a",
         "cover": "albums/Garage vibe/Plastic Ocean (Variation 2).jpg",
-        "lufs": -13.2
+        "lufs": -13.2,
+        "peak": 0.3
       },
       {
         "name": "Plastic Ocean (Variation)",
         "file": "albums/Garage vibe/Plastic Ocean (Variation).m4a",
         "cover": "albums/Garage vibe/Plastic Ocean (Variation).jpg",
-        "lufs": -12.9
+        "lufs": -12.9,
+        "peak": 0.8
       },
       {
         "name": "Rain don’t fall (Acoustic Variation)",
         "file": "albums/Garage vibe/Rain don’t fall (Acoustic Variation).m4a",
         "cover": "albums/Garage vibe/Rain don’t fall (Acoustic Variation).jpg",
-        "lufs": -12.8
+        "lufs": -12.8,
+        "peak": 0.1
       },
       {
         "name": "Rain Will Wash (garage)",
         "file": "albums/Garage vibe/Rain Will Wash (garage).m4a",
         "cover": "albums/Garage vibe/Rain Will Wash (garage).jpg",
-        "lufs": -13.6
+        "lufs": -13.6,
+        "peak": 0.3
       },
       {
         "name": "Rain Will Wash (pank)",
         "file": "albums/Garage vibe/Rain Will Wash (pank).m4a",
         "cover": "albums/Garage vibe/Rain Will Wash (pank).jpg",
-        "lufs": -11.8
+        "lufs": -11.8,
+        "peak": -0.2
       },
       {
         "name": "Silicon Tears (Variation 2)",
         "file": "albums/Garage vibe/Silicon Tears (Variation 2).m4a",
         "cover": "albums/Garage vibe/Silicon Tears (Variation 2).jpg",
-        "lufs": -13.1
+        "lufs": -13.1,
+        "peak": 0.3
       },
       {
         "name": "Silicon Tears (Variation)",
         "file": "albums/Garage vibe/Silicon Tears (Variation).m4a",
         "cover": "albums/Garage vibe/Silicon Tears (Variation).jpg",
-        "lufs": -12.4
+        "lufs": -12.4,
+        "peak": 0.3,
+        "trim": 0.61
       },
       {
         "name": "Silicon Tears",
         "file": "albums/Garage vibe/Silicon Tears.m4a",
         "cover": "albums/Garage vibe/Silicon Tears.jpg",
-        "lufs": -12.2
+        "lufs": -12.2,
+        "peak": 0.2
       },
       {
         "name": "Snow keeps falling (lullaby)",
         "file": "albums/Garage vibe/Snow keeps falling (lullaby).m4a",
         "cover": "albums/Garage vibe/Snow keeps falling (lullaby).jpg",
-        "lufs": -11.4
+        "lufs": -11.4,
+        "peak": 0.3
       },
       {
         "name": "Soar",
         "file": "albums/Garage vibe/Soar.m4a",
         "cover": "albums/Garage vibe/Soar.jpg",
-        "lufs": -13.4
+        "lufs": -13.4,
+        "peak": 0.3
       },
       {
         "name": "Static Halo (Variation)",
         "file": "albums/Garage vibe/Static Halo (Variation).m4a",
         "cover": "albums/Garage vibe/Static Halo (Variation).jpg",
-        "lufs": -12.6
+        "lufs": -12.6,
+        "peak": 0.6
       },
       {
         "name": "Static Hymn (Variation)",
         "file": "albums/Garage vibe/Static Hymn (Variation).m4a",
         "cover": "albums/Garage vibe/Static Hymn (Variation).jpg",
-        "lufs": -12.9
+        "lufs": -12.9,
+        "peak": 0.2,
+        "trim": 1.07
       },
       {
         "name": "Static Hymn",
         "file": "albums/Garage vibe/Static Hymn.m4a",
         "cover": "albums/Garage vibe/Static Hymn.jpg",
-        "lufs": -12.7
+        "lufs": -12.7,
+        "peak": 0.5,
+        "trim": 0.54
       },
       {
         "name": "Static Skin (Variation)",
         "file": "albums/Garage vibe/Static Skin (Variation).m4a",
         "cover": "albums/Garage vibe/Static Skin (Variation).jpg",
-        "lufs": -12.3
+        "lufs": -12.3,
+        "peak": 0.2
       },
       {
         "name": "Static Skin",
         "file": "albums/Garage vibe/Static Skin.m4a",
         "cover": "albums/Garage vibe/Static Skin.jpg",
-        "lufs": -12
+        "lufs": -12,
+        "peak": 0.5
       },
       {
         "name": "Steel Pulse (Nevsky Code) (Variation)",
         "file": "albums/Garage vibe/Steel Pulse (Nevsky Code) (Variation).m4a",
         "cover": "albums/Garage vibe/Steel Pulse (Nevsky Code) (Variation).jpg",
-        "lufs": -13.5
+        "lufs": -13.5,
+        "peak": 0
       },
       {
         "name": "Steel Pulse (Nevsky Code)",
         "file": "albums/Garage vibe/Steel Pulse (Nevsky Code).m4a",
         "cover": "albums/Garage vibe/Steel Pulse (Nevsky Code).jpg",
-        "lufs": -13
+        "lufs": -13,
+        "peak": -0.2
       }
     ]
   },
@@ -437,25 +516,30 @@
         "name": "Resolve",
         "file": "albums/Hold on (weekend vibe)/Resolve.m4a",
         "cover": "albums/Hold on (weekend vibe)/Resolve.jpg",
-        "lufs": -13.6
+        "lufs": -13.6,
+        "peak": 1.2
       },
       {
         "name": "Salt on my skin (Variation)",
         "file": "albums/Hold on (weekend vibe)/Salt on my skin (Variation).m4a",
         "cover": "albums/Hold on (weekend vibe)/Salt on my skin (Variation).jpg",
-        "lufs": -12.3
+        "lufs": -12.3,
+        "peak": 0.7
       },
       {
         "name": "Sometimes I wonder",
         "file": "albums/Hold on (weekend vibe)/Sometimes I wonder.m4a",
         "cover": "albums/Hold on (weekend vibe)/Sometimes I wonder.jpg",
-        "lufs": -13
+        "lufs": -13,
+        "peak": 0.1
       },
       {
         "name": "You are here",
         "file": "albums/Hold on (weekend vibe)/You are here.m4a",
         "cover": "albums/Hold on (weekend vibe)/You are here.jpg",
-        "lufs": -13
+        "lufs": -13,
+        "peak": 0.5,
+        "trim": 0.71
       }
     ]
   },
@@ -468,349 +552,415 @@
         "name": "(Più piano... aspetta...)",
         "file": "albums/Legendary/(Più piano... aspetta...).m4a",
         "cover": "albums/Legendary/(Più piano... aspetta...).jpg",
-        "lufs": -12.2
+        "lufs": -12.2,
+        "peak": 0.1
       },
       {
         "name": "3:17 AM Ritual",
         "file": "albums/Legendary/3:17 AM Ritual.m4a",
         "cover": "albums/Legendary/3:17 AM Ritual.jpg",
-        "lufs": -12
+        "lufs": -12,
+        "peak": 0.3,
+        "trim": 0.58
       },
       {
         "name": "317 AM Ritual",
         "file": "albums/Legendary/317 AM Ritual.m4a",
         "cover": "albums/Legendary/317 AM Ritual.jpg",
-        "lufs": -12
+        "lufs": -12,
+        "peak": 0.3,
+        "trim": 0.58
       },
       {
         "name": "A Thousand Lights (Тысячи окон)",
         "file": "albums/Legendary/A Thousand Lights (Тысячи окон).m4a",
         "cover": "albums/Legendary/A Thousand Lights (Тысячи окон).jpg",
-        "lufs": -12.3
+        "lufs": -12.3,
+        "peak": 0.6
       },
       {
         "name": "Asynchronous",
         "file": "albums/Legendary/Asynchronous.m4a",
         "cover": "albums/Legendary/Asynchronous.jpg",
-        "lufs": -13.9
+        "lufs": -13.9,
+        "peak": 0.2
       },
       {
         "name": "Back to me",
         "file": "albums/Legendary/Back to me.m4a",
         "cover": "albums/Legendary/Back to me.jpg",
-        "lufs": -12.2
+        "lufs": -12.2,
+        "peak": 1.9
       },
       {
         "name": "Black Pass",
         "file": "albums/Legendary/Black Pass.m4a",
         "cover": "albums/Legendary/Black Pass.jpg",
-        "lufs": -12.7
+        "lufs": -12.7,
+        "peak": 1
       },
       {
         "name": "can you hear",
         "file": "albums/Legendary/can you hear.m4a",
         "cover": "albums/Legendary/can you hear.jpg",
-        "lufs": -13
+        "lufs": -13,
+        "peak": 0.4,
+        "trim": 0.84
       },
       {
         "name": "Catch",
         "file": "albums/Legendary/Catch.m4a",
         "cover": "albums/Legendary/Catch.jpg",
-        "lufs": -13.9
+        "lufs": -13.9,
+        "peak": 0.9
       },
       {
         "name": "Contradiction",
         "file": "albums/Legendary/Contradiction.m4a",
         "cover": "albums/Legendary/Contradiction.jpg",
-        "lufs": -13.1
+        "lufs": -13.1,
+        "peak": 1.2
       },
       {
         "name": "Counterpressure",
         "file": "albums/Legendary/Counterpressure.m4a",
         "cover": "albums/Legendary/Counterpressure.jpg",
-        "lufs": -13.2
+        "lufs": -13.2,
+        "peak": 0.5,
+        "trim": 0.84
       },
       {
         "name": "Crystal Tears",
         "file": "albums/Legendary/Crystal Tears.m4a",
         "cover": "albums/Legendary/Crystal Tears.jpg",
-        "lufs": -12.6
+        "lufs": -12.6,
+        "peak": 0.8,
+        "trim": 0.79
       },
       {
         "name": "Déjà touch, déjà vu",
         "file": "albums/Legendary/Déjà touch, déjà vu.m4a",
         "cover": "albums/Legendary/Déjà touch, déjà vu.jpg",
-        "lufs": -13.7
+        "lufs": -13.7,
+        "peak": 1.3
       },
       {
         "name": "Empty Streets",
         "file": "albums/Legendary/Empty Streets.m4a",
         "cover": "albums/Legendary/Empty Streets.jpg",
-        "lufs": -14.1
+        "lufs": -14.1,
+        "peak": 0
       },
       {
         "name": "Euphoria Rush",
         "file": "albums/Legendary/Euphoria Rush.m4a",
         "cover": "albums/Legendary/Euphoria Rush.jpg",
-        "lufs": -13.8
+        "lufs": -13.8,
+        "peak": 0.2,
+        "trim": 0.52
       },
       {
         "name": "Far Below",
         "file": "albums/Legendary/Far Below.m4a",
         "cover": "albums/Legendary/Far Below.jpg",
-        "lufs": -13
+        "lufs": -13,
+        "peak": 0.6
       },
       {
         "name": "Friction",
         "file": "albums/Legendary/Friction.m4a",
         "cover": "albums/Legendary/Friction.jpg",
-        "lufs": -13.6
+        "lufs": -13.6,
+        "peak": 1.1
       },
       {
         "name": "Golden bubbles",
         "file": "albums/Legendary/Golden bubbles.m4a",
         "cover": "albums/Legendary/Golden bubbles.jpg",
-        "lufs": -12
+        "lufs": -12,
+        "peak": 1.8
       },
       {
         "name": "I’m your say",
         "file": "albums/Legendary/I’m your say.m4a",
         "cover": "albums/Legendary/I’m your say.jpg",
-        "lufs": -12.7
+        "lufs": -12.7,
+        "peak": 1.3
       },
       {
         "name": "Liberté",
         "file": "albums/Legendary/Liberté.m4a",
         "cover": "albums/Legendary/Liberté.jpg",
-        "lufs": -13.2
+        "lufs": -13.2,
+        "peak": 1
       },
       {
         "name": "Lumina",
         "file": "albums/Legendary/Lumina.m4a",
         "cover": "albums/Legendary/Lumina.jpg",
-        "lufs": -13.5
+        "lufs": -13.5,
+        "peak": 0.6
       },
       {
         "name": "Marble Pulse",
         "file": "albums/Legendary/Marble Pulse.m4a",
         "cover": "albums/Legendary/Marble Pulse.jpg",
-        "lufs": -13.3
+        "lufs": -13.3,
+        "peak": 0.9
       },
       {
         "name": "Midnight Phantoms (Cover)",
         "file": "albums/Legendary/Midnight Phantoms (Cover).m4a",
         "cover": "albums/Legendary/Midnight Phantoms (Cover).jpg",
-        "lufs": -12.2
+        "lufs": -12.2,
+        "peak": 0.7
       },
       {
         "name": "Midnight Veil",
         "file": "albums/Legendary/Midnight Veil.m4a",
         "cover": "albums/Legendary/Midnight Veil.jpg",
-        "lufs": -14.7
+        "lufs": -14.7,
+        "peak": 0.9
       },
       {
         "name": "Midnight",
         "file": "albums/Legendary/Midnight.m4a",
         "cover": "albums/Legendary/Midnight.jpg",
-        "lufs": -14.2
+        "lufs": -14.2,
+        "peak": 0.6
       },
       {
         "name": "Mysterious",
         "file": "albums/Legendary/Mysterious.m4a",
         "cover": "albums/Legendary/Mysterious.jpg",
-        "lufs": -14
+        "lufs": -14,
+        "peak": 0.5
       },
       {
         "name": "Neon Pulse",
         "file": "albums/Legendary/Neon Pulse.m4a",
         "cover": "albums/Legendary/Neon Pulse.jpg",
-        "lufs": -12.3
+        "lufs": -12.3,
+        "peak": 0.2
       },
       {
         "name": "No name",
         "file": "albums/Legendary/No name.m4a",
         "cover": "albums/Legendary/No name.jpg",
-        "lufs": -12.9
+        "lufs": -12.9,
+        "peak": 0.6
       },
       {
         "name": "Où Est L'Essence (Where Is The Essence) (Remix)",
         "file": "albums/Legendary/Où Est L'Essence (Where Is The Essence) (Remix).m4a",
         "cover": "albums/Legendary/Où Est L'Essence (Where Is The Essence) (Remix).jpg",
-        "lufs": -13.8
+        "lufs": -13.8,
+        "peak": 0.1,
+        "trim": 0.5
       },
       {
         "name": "Paris… entre le rêve (Variation)",
         "file": "albums/Legendary/Paris… entre le rêve (Variation).m4a",
         "cover": "albums/Legendary/Paris… entre le rêve (Variation).jpg",
-        "lufs": -12
+        "lufs": -12,
+        "peak": 0.2
       },
       {
         "name": "Perpetual Motion",
         "file": "albums/Legendary/Perpetual Motion.m4a",
         "cover": "albums/Legendary/Perpetual Motion.jpg",
-        "lufs": -13.6
+        "lufs": -13.6,
+        "peak": 0.7
       },
       {
         "name": "Pulse",
         "file": "albums/Legendary/Pulse.m4a",
         "cover": "albums/Legendary/Pulse.jpg",
-        "lufs": -13.9
+        "lufs": -13.9,
+        "peak": 0.3
       },
       {
         "name": "Quietude",
         "file": "albums/Legendary/Quietude.m4a",
         "cover": "albums/Legendary/Quietude.jpg",
-        "lufs": -13.6
+        "lufs": -13.6,
+        "peak": 0.1
       },
       {
         "name": "Resolve",
         "file": "albums/Legendary/Resolve.m4a",
         "cover": "albums/Legendary/Resolve.jpg",
-        "lufs": -13.6
+        "lufs": -13.6,
+        "peak": 1.2
       },
       {
         "name": "Resonance",
         "file": "albums/Legendary/Resonance.m4a",
         "cover": "albums/Legendary/Resonance.jpg",
-        "lufs": -13.8
+        "lufs": -13.8,
+        "peak": 0.6
       },
       {
         "name": "Retro Riot",
         "file": "albums/Legendary/Retro Riot.m4a",
         "cover": "albums/Legendary/Retro Riot.jpg",
-        "lufs": -13.2
+        "lufs": -13.2,
+        "peak": -1.7
       },
       {
         "name": "Reverie",
         "file": "albums/Legendary/Reverie.m4a",
         "cover": "albums/Legendary/Reverie.jpg",
-        "lufs": -12.8
+        "lufs": -12.8,
+        "peak": 1.1
       },
       {
         "name": "Rolling Sky",
         "file": "albums/Legendary/Rolling Sky.m4a",
         "cover": "albums/Legendary/Rolling Sky.jpg",
-        "lufs": -12.9
+        "lufs": -12.9,
+        "peak": 1
       },
       {
         "name": "Shh",
         "file": "albums/Legendary/Shh.m4a",
         "cover": "albums/Legendary/Shh.jpg",
-        "lufs": -12.6
+        "lufs": -12.6,
+        "peak": 1
       },
       {
         "name": "Short Circuit (Psychedelic Jazz)",
         "file": "albums/Legendary/Short Circuit (Psychedelic Jazz).m4a",
         "cover": "albums/Legendary/Short Circuit (Psychedelic Jazz).jpg",
-        "lufs": -14.8
+        "lufs": -14.8,
+        "peak": 0
       },
       {
         "name": "Silence",
         "file": "albums/Legendary/Silence.m4a",
         "cover": "albums/Legendary/Silence.jpg",
-        "lufs": -13.9
+        "lufs": -13.9,
+        "peak": 0.7
       },
       {
         "name": "Silent Currents (v2) (Variation)",
         "file": "albums/Legendary/Silent Currents (v2) (Variation).m4a",
         "cover": "albums/Legendary/Silent Currents (v2) (Variation).jpg",
-        "lufs": -13.1
+        "lufs": -13.1,
+        "peak": -0.2
       },
       {
         "name": "Silicon Tears (Variation)",
         "file": "albums/Legendary/Silicon Tears (Variation).m4a",
         "cover": "albums/Legendary/Silicon Tears (Variation).jpg",
-        "lufs": -12.4
+        "lufs": -12.4,
+        "peak": 0.3,
+        "trim": 0.61
       },
       {
         "name": "Silk Echo",
         "file": "albums/Legendary/Silk Echo.m4a",
         "cover": "albums/Legendary/Silk Echo.jpg",
-        "lufs": -13.2
+        "lufs": -13.2,
+        "peak": 1.1
       },
       {
         "name": "Soar",
         "file": "albums/Legendary/Soar.m4a",
         "cover": "albums/Legendary/Soar.jpg",
-        "lufs": -13.4
+        "lufs": -13.4,
+        "peak": 0.3
       },
       {
         "name": "Sometimes I wonder...",
         "file": "albums/Legendary/Sometimes I wonder....m4a",
         "cover": "albums/Legendary/Sometimes I wonder....jpg",
-        "lufs": -13
+        "lufs": -13,
+        "peak": 0.1
       },
       {
         "name": "Sophistication",
         "file": "albums/Legendary/Sophistication.m4a",
         "cover": "albums/Legendary/Sophistication.jpg",
-        "lufs": -13.1
+        "lufs": -13.1,
+        "peak": 0.2
       },
       {
         "name": "spiral",
         "file": "albums/Legendary/spiral.m4a",
         "cover": "albums/Legendary/spiral.jpg",
-        "lufs": -12.1
+        "lufs": -12.1,
+        "peak": 0.7
       },
       {
         "name": "The Rush",
         "file": "albums/Legendary/The Rush.m4a",
         "cover": "albums/Legendary/The Rush.jpg",
-        "lufs": -13.6
+        "lufs": -13.6,
+        "peak": 1
       },
       {
         "name": "Twice",
         "file": "albums/Legendary/Twice.m4a",
         "cover": "albums/Legendary/Twice.jpg",
-        "lufs": -13.3
+        "lufs": -13.3,
+        "peak": 0.1
       },
       {
         "name": "Veil",
         "file": "albums/Legendary/Veil.m4a",
         "cover": "albums/Legendary/Veil.jpg",
-        "lufs": -13.6
+        "lufs": -13.6,
+        "peak": 0.9
       },
       {
         "name": "Warp",
         "file": "albums/Legendary/Warp.m4a",
         "cover": "albums/Legendary/Warp.jpg",
-        "lufs": -13.4
+        "lufs": -13.4,
+        "peak": 0.8
       },
       {
         "name": "We float on a melody",
         "file": "albums/Legendary/We float on a melody.m4a",
         "cover": "albums/Legendary/We float on a melody.jpg",
-        "lufs": -13.6
+        "lufs": -13.6,
+        "peak": 0
       },
       {
         "name": "You not be me",
         "file": "albums/Legendary/You not be me.m4a",
         "cover": "albums/Legendary/You not be me.jpg",
-        "lufs": -12.9
+        "lufs": -12.9,
+        "peak": 1.3
       },
       {
         "name": "Игра Теней (Shadow Game)",
         "file": "albums/Legendary/Игра Теней (Shadow Game).m4a",
         "cover": "albums/Legendary/Игра Теней (Shadow Game).jpg",
-        "lufs": -13.5
+        "lufs": -13.5,
+        "peak": 0.7
       },
       {
         "name": "Коллекция Лжи (Collection of Lies)",
         "file": "albums/Legendary/Коллекция Лжи (Collection of Lies).m4a",
         "cover": "albums/Legendary/Коллекция Лжи (Collection of Lies).jpg",
-        "lufs": -13.6
+        "lufs": -13.6,
+        "peak": 0.5
       },
       {
         "name": "Слышу твой голос",
         "file": "albums/Legendary/Слышу твой голос.m4a",
         "cover": "albums/Legendary/Слышу твой голос.jpg",
-        "lufs": -12
+        "lufs": -12,
+        "peak": 0.7
       },
       {
         "name": "待機 (Wait)",
         "file": "albums/Legendary/待機 (Wait).m4a",
         "cover": "albums/Legendary/待機 (Wait).jpg",
-        "lufs": -14.2
+        "lufs": -14.2,
+        "peak": 1.2
       }
     ]
   },
@@ -823,19 +973,22 @@
         "name": "Morning came today (Cover)",
         "file": "albums/Paradise Lost/Morning came today (Cover).m4a",
         "cover": "albums/Paradise Lost/Morning came today (Cover).jpg",
-        "lufs": -12.4
+        "lufs": -12.4,
+        "peak": 0.1
       },
       {
         "name": "Paradise Lost",
         "file": "albums/Paradise Lost/Paradise Lost.m4a",
         "cover": "albums/Paradise Lost/Paradise Lost.jpg",
-        "lufs": -13.7
+        "lufs": -13.7,
+        "peak": -0.4
       },
       {
         "name": "Рай не Лечит",
         "file": "albums/Paradise Lost/Рай не Лечит.m4a",
         "cover": "albums/Paradise Lost/Рай не лечит.jpg",
-        "lufs": -13.4
+        "lufs": -13.4,
+        "peak": 0.1
       }
     ]
   },
@@ -848,319 +1001,384 @@
         "name": "3-17 AM Ritual",
         "file": "albums/Psychedelic Vibe Lost Century/3-17 AM Ritual.m4a",
         "cover": "albums/Psychedelic Vibe Lost Century/3-17 AM Ritual.jpg",
-        "lufs": -12
+        "lufs": -12,
+        "peak": 0.3,
+        "trim": 0.58
       },
       {
         "name": "and called it life v2",
         "file": "albums/Psychedelic Vibe Lost Century/and called it life v2.m4a",
         "cover": "albums/Psychedelic Vibe Lost Century/and called it life v2.jpg",
-        "lufs": -14
+        "lufs": -14,
+        "peak": 0.1,
+        "trim": 0.5
       },
       {
         "name": "and called it life v3",
         "file": "albums/Psychedelic Vibe Lost Century/and called it life v3.m4a",
         "cover": "albums/Psychedelic Vibe Lost Century/and called it life v3.jpg",
-        "lufs": -13
+        "lufs": -13,
+        "peak": 0
       },
       {
         "name": "BREATH IS VOW",
         "file": "albums/Psychedelic Vibe Lost Century/BREATH IS VOW.m4a",
         "cover": "albums/Psychedelic Vibe Lost Century/BREATH IS VOW.jpg",
-        "lufs": -12.8
+        "lufs": -12.8,
+        "peak": 0.5
       },
       {
         "name": "can you hear (Variation 2)",
         "file": "albums/Psychedelic Vibe Lost Century/can you hear (Variation 2).m4a",
         "cover": "albums/Psychedelic Vibe Lost Century/can you hear (Variation 2).jpg",
-        "lufs": -12.9
+        "lufs": -12.9,
+        "peak": -1.2
       },
       {
         "name": "can you hear v2",
         "file": "albums/Psychedelic Vibe Lost Century/can you hear v2.m4a",
         "cover": "albums/Psychedelic Vibe Lost Century/can you hear v2.jpg",
-        "lufs": -11.8
+        "lufs": -11.8,
+        "peak": 0
       },
       {
         "name": "can you hear",
         "file": "albums/Psychedelic Vibe Lost Century/can you hear.m4a",
         "cover": "albums/Psychedelic Vibe Lost Century/can you hear.jpg",
-        "lufs": -13
+        "lufs": -13,
+        "peak": 0.4,
+        "trim": 0.84
       },
       {
         "name": "Cosmic Vibes of 1973 v2",
         "file": "albums/Psychedelic Vibe Lost Century/Cosmic Vibes of 1973 v2.m4a",
         "cover": "albums/Psychedelic Vibe Lost Century/Cosmic Vibes of 1973 v2.jpg",
-        "lufs": -13.6
+        "lufs": -13.6,
+        "peak": 0.1
       },
       {
         "name": "Cosmic Vibes of 1973",
         "file": "albums/Psychedelic Vibe Lost Century/Cosmic Vibes of 1973.m4a",
         "cover": "albums/Psychedelic Vibe Lost Century/Cosmic Vibes of 1973.jpg",
-        "lufs": -13
+        "lufs": -13,
+        "peak": 0.1
       },
       {
         "name": "Dreams (Variation)",
         "file": "albums/Psychedelic Vibe Lost Century/Dreams (Variation).m4a",
         "cover": "albums/Psychedelic Vibe Lost Century/Dreams (Variation).jpg",
-        "lufs": -13.4
+        "lufs": -13.4,
+        "peak": 0.3
       },
       {
         "name": "Dreams don’t end (Variation)",
         "file": "albums/Psychedelic Vibe Lost Century/Dreams don’t end (Variation).m4a",
         "cover": "albums/Psychedelic Vibe Lost Century/Dreams don’t end (Variation).jpg",
-        "lufs": -13.6
+        "lufs": -13.6,
+        "peak": 0
       },
       {
         "name": "Ethereal Shadows",
         "file": "albums/Psychedelic Vibe Lost Century/Ethereal Shadows.m4a",
         "cover": "albums/Psychedelic Vibe Lost Century/Ethereal Shadows.jpg",
-        "lufs": -11.8
+        "lufs": -11.8,
+        "peak": 0.1
       },
       {
         "name": "Every color (Variation)",
         "file": "albums/Psychedelic Vibe Lost Century/Every color (Variation).m4a",
         "cover": "albums/Psychedelic Vibe Lost Century/Every color (Variation).jpg",
-        "lufs": -12.8
+        "lufs": -12.8,
+        "peak": -0.4,
+        "trim": 0.64
       },
       {
         "name": "Every color",
         "file": "albums/Psychedelic Vibe Lost Century/Every color.m4a",
         "cover": "albums/Psychedelic Vibe Lost Century/Every color.jpg",
-        "lufs": -12.5
+        "lufs": -12.5,
+        "peak": 0.1
       },
       {
         "name": "FINAL TRANSMISSION (REPRISE)",
         "file": "albums/Psychedelic Vibe Lost Century/FINAL TRANSMISSION (REPRISE).m4a",
         "cover": "albums/Psychedelic Vibe Lost Century/FINAL TRANSMISSION (REPRISE).jpg",
-        "lufs": -14.8
+        "lufs": -14.8,
+        "peak": 0.1,
+        "trim": 0.51
       },
       {
         "name": "Folding the Absence (Variation)",
         "file": "albums/Psychedelic Vibe Lost Century/Folding the Absence (Variation).m4a",
         "cover": "albums/Psychedelic Vibe Lost Century/Folding the Absence (Variation).jpg",
-        "lufs": -12.3
+        "lufs": -12.3,
+        "peak": 0.1
       },
       {
         "name": "Folding the Absence",
         "file": "albums/Psychedelic Vibe Lost Century/Folding the Absence.m4a",
         "cover": "albums/Psychedelic Vibe Lost Century/Folding the Absence.jpg",
-        "lufs": -12.6
+        "lufs": -12.6,
+        "peak": 0.1,
+        "trim": 0.44
       },
       {
         "name": "Forget the rules (Variation)",
         "file": "albums/Psychedelic Vibe Lost Century/Forget the rules (Variation).m4a",
         "cover": "albums/Psychedelic Vibe Lost Century/Forget the rules (Variation).jpg",
-        "lufs": -13.9
+        "lufs": -13.9,
+        "peak": -0.8
       },
       {
         "name": "Golden light (Variation)",
         "file": "albums/Psychedelic Vibe Lost Century/Golden light (Variation).m4a",
         "cover": "albums/Psychedelic Vibe Lost Century/Golden light (Variation).jpg",
-        "lufs": -12.9
+        "lufs": -12.9,
+        "peak": 0.3
       },
       {
         "name": "Haze",
         "file": "albums/Psychedelic Vibe Lost Century/Haze.m4a",
         "cover": "albums/Psychedelic Vibe Lost Century/Haze.jpg",
-        "lufs": -12.7
+        "lufs": -12.7,
+        "peak": 0
       },
       {
         "name": "Heaven’s Door (Rain Waltz)",
         "file": "albums/Psychedelic Vibe Lost Century/Heaven’s Door (Rain Waltz).m4a",
         "cover": "albums/Psychedelic Vibe Lost Century/Heaven’s Door (Rain Waltz).jpg",
-        "lufs": -13
+        "lufs": -13,
+        "peak": -0.3
       },
       {
         "name": "Hmmm... yeah... (Variation)",
         "file": "albums/Psychedelic Vibe Lost Century/Hmmm... yeah... (Variation).m4a",
         "cover": "albums/Psychedelic Vibe Lost Century/Hmmm... yeah... (Variation).jpg",
-        "lufs": -12.7
+        "lufs": -12.7,
+        "peak": 0
       },
       {
         "name": "HORIZON WHISPERS (Cover)",
         "file": "albums/Psychedelic Vibe Lost Century/HORIZON WHISPERS (Cover).m4a",
         "cover": "albums/Psychedelic Vibe Lost Century/HORIZON WHISPERS (Cover).jpg",
-        "lufs": -12.1
+        "lufs": -12.1,
+        "peak": 0.1
       },
       {
         "name": "HORIZON WHISPERS (Variation 2)",
         "file": "albums/Psychedelic Vibe Lost Century/HORIZON WHISPERS (Variation 2).m4a",
         "cover": "albums/Psychedelic Vibe Lost Century/HORIZON WHISPERS (Variation 2).jpg",
-        "lufs": -12.3
+        "lufs": -12.3,
+        "peak": 0.4
       },
       {
         "name": "HORIZON WHISPERS (Variation)",
         "file": "albums/Psychedelic Vibe Lost Century/HORIZON WHISPERS (Variation).m4a",
         "cover": "albums/Psychedelic Vibe Lost Century/HORIZON WHISPERS (Variation).jpg",
-        "lufs": -13.3
+        "lufs": -13.3,
+        "peak": 0.3
       },
       {
         "name": "HORIZON WHISPERS",
         "file": "albums/Psychedelic Vibe Lost Century/HORIZON WHISPERS.m4a",
         "cover": "albums/Psychedelic Vibe Lost Century/HORIZON WHISPERS.jpg",
-        "lufs": -13.3
+        "lufs": -13.3,
+        "peak": 0,
+        "trim": 0.77
       },
       {
         "name": "Last message",
         "file": "albums/Psychedelic Vibe Lost Century/Last message.m4a",
         "cover": "albums/Psychedelic Vibe Lost Century/Last message.jpg",
-        "lufs": -13.1
+        "lufs": -13.1,
+        "peak": 0.6
       },
       {
         "name": "Letter in the Rain (Variation)",
         "file": "albums/Psychedelic Vibe Lost Century/Letter in the Rain (Variation).m4a",
         "cover": "albums/Psychedelic Vibe Lost Century/Letter in the Rain (Variation).jpg",
-        "lufs": -12.7
+        "lufs": -12.7,
+        "peak": 0
       },
       {
         "name": "Lucid Dreams Beneath the Floorboards (Variation)",
         "file": "albums/Psychedelic Vibe Lost Century/Lucid Dreams Beneath the Floorboards (Variation).m4a",
         "cover": "albums/Psychedelic Vibe Lost Century/Lucid Dreams Beneath the Floorboards (Variation).jpg",
-        "lufs": -13.2
+        "lufs": -13.2,
+        "peak": 0
       },
       {
         "name": "Midnight Reverie (Variation)",
         "file": "albums/Psychedelic Vibe Lost Century/Midnight Reverie (Variation).m4a",
         "cover": "albums/Psychedelic Vibe Lost Century/Midnight Reverie (Variation).jpg",
-        "lufs": -13.2
+        "lufs": -13.2,
+        "peak": 0
       },
       {
         "name": "Mirage (Variation)",
         "file": "albums/Psychedelic Vibe Lost Century/Mirage (Variation).m4a",
         "cover": "albums/Psychedelic Vibe Lost Century/Mirage (Variation).jpg",
-        "lufs": -12.7
+        "lufs": -12.7,
+        "peak": 0.1,
+        "trim": 0.4
       },
       {
         "name": "Mirage",
         "file": "albums/Psychedelic Vibe Lost Century/Mirage.m4a",
         "cover": "albums/Psychedelic Vibe Lost Century/Mirage.jpg",
-        "lufs": -12.5
+        "lufs": -12.5,
+        "peak": 0.2
       },
       {
         "name": "mirror (Variation)",
         "file": "albums/Psychedelic Vibe Lost Century/mirror (Variation).m4a",
         "cover": "albums/Psychedelic Vibe Lost Century/mirror (Variation).jpg",
-        "lufs": -11.4
+        "lufs": -11.4,
+        "peak": 1.2,
+        "trim": 0.85
       },
       {
         "name": "MIRROR LADDER (REBORN)",
         "file": "albums/Psychedelic Vibe Lost Century/MIRROR LADDER (REBORN).m4a",
         "cover": "albums/Psychedelic Vibe Lost Century/MIRROR LADDER (REBORN).jpg",
-        "lufs": -13.3
+        "lufs": -13.3,
+        "peak": -0.4
       },
       {
         "name": "mirror",
         "file": "albums/Psychedelic Vibe Lost Century/mirror.m4a",
         "cover": "albums/Psychedelic Vibe Lost Century/mirror.jpg",
-        "lufs": -12.5
+        "lufs": -12.5,
+        "peak": 0.3,
+        "trim": 0.75
       },
       {
         "name": "Neon Dusk Communion (Variation)",
         "file": "albums/Psychedelic Vibe Lost Century/Neon Dusk Communion (Variation).m4a",
         "cover": "albums/Psychedelic Vibe Lost Century/Neon Dusk Communion (Variation).jpg",
-        "lufs": -12.9
+        "lufs": -12.9,
+        "peak": 0
       },
       {
         "name": "Neon Reveries (Variation)",
         "file": "albums/Psychedelic Vibe Lost Century/Neon Reveries (Variation).m4a",
         "cover": "albums/Psychedelic Vibe Lost Century/Neon Reveries (Variation).jpg",
-        "lufs": -12.1
+        "lufs": -12.1,
+        "peak": 0.2,
+        "trim": 0.53
       },
       {
         "name": "NEON SERMON (Variation)",
         "file": "albums/Psychedelic Vibe Lost Century/NEON SERMON (Variation).m4a",
         "cover": "albums/Psychedelic Vibe Lost Century/NEON SERMON (Variation).jpg",
-        "lufs": -12.6
+        "lufs": -12.6,
+        "peak": 0,
+        "trim": 0.83
       },
       {
         "name": "NEON SERMON",
         "file": "albums/Psychedelic Vibe Lost Century/NEON SERMON.m4a",
         "cover": "albums/Psychedelic Vibe Lost Century/NEON SERMON.jpg",
-        "lufs": -13.5
+        "lufs": -13.5,
+        "peak": -0.4
       },
       {
         "name": "No name (Variation)",
         "file": "albums/Psychedelic Vibe Lost Century/No name (Variation).m4a",
         "cover": "albums/Psychedelic Vibe Lost Century/No name (Variation).jpg",
-        "lufs": -13.2
+        "lufs": -13.2,
+        "peak": 0.1
       },
       {
         "name": "No name",
         "file": "albums/Psychedelic Vibe Lost Century/No name.m4a",
         "cover": "albums/Psychedelic Vibe Lost Century/No name.jpg",
-        "lufs": -12.9
+        "lufs": -12.9,
+        "peak": 0.6
       },
       {
         "name": "Obsidian Tide",
         "file": "albums/Psychedelic Vibe Lost Century/Obsidian Tide.m4a",
         "cover": "albums/Psychedelic Vibe Lost Century/Obsidian Tide.jpg",
-        "lufs": -13
+        "lufs": -13,
+        "peak": 0.4
       },
       {
         "name": "OIL & WHISPER (Variation)",
         "file": "albums/Psychedelic Vibe Lost Century/OIL & WHISPER (Variation).m4a",
         "cover": "albums/Psychedelic Vibe Lost Century/OIL & WHISPER (Variation).jpg",
-        "lufs": -13.1
+        "lufs": -13.1,
+        "peak": 1
       },
       {
         "name": "Phantom Mirage (Variation)",
         "file": "albums/Psychedelic Vibe Lost Century/Phantom Mirage (Variation).m4a",
         "cover": "albums/Psychedelic Vibe Lost Century/Phantom Mirage (Variation).jpg",
-        "lufs": -13.4
+        "lufs": -13.4,
+        "peak": 0.1
       },
       {
         "name": "Pulse in the Static (Variation)",
         "file": "albums/Psychedelic Vibe Lost Century/Pulse in the Static (Variation).m4a",
         "cover": "albums/Psychedelic Vibe Lost Century/Pulse in the Static (Variation).jpg",
-        "lufs": -13.1
+        "lufs": -13.1,
+        "peak": 0.3
       },
       {
         "name": "RADIO VOID (v2)",
         "file": "albums/Psychedelic Vibe Lost Century/RADIO VOID (v2).m4a",
         "cover": "albums/Psychedelic Vibe Lost Century/RADIO VOID (v2).jpg",
-        "lufs": -13.3
+        "lufs": -13.3,
+        "peak": -0.1
       },
       {
         "name": "RADIO VOID",
         "file": "albums/Psychedelic Vibe Lost Century/RADIO VOID.m4a",
         "cover": "albums/Psychedelic Vibe Lost Century/RADIO VOID.jpg",
-        "lufs": -14.1
+        "lufs": -14.1,
+        "peak": -0.9
       },
       {
         "name": "Rain Will Wash (Variation)",
         "file": "albums/Psychedelic Vibe Lost Century/Rain Will Wash (Variation).m4a",
         "cover": "albums/Psychedelic Vibe Lost Century/Rain Will Wash (Variation).jpg",
-        "lufs": -11.6
+        "lufs": -11.6,
+        "peak": 0.1
       },
       {
         "name": "Rain Will Wash",
         "file": "albums/Psychedelic Vibe Lost Century/Rain Will Wash.m4a",
         "cover": "albums/Psychedelic Vibe Lost Century/Rain Will Wash.jpg",
-        "lufs": -13.9
+        "lufs": -13.9,
+        "peak": -0.2
       },
       {
         "name": "Room 7 No Knock (Variation)",
         "file": "albums/Psychedelic Vibe Lost Century/Room 7 No Knock (Variation).m4a",
         "cover": "albums/Psychedelic Vibe Lost Century/Room 7 No Knock (Variation).jpg",
-        "lufs": -13
+        "lufs": -13,
+        "peak": 0.1
       },
       {
         "name": "Short Circuit (Psychedelic Jazz)",
         "file": "albums/Psychedelic Vibe Lost Century/Short Circuit (Psychedelic Jazz).m4a",
         "cover": "albums/Psychedelic Vibe Lost Century/Short Circuit (Psychedelic Jazz).jpg",
-        "lufs": -14.8
+        "lufs": -14.8,
+        "peak": 0
       },
       {
         "name": "SNOW FALLS",
         "file": "albums/Psychedelic Vibe Lost Century/SNOW FALLS.m4a",
         "cover": "albums/Psychedelic Vibe Lost Century/SNOW FALLS.jpg",
-        "lufs": -13.2
+        "lufs": -13.2,
+        "peak": 0.7
       },
       {
         "name": "We float on a melody",
         "file": "albums/Psychedelic Vibe Lost Century/We float on a melody.m4a",
         "cover": "albums/Psychedelic Vibe Lost Century/We float on a melody.jpg",
-        "lufs": -13.6
+        "lufs": -13.6,
+        "peak": 0
       }
     ]
   },
@@ -1174,6 +1392,7 @@
         "file": "albums/Spanish Nights/CONTIGO EN LA NOCHE.m4a",
         "cover": "albums/Spanish Nights/CONTIGO EN LA NOCHE.jpg",
         "lufs": -12.5,
+        "peak": 0.6,
         "lyrics": "[INTRO]\n[Suave sonido de restaurante, risas lejanas. Guitarra acústica íntima. Beat sutil de cajón peruano y bajo entra como un latido.]\n\n[VERSO 1]\nEl restaurante humea, las luces son tenues velas.\nMi vino tiembla en la copa, no por frío, por tu mirada.\nHablas de cosas simples, de tu día, del trabajo...\nPero cada palabra en mis venas es un atajo.\nUn atajo directo al centro de este temblor que callo.\nTus ojos no son dron, son faros que encuentran mi puerto.\nNo hay ventana entre nosotros, solo este espacio abierto.\nY en él, me pierdo. Me pierdo sin mapa ni brújula.\nContigo.\n\n[PRE-CORO]\nY luego... tu mano encuentra la mía sobre el mantel.\nUn territorio nuevo, un vértigo fiel.\nNo es un apretón, es un susurro en la piel.\nUn \"estoy aquí\" que mi pecho entiende bien.\nEl mundo se detiene en ese punto de conexión.\nSolo existimos tú, yo y esta extraña canción.\n\n[CORO]\nY es que contigo... la noche sabe a eternidad.\nCada segundo es lento, profundo, de una claridad.\nEl ruido de la ciudad se convierte en sinfonía.\nPorque tu risa es la melodía que me guía.\nCualquiera lo vería, cualquiera notaría...\nLa luz que se enciende cuando mi sonrisa es para tía.\nNo es riesgo, es certeza. No es juego, es verdad.\nEs el simple milagro de tu cercanía.\n\n[VERSO 2]\nAl salir, la calle es un lienzo de neón y sombras.\nY tú... me abrigas del viento con tu chaqueta, me asombras.\nTu brazo sobre mis hombros no es peso, es cobijo.\nEs el techo portátil de mi más frágil abrigo.\nHablamos en susurros, secretos que el aire se lleva.\nY cada paso juntos es una promesa nueva.\nNo hay \"prima\", no hay espectadores, no hay guión.\nSolo dos siluetas fundiéndose en el corazón de la ciudad.\nY yo pienso: \"Que esto no acabe. Que este instante sea imán.\nQue tu mano nunca suelte mi mano, jamás.\"\n\n[PUENTE]\nY cuando me miras... no analizo, no calculo.\nSolo siento. Soy puro presente, sin cálculo.\nEn tus ojos me veo segura, me veo valiente.\nMe veo como la versión más cierta de mí, de repente.\nEste miedo no es riesgo... es el vértigo de caer.\nEn algo hermoso, real, que no quiero perder.\n\n[OUTRO]\nNo es una canción de riesgo. Es una canción de paz.\nDe un taxi que espera, de un \"hasta mañana\" y un \"quizás\".\nDe un beso en la frente que promete más.\nY de un corazón que, por fin, aprendió a latir a tu compás.\n[La música se desvanece en el sonido de la noche y pasos lejanos.]\nFin."
       },
       {
@@ -1181,6 +1400,7 @@
         "file": "albums/Spanish Nights/La Prima ( Первый Риск ).m4a",
         "cover": "albums/Spanish Nights/La Prima ( Первый Риск ).jpg",
         "lufs": -12.9,
+        "peak": 0.4,
         "lyrics": "[INTRO]\n[Звуки ночного города, щелчок зажигалки. Сухой, чёткий бум-бэп бит.]\n\n[VERSE 1]\nТвой взгляд — как дрон, зависший у соседского окна.\nТы в школе мыслями со мной, хотя нас разделяют стёкла.\nТы ждёшь вечерний сеанс: «она придёт, и будет две».\nТвой мозг — кинорежиссёр дешёвого кино про «если бы».\nТы весь — сплошное «не могу сконцентрироваться», друг.\nНа чём угодно, лишь бы не посмотреть внутрь, не вдруг.\nТы строешь воздушные мосты из моего белья...\nНе зная, что в твоей погоне я уже читаю тебя.\n\n[PRE-CHORUS]\n[Ритм читки становится жёстче, бит добавляет перкуссии]\nТы дал мне титул «риск номер один» в своём реестре.\nПоставил галку, будто ты прошёл контроль на лестнице.\nТы видишь кривые, но не те, что ведут к провалу...\n[С холодной усмешкой] Секунда — и твой замок из песка развалю.\n\n[CHORUS]\n[Бит становится мощным. На втором плане звучит искажённый, замедленный семпл оригинального припева:]\n*(\"Su prima es de riesgo número uno... cualquiera lo ve...\")*\nРиск? Да, я риск. Риск для твоего шаткого мира.\nИзгибы не тела — изгибы твоего кумира.\nЛЮБОЙ ЭТО ВИДИТ: как ты таешь, как мальчишка.\n(Да, любой это видит. А я вижу — твою книжку.)\nТы кричишь «безумие», но это твой собственный крик.\nТы назвал мне номер. Я звонить не стану. Понял? Клик.\n\n[VERSE 2]\n[Агрессивная, быстрая читка. Бас-лайн становится грязным]\n«Три языка»? Ха! Три стороны одной медали.\nОдин врёт «страсть», второй кричит «пора бы», третий — «сдали».\n«Прыжки на кровати» — это танец твоего страха.\n«Остались tanga и slips» — финал твоей пропахи.\nТы думал, «поцелуй втроём» — это пик, перегруз?\nА это пыль в глаза, мой друг, декорации и туз.\nТы ищешь тело, а нашла тебя — моя логика.\nТы — зритель в зале. Я — режиссёр твоей паники.\n\n[BRIDGE]\n[Бит уходит. Остаётся голос и тихая, чистая гитара]\nТы смотришь"
       },
       {
@@ -1188,6 +1408,7 @@
         "file": "albums/Spanish Nights/LA PRIMA (Conscious Hip-Hop Version) (Variation 2).m4a",
         "cover": "albums/Spanish Nights/LA PRIMA (Conscious Hip-Hop Version) (Variation 2).jpg",
         "lufs": -11.9,
+        "peak": 0.3,
         "lyrics": "[INTRO]\n[Звуки ночного города, щелчок зажигалки. Сухой, чёткий бум-бэп бит.]\n\n[VERSE 1]\nТвой взгляд — как дрон, зависший у соседского окна.\nТы в школе мыслями со мной, хотя нас разделяют стёкла.\nТы ждёшь вечерний сеанс: «она придёт, и будет две».\nТвой мозг — кинорежиссёр дешёвого кино про «если бы».\nТы весь — сплошное «не могу сконцентрироваться», друг.\nНа чём угодно, лишь бы не посмотреть внутрь, не вдруг.\nТы строешь воздушные мосты из моего белья...\nНе зная, что в твоей погоне я уже читаю тебя.\n\n[PRE-CHORUS]\n[Ритм читки становится жёстче, бит добавляет перкуссии]\nТы дал мне титул «риск номер один» в своём реестре.\nПоставил галку, будто ты прошёл контроль на лестнице.\nТы видишь кривые, но не те, что ведут к провалу...\n[С холодной усмешкой] Секунда — и твой замок из песка развалю.\n\n[CHORUS]\n[Бит становится мощным. На втором плане звучит искажённый, замедленный семпл оригинального припева:]\n*(\"Su prima es de riesgo número uno... cualquiera lo ve...\")*\nРиск? Да, я риск. Риск для твоего шаткого мира.\nИзгибы не тела — изгибы твоего кумира.\nЛЮБОЙ ЭТО ВИДИТ: как ты таешь, как мальчишка.\n(Да, любой это видит. А я вижу — твою книжку.)\nТы кричишь «безумие», но это твой собственный крик.\nТы назвал мне номер. Я звонить не стану. Понял? Клик.\n\n[VERSE 2]\n[Агрессивная, быстрая читка. Бас-лайн становится грязным]\n«Три языка»? Ха! Три стороны одной медали.\nОдин врёт «страсть», второй кричит «пора бы», третий — «сдали».\n«Прыжки на кровати» — это танец твоего страха.\n«Остались tanga и slips» — финал твоей пропахи.\nТы думал, «поцелуй втроём» — это пик, перегруз?\nА это пыль в глаза, мой друг, декорации и туз.\nТы ищешь тело, а нашла тебя — моя логика.\nТы — зритель в зале. Я — режиссёр твоей паники.\n\n[BRIDGE]\n[Бит уходит. Остаётся голос и тихая, чистая гитара]\nТы смотришь"
       },
       {
@@ -1195,6 +1416,7 @@
         "file": "albums/Spanish Nights/LA PRIMA (Conscious Hip-Hop Version) (Variation).m4a",
         "cover": "albums/Spanish Nights/LA PRIMA (Conscious Hip-Hop Version) (Variation).jpg",
         "lufs": -12.3,
+        "peak": 0.3,
         "lyrics": "[INTRO]\n[Звуки ночного города, щелчок зажигалки. Сухой, чёткий бум-бэп бит.]\n\n[VERSE 1]\nТвой взгляд — как дрон, зависший у соседского окна.\nТы в школе мыслями со мной, хотя нас разделяют стёкла.\nТы ждёшь вечерний сеанс: «она придёт, и будет две».\nТвой мозг — кинорежиссёр дешёвого кино про «если бы».\nТы весь — сплошное «не могу сконцентрироваться», друг.\nНа чём угодно, лишь бы не посмотреть внутрь, не вдруг.\nТы строешь воздушные мосты из моего белья...\nНе зная, что в твоей погоне я уже читаю тебя.\n\n[PRE-CHORUS]\n[Ритм читки становится жёстче, бит добавляет перкуссии]\nТы дал мне титул «риск номер один» в своём реестре.\nПоставил галку, будто ты прошёл контроль на лестнице.\nТы видишь кривые, но не те, что ведут к провалу...\n[С холодной усмешкой] Секунда — и твой замок из песка развалю.\n\n[CHORUS]\n[Бит становится мощным. На втором плане звучит искажённый, замедленный семпл оригинального припева:]\n*(\"Su prima es de riesgo número uno... cualquiera lo ve...\")*\nРиск? Да, я риск. Риск для твоего шаткого мира.\nИзгибы не тела — изгибы твоего кумира.\nЛЮБОЙ ЭТО ВИДИТ: как ты таешь, как мальчишка.\n(Да, любой это видит. А я вижу — твою книжку.)\nТы кричишь «безумие», но это твой собственный крик.\nТы назвал мне номер. Я звонить не стану. Понял? Клик.\n\n[VERSE 2]\n[Агрессивная, быстрая читка. Бас-лайн становится грязным]\n«Три языка»? Ха! Три стороны одной медали.\nОдин врёт «страсть», второй кричит «пора бы», третий — «сдали».\n«Прыжки на кровати» — это танец твоего страха.\n«Остались tanga и slips» — финал твоей пропахи.\nТы думал, «поцелуй втроём» — это пик, перегруз?\nА это пыль в глаза, мой друг, декорации и туз.\nТы ищешь тело, а нашла тебя — моя логика.\nТы — зритель в зале. Я — режиссёр твоей паники.\n\n[BRIDGE]\n[Бит уходит. Остаётся голос и тихая, чистая гитара]\nТы смотришь"
       },
       {
@@ -1202,6 +1424,7 @@
         "file": "albums/Spanish Nights/LA PRIMA (Conscious Hip-Hop Version).m4a",
         "cover": "albums/Spanish Nights/LA PRIMA (Conscious Hip-Hop Version).jpg",
         "lufs": -12,
+        "peak": 0.3,
         "lyrics": "[INTRO]\n[Soundscape: city at night, a lighter flicking. A melancholic, reversed Spanish guitar sample. Clean boom bap beat with deep bass drops in.]\n\n[VERSE 1]\n[Flow: Calm, observational, close-mic'd]\nLa ventana es un espejo, tú no ves tu propio error.\nEspectador de tu propio vacío, ese es tu terror.\nTu \"no concentrarme\" es el eco de un deseo ficticio.\nAnotas \"su prima llega\" en tu pobre ejercicio.\nPero la presa que tú crees observa desde atrás.\nTu mirada es un libro que ya aprendí a leer al revés.\n\n[PRE-CHORUS]\n[Flow becomes more direct, rhythmic]\nMe numeras \"uno\" en tu trivial colección.\n[Sarcastic, half-whispered ad-lib] Pero falla tu percepción.\n\n[CHORUS]\n[Beat hits harder. A distorted, lo-fi sample of the original male hook plays underneath:]\n*\"Su prima es de riesgo número uno... cualquiera lo ve...\"*\n[Female rap clear and upfront over the sample]\n¿Riesgo? Soy el espejo donde tu reflejo se quiebra.\nLas curvas que ves son las de tu mente que se ciega.\n¡Cualquiera lo ve! Tu soledad tras la persiana.\n(Yes. Cualquiera lo ve. Lo veo yo.)\n\n[VERSE 2]\n[Flow: More aggressive, punchy. Bassline gets gritty]\nAh, ¿\"tres lenguas juntas\"? Pobre diccionario.\nUna para el juego, otra para el vocabulario.\n\"Saltando sobre la cama\" con tu fantasía...\nMi ritmo salta sobre tu lógica vacía.\nUn \"beso de tres\" de labios de goma y papel...\nEs el final previsible de tu propio duelo.\n\n[BRIDGE]\n[Beat breaks down to just the guitar sample and a faint vinyl crackle. Delivery: introspective, raw]\n¿Y si cierro la ventana?\n¿Y si \"la prima\" es solo lo que no puedes controlar?\nTu miedo a la calle que sí camino...\n(Beat starts building back up) Tu guión que no voy a firmar.\n\n[OUTRO]\n[Beat returns to full force for two bars, then cuts abruptly on the word \"final\". Last line delivered in silence.]\nTú hablas de un beso, yo hablo del silencio final.\nLa prima... era la respuesta a tu pregunta trivial.\n[Beat cut] El observador... era el observado al final."
       },
       {
@@ -1209,6 +1432,7 @@
         "file": "albums/Spanish Nights/LA PRIMA (Variation 2).m4a",
         "cover": "albums/Spanish Nights/LA PRIMA (Variation 2).jpg",
         "lufs": -11.2,
+        "peak": 0.7,
         "lyrics": "[INTRO]\n[Звуки ночного города, щелчок зажигалки. Сухой, чёткий бум-бэп бит.]\n\n[VERSE 1]\nТвой взгляд — как дрон, зависший у соседского окна.\nТы в школе мыслями со мной, хотя нас разделяют стёкла.\nТы ждёшь вечерний сеанс: «она придёт, и будет две».\nТвой мозг — кинорежиссёр дешёвого кино про «если бы».\nТы весь — сплошное «не могу сконцентрироваться», друг.\nНа чём угодно, лишь бы не посмотреть внутрь, не вдруг.\nТы строешь воздушные мосты из моего белья...\nНе зная, что в твоей погоне я уже читаю тебя.\n\n[PRE-CHORUS]\n[Ритм читки становится жёстче, бит добавляет перкуссии]\nТы дал мне титул «риск номер один» в своём реестре.\nПоставил галку, будто ты прошёл контроль на лестнице.\nТы видишь кривые, но не те, что ведут к провалу...\n[С холодной усмешкой] Секунда — и твой замок из песка развалю.\n\n[CHORUS]\n[Бит становится мощным. На втором плане звучит искажённый, замедленный семпл оригинального припева:]\n*(\"Su prima es de riesgo número uno... cualquiera lo ve...\")*\nРиск? Да, я риск. Риск для твоего шаткого мира.\nИзгибы не тела — изгибы твоего кумира.\nЛЮБОЙ ЭТО ВИДИТ: как ты таешь, как мальчишка.\n(Да, любой это видит. А я вижу — твою книжку.)\nТы кричишь «безумие», но это твой собственный крик.\nТы назвал мне номер. Я звонить не стану. Понял? Клик.\n\n[VERSE 2]\n[Агрессивная, быстрая читка. Бас-лайн становится грязным]\n«Три языка»? Ха! Три стороны одной медали.\nОдин врёт «страсть», второй кричит «пора бы», третий — «сдали».\n«Прыжки на кровати» — это танец твоего страха.\n«Остались tanga и slips» — финал твоей пропахи.\nТы думал, «поцелуй втроём» — это пик, перегруз?\nА это пыль в глаза, мой друг, декорации и туз.\nТы ищешь тело, а нашла тебя — моя логика.\nТы — зритель в зале. Я — режиссёр твоей паники.\n\n[BRIDGE]\n[Бит уходит. Остаётся голос и тихая, чистая гитара]\nТы смотришь"
       },
       {
@@ -1216,6 +1440,7 @@
         "file": "albums/Spanish Nights/LA PRIMA (Variation).m4a",
         "cover": "albums/Spanish Nights/LA PRIMA (Variation).jpg",
         "lufs": -11.5,
+        "peak": 0.1,
         "lyrics": "[INTRO]\n[Night city, guitar. Beat drops.]\n\n[VERSO 1]\nTu mirada es un dron en la ventana de al lado.\nEn clase, estás conmigo, nos separa un cristal.\nEsperas la función: «ella, la prima, y serán dos».\nTu mente dirige una película de poca luz.\nEres puro «no-concentrarse», un desastre, colega.\nEn todo menos en mirar dentro, muestras cobardía.\nConstruyes puentes de aire con mi ropa interior…\nSin ver que tu juego ya lo desarmé con valor.\n\n[PRE-CORO]\nMe diste el título «número de riesgo» en tu lista.\nMarcaste la casilla, cruzando una pista.\nVes curvas, pero no las que llevan a tu hoyo…\nUn segundo y tu castillo de naipes se despojo.\n\n[CORO]\n[Ghost sample: \"Su prima es de riesgo número uno... cualquiera lo ve...\"]\n¿Riesgo? Sí, lo soy. Riesgo para tu mundo de cartón.\nCurvas no de cuerpo, curvas de tu ídolo en fracción.\nCUALQUIERA LO VE: cómo te derrites, como un niño.\n(Sí, cualquiera lo ve. Y yo veo tu guión ficticio.)\nGritas «locura», pero es tu propio grito interior.\nMe diste el número. No voy a llamar. ¿Captas? Error.\n\n[VERSO 2]\n¿«Tres lenguas»? Tres caras de moneda sin valor.\nUna miente «pasión», otra «ya es hora», otra «sudor».\n«Saltos en la cama» son el baile de tu miedo.\n«Quedan tanga y slips» — el final de este duelo.\n¿Un «beso de tres» era el clímax, la explosión?\nEs humo en los ojos, pura decoración.\nBuscabas un cuerpo, te encontró mi lógica.\nTú eres espectador. Yo soy directora de tu pánica.\n\n[PUENTE]\nMiras la ventana como a una pantalla, un holograma.\n¿Y si la CIERRO? Borro tu decorado de drama.\nTu «prima» no soy yo. Tu «prima» es el vacío.\nQue no reconoces, con miedo a un «no» frío.\nY ese miedo es mi verdadero riesgo número uno.\nPorque en ruinas de ilusiones… te quedarás solo.\n\n[OUTRO]\nQuerías historia de riesgo, de «tres en la cama».\nObtuviste la cuenta regresiva. Eres estadística, te reclama.\n¿Prima? Solo una palabra. Y yo soy el silencio después…\n[Beat cuts.]\nEl riesgo era empezar a MIRAR. Tú solo espiabas.\nFin."
       },
       {
@@ -1223,6 +1448,7 @@
         "file": "albums/Spanish Nights/La Prima v2.m4a",
         "cover": "albums/Spanish Nights/La Prima v2.jpg",
         "lufs": -11.8,
+        "peak": 0.5,
         "lyrics": "(estrofa 1 )\n\nEn la ventana de enfrente esta la vecina,\nDesde hace tiempo no logro concentrarme,\nen la escuela no se me olvida,\nque esta noche viene con su prima.\n\n( Coro )\nSu prima es de riesgo numero uno\nlas curva de su cuerpo es de locos\ncualquiera lo ve, cualquiera lo ve,\ncualquiera lo ve.\n\n(Estrofa 2)\n\nDe repente me veo con las tres\nlas tres lenguas juntas besando\nsaltando sobre la cama ..\nme quedo con tanga y slips\nun beso de tres"
       },
       {
@@ -1230,6 +1456,7 @@
         "file": "albums/Spanish Nights/LA PRIMA.m4a",
         "cover": "albums/Spanish Nights/LA PRIMA.jpg",
         "lufs": -13.2,
+        "peak": 0.2,
         "lyrics": "[INTRO]\n[Night city, guitar. Beat drops.]\n\n[VERSO 1]\nTu mirada es un dron en la ventana de al lado.\nEn clase, estás conmigo, nos separa un cristal.\nEsperas la función: «ella, la prima, y serán dos».\nTu mente dirige una película de poca luz.\nEres puro «no-concentrarse», un desastre, colega.\nEn todo menos en mirar dentro, muestras cobardía.\nConstruyes puentes de aire con mi ropa interior…\nSin ver que tu juego ya lo desarmé con valor.\n\n[PRE-CORO]\nMe diste el título «número de riesgo» en tu lista.\nMarcaste la casilla, cruzando una pista.\nVes curvas, pero no las que llevan a tu hoyo…\nUn segundo y tu castillo de naipes se despojo.\n\n[CORO]\n[Ghost sample: \"Su prima es de riesgo número uno... cualquiera lo ve...\"]\n¿Riesgo? Sí, lo soy. Riesgo para tu mundo de cartón.\nCurvas no de cuerpo, curvas de tu ídolo en fracción.\nCUALQUIERA LO VE: cómo te derrites, como un niño.\n(Sí, cualquiera lo ve. Y yo veo tu guión ficticio.)\nGritas «locura», pero es tu propio grito interior.\nMe diste el número. No voy a llamar. ¿Captas? Error.\n\n[VERSO 2]\n¿«Tres lenguas»? Tres caras de moneda sin valor.\nUna miente «pasión», otra «ya es hora», otra «sudor».\n«Saltos en la cama» son el baile de tu miedo.\n«Quedan tanga y slips» — el final de este duelo.\n¿Un «beso de tres» era el clímax, la explosión?\nEs humo en los ojos, pura decoración.\nBuscabas un cuerpo, te encontró mi lógica.\nTú eres espectador. Yo soy directora de tu pánica.\n\n[PUENTE]\nMiras la ventana como a una pantalla, un holograma.\n¿Y si la CIERRO? Borro tu decorado de drama.\nTu «prima» no soy yo. Tu «prima» es el vacío.\nQue no reconoces, con miedo a un «no» frío.\nY ese miedo es mi verdadero riesgo número uno.\nPorque en ruinas de ilusiones… te quedarás solo.\n\n[OUTRO]\nQuerías historia de riesgo, de «tres en la cama».\nObtuviste la cuenta regresiva. Eres estadística, te reclama.\n¿Prima? Solo una palabra. Y yo soy el silencio después…\n[Beat cuts.]\nEl riesgo era empezar a MIRAR. Tú solo espiabas.\nFin."
       },
       {
@@ -1237,6 +1464,8 @@
         "file": "albums/Spanish Nights/TÚ Y YO EN EL AFTER (Variation).m4a",
         "cover": "albums/Spanish Nights/TÚ Y YO EN EL AFTER (Variation).jpg",
         "lufs": -12.6,
+        "peak": 0.2,
+        "trim": 0.41,
         "lyrics": "[INTRO]\n[Synth arpeggio rises, crisp hi-hats, deep 808 sub-bass drops. Sound of a crowded club fades into the beat.]\n\n[VERSO 1]\nLa pista está que arde, humo y neón en el aire,\nPero solo veo una silueta en ese maremá.\nTus ojos me encontraron entre el flash y el beat,\nUn imán en medio del caos, no hay retreat.\nMi amiga grita algo, no le escucho, sorry,\nMi brújula está rota, solo apunta hacia ti.\nMovimientos lentos a cámara lenta,\nEl mundo en mute y tú... puesta en mi agenda.\n\n[PRE-CORO]\nY de repente estás aquí, sudor en la sien,\nHueles a verano y a un after que va a ven'.\nMe pasas tu número sin decir una palabra,\nSolo un código QR en mi piel que se labra.\nLa música es fuerte, pero tu voz en mi oído\nEs el único sonido que pido, que ha sido...\n\n[CORO]\n¡Tú y yo, un plan que el mundo no va a ver!\nTus manos en mi cintura, yo sé lo que va a ser.\nUn after sin fiesta, solo tu sofa y mi piel.\nBaby, esto no es un juego, tú lo sabes también.\n¡Tú y yo, como en un Tik-Tok en loop!\nUn beso que se repita, filling up the group.\nEl resto son extras, la vibe ya la sentí.\nContigo en mi radar, yeah, el after starts with me.\n\n[VERSO 2]\nEn el taxi, tu playist, tus canciones son señales,\nTus dedos enredados con los míos, son totales.\nNo hay prisas, no hay filtros, no hay stories que postear,\nSolo este momento real que no se va a borrar.\nWhisky y Coca-Cola, y tu boca en mi garganta,\nLa ciudad pasa rápido, pero esta noche es lenta, santa.\nSusurras que te gusto, que desde el primer beat,\nY yo solo asiento porque... no encuentro el delete.\n\n[PUENTE]\nY cuando me abrazas, no hay algoritmo, no hay trends,\nSolo dos frecuencias que al fin se encontraron, the end.\nMi mente en offline, mi corazón en streaming,\nContigo todo es fácil, incluso el amar sin timing.\n¿Un riesgo? Maybe. Pero el glow en tu mirada\nVale más que mil likes en mi biografía pasada.\n\n[OUTRO]\nNo es un one-night, es un \"vamos a ver\".\nUn \"good morning\" text que quiero tener.\nTú y yo, el after que nunca se acaba.\nLa melodía perfecta que mi corazón graba.\n[Beat transforms into a catchy, minimalist synth outro, fading into the sound of a phone notification.]"
       },
       {
@@ -1244,6 +1473,7 @@
         "file": "albums/Spanish Nights/TÚ Y YO EN EL AFTER.m4a",
         "cover": "albums/Spanish Nights/TÚ Y YO EN EL AFTER.jpg",
         "lufs": -13,
+        "peak": 0.4,
         "lyrics": "[INTRO]\n[Synth arpeggio rises, crisp hi-hats, deep 808 sub-bass drops. Sound of a crowded club fades into the beat.]\n\n[VERSO 1]\nLa pista está que arde, humo y neón en el aire,\nPero solo veo una silueta en ese maremá.\nTus ojos me encontraron entre el flash y el beat,\nUn imán en medio del caos, no hay retreat.\nMi amiga grita algo, no le escucho, sorry,\nMi brújula está rota, solo apunta hacia ti.\nMovimientos lentos a cámara lenta,\nEl mundo en mute y tú... puesta en mi agenda.\n\n[PRE-CORO]\nY de repente estás aquí, sudor en la sien,\nHueles a verano y a un after que va a ven'.\nMe pasas tu número sin decir una palabra,\nSolo un código QR en mi piel que se labra.\nLa música es fuerte, pero tu voz en mi oído\nEs el único sonido que pido, que ha sido...\n\n[CORO]\n¡Tú y yo, un plan que el mundo no va a ver!\nTus manos en mi cintura, yo sé lo que va a ser.\nUn after sin fiesta, solo tu sofa y mi piel.\nBaby, esto no es un juego, tú lo sabes también.\n¡Tú y yo, como en un Tik-Tok en loop!\nUn beso que se repita, filling up the group.\nEl resto son extras, la vibe ya la sentí.\nContigo en mi radar, yeah, el after starts with me.\n\n[VERSO 2]\nEn el taxi, tu playist, tus canciones son señales,\nTus dedos enredados con los míos, son totales.\nNo hay prisas, no hay filtros, no hay stories que postear,\nSolo este momento real que no se va a borrar.\nWhisky y Coca-Cola, y tu boca en mi garganta,\nLa ciudad pasa rápido, pero esta noche es lenta, santa.\nSusurras que te gusto, que desde el primer beat,\nY yo solo asiento porque... no encuentro el delete.\n\n[PUENTE]\nY cuando me abrazas, no hay algoritmo, no hay trends,\nSolo dos frecuencias que al fin se encontraron, the end.\nMi mente en offline, mi corazón en streaming,\nContigo todo es fácil, incluso el amar sin timing.\n¿Un riesgo? Maybe. Pero el glow en tu mirada\nVale más que mil likes en mi biografía pasada.\n\n[OUTRO]\nNo es un one-night, es un \"vamos a ver\".\nUn \"good morning\" text que quiero tener.\nTú y yo, el after que nunca se acaba.\nLa melodía perfecta que mi corazón graba.\n[Beat transforms into a catchy, minimalist synth outro, fading into the sound of a phone notification.]"
       }
     ]
@@ -1257,133 +1487,156 @@
         "name": "Beat Between Us",
         "file": "albums/The third album/Beat Between Us.m4a",
         "cover": "albums/The third album/Beat Between Us.jpg",
-        "lufs": -13.9
+        "lufs": -13.9,
+        "peak": 0.3
       },
       {
         "name": "Digital Distance",
         "file": "albums/The third album/Digital Distance.m4a",
         "cover": "albums/The third album/Digital Distance.jpg",
-        "lufs": -14.3
+        "lufs": -14.3,
+        "peak": 0.3
       },
       {
         "name": "Echoes",
         "file": "albums/The third album/Echoes.m4a",
         "cover": "albums/The third album/Echoes.jpg",
-        "lufs": -14
+        "lufs": -14,
+        "peak": 0.6
       },
       {
         "name": "Fighting Empty",
         "file": "albums/The third album/Fighting Empty.m4a",
         "cover": "albums/The third album/Fighting Empty.jpg",
-        "lufs": -13.9
+        "lufs": -13.9,
+        "peak": 0.5
       },
       {
         "name": "Last Platform",
         "file": "albums/The third album/Last Platform.m4a",
         "cover": "albums/The third album/Last Platform.jpg",
-        "lufs": -14.3
+        "lufs": -14.3,
+        "peak": 0.2
       },
       {
         "name": "Look At Me Now",
         "file": "albums/The third album/Look At Me Now.m4a",
         "cover": "albums/The third album/Look At Me Now.jpg",
-        "lufs": -13.2
+        "lufs": -13.2,
+        "peak": 0.9
       },
       {
         "name": "Rain Into Grace",
         "file": "albums/The third album/Rain Into Grace.m4a",
         "cover": "albums/The third album/Rain Into Grace.jpg",
-        "lufs": -13.9
+        "lufs": -13.9,
+        "peak": 0.1
       },
       {
         "name": "Static Memories",
         "file": "albums/The third album/Static Memories.m4a",
         "cover": "albums/The third album/Static Memories.jpg",
-        "lufs": -14.2
+        "lufs": -14.2,
+        "peak": 0.4
       },
       {
         "name": "Static Silence",
         "file": "albums/The third album/Static Silence.m4a",
         "cover": "albums/The third album/Static Silence.jpg",
-        "lufs": -13.9
+        "lufs": -13.9,
+        "peak": 0.7
       },
       {
         "name": "Stay Low",
         "file": "albums/The third album/Stay Low.m4a",
         "cover": "albums/The third album/Stay Low.jpg",
-        "lufs": -13.9
+        "lufs": -13.9,
+        "peak": 0
       },
       {
         "name": "Storm Shape",
         "file": "albums/The third album/Storm Shape.m4a",
         "cover": "albums/The third album/Storm Shape.jpg",
-        "lufs": -13.8
+        "lufs": -13.8,
+        "peak": 0.3
       },
       {
         "name": "The Same Gulls Circle",
         "file": "albums/The third album/The Same Gulls Circle.m4a",
         "cover": "albums/The third album/The Same Gulls Circle.jpg",
-        "lufs": -14.3
+        "lufs": -14.3,
+        "peak": 0
       },
       {
         "name": "Tokyo Sunset",
         "file": "albums/The third album/Tokyo Sunset.m4a",
         "cover": "albums/The third album/Tokyo Sunset.jpg",
-        "lufs": -13.6
+        "lufs": -13.6,
+        "peak": 0.2,
+        "trim": 0.41
       },
       {
         "name": "Walls That Listen",
         "file": "albums/The third album/Walls That Listen.m4a",
         "cover": "albums/The third album/Walls That Listen.jpg",
-        "lufs": -13.6
+        "lufs": -13.6,
+        "peak": 0.3
       },
       {
         "name": "Waves Return",
         "file": "albums/The third album/Waves Return.m4a",
         "cover": "albums/The third album/Waves Return.jpg",
-        "lufs": -14
+        "lufs": -14,
+        "peak": -0.1
       },
       {
         "name": "Город Теплей",
         "file": "albums/The third album/Город Теплей.m4a",
         "cover": "albums/The third album/Город Теплей.jpg",
-        "lufs": -13.7
+        "lufs": -13.7,
+        "peak": 0.3
       },
       {
         "name": "Звёздная Серенада",
         "file": "albums/The third album/Звёздная Серенада.m4a",
         "cover": "albums/The third album/Звёздная Серенада.jpg",
-        "lufs": -14.2
+        "lufs": -14.2,
+        "peak": 0.1
       },
       {
         "name": "Незнакомец в Метро (Stranger on the Metro) (Cover)",
         "file": "albums/The third album/Незнакомец в Метро (Stranger on the Metro) (Cover).m4a",
         "cover": "albums/The third album/Незнакомец в Метро (Stranger on the Metro) (Cover).jpg",
-        "lufs": -13.7
+        "lufs": -13.7,
+        "peak": 0.6
       },
       {
         "name": "Незнакомец в Метро (Stranger on the Metro)",
         "file": "albums/The third album/Незнакомец в Метро (Stranger on the Metro).m4a",
         "cover": "albums/The third album/Незнакомец в Метро (Stranger on the Metro).jpg",
-        "lufs": -14.6
+        "lufs": -14.6,
+        "peak": 0.4
       },
       {
         "name": "Окна Во Тьме (Windows in the Dark)",
         "file": "albums/The third album/Окна Во Тьме (Windows in the Dark).m4a",
         "cover": "albums/The third album/Окна Во Тьме (Windows in the Dark).jpg",
-        "lufs": -14.2
+        "lufs": -14.2,
+        "peak": 0
       },
       {
         "name": "Первый Луч",
         "file": "albums/The third album/Первый Луч.m4a",
         "cover": "albums/The third album/Первый Луч.jpg",
-        "lufs": -14.1
+        "lufs": -14.1,
+        "peak": 0.4
       },
       {
         "name": "Тысячи Окон",
         "file": "albums/The third album/Тысячи Окон.m4a",
         "cover": "albums/The third album/Тысячи Окон.jpg",
-        "lufs": -13.6
+        "lufs": -13.6,
+        "peak": 0.2
       }
     ]
   },
@@ -1396,49 +1649,60 @@
         "name": "FINAL TRANSMISSION (REPRISE) (Variation)",
         "file": "albums/Whisper/FINAL TRANSMISSION (REPRISE) (Variation).m4a",
         "cover": "albums/Whisper/FINAL TRANSMISSION (REPRISE) (Variation).jpg",
-        "lufs": -11.3
+        "lufs": -11.3,
+        "peak": 0,
+        "trim": 1
       },
       {
         "name": "FINAL TRANSMISSION (REPRISE)",
         "file": "albums/Whisper/FINAL TRANSMISSION (REPRISE).m4a",
         "cover": "albums/Whisper/FINAL TRANSMISSION (REPRISE).jpg",
-        "lufs": -14.8
+        "lufs": -14.8,
+        "peak": 0.1,
+        "trim": 0.51
       },
       {
         "name": "Mirage",
         "file": "albums/Whisper/Mirage.m4a",
         "cover": "albums/Whisper/Mirage.jpg",
-        "lufs": -12.5
+        "lufs": -12.5,
+        "peak": 0.2
       },
       {
         "name": "No name (Variation)",
         "file": "albums/Whisper/No name (Variation).m4a",
         "cover": "albums/Whisper/No name (Variation).jpg",
-        "lufs": -13.2
+        "lufs": -13.2,
+        "peak": 0.1
       },
       {
         "name": "OIL & WHISPER (Variation)",
         "file": "albums/Whisper/OIL & WHISPER (Variation).m4a",
         "cover": "albums/Whisper/OIL & WHISPER (Variation).jpg",
-        "lufs": -13.1
+        "lufs": -13.1,
+        "peak": 1
       },
       {
         "name": "Short Circuit (Psychedelic Jazz)",
         "file": "albums/Whisper/Short Circuit (Psychedelic Jazz).m4a",
         "cover": "albums/Whisper/Short Circuit (Psychedelic Jazz).jpg",
-        "lufs": -14.8
+        "lufs": -14.8,
+        "peak": 0
       },
       {
         "name": "THE TAPE NEVER ENDS (Variation)",
         "file": "albums/Whisper/THE TAPE NEVER ENDS (Variation).m4a",
         "cover": "albums/Whisper/THE TAPE NEVER ENDS (Variation).jpg",
-        "lufs": -13.3
+        "lufs": -13.3,
+        "peak": 0,
+        "trim": 0.87
       },
       {
         "name": "THE TAPE NEVER ENDS",
         "file": "albums/Whisper/THE TAPE NEVER ENDS.m4a",
         "cover": "albums/Whisper/THE TAPE NEVER ENDS.jpg",
-        "lufs": -14.2
+        "lufs": -14.2,
+        "peak": -0.4
       }
     ]
   }

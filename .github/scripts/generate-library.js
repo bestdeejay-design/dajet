@@ -13,7 +13,7 @@
  */
 const fs = require('fs');
 const path = require('path');
-const { execFileSync } = require('child_process');
+const { execFileSync, spawnSync } = require('child_process');
 
 const albumsDir = path.join(process.cwd(), 'albums');
 const outputFile = path.join(process.cwd(), 'library.json');
@@ -104,17 +104,55 @@ function readLyrics(filePath) {
     return null;
 }
 
-// Интегрированная громкость по EBU R128 (LUFS) — нужна, чтобы треки
-// в плейлисте звучали ровно, без «прыжков» громкости между песнями.
-function measureLoudness(filePath) {
+/**
+ * Анализ звука одним проходом ffmpeg:
+ *   lufs  — интегрированная громкость (EBU R128), чтобы треки не «прыгали»;
+ *   peak  — истинный пик (dBTP), чтобы не усиливать трек в клиппинг;
+ *   trim  — тишина в начале файла (сек), чтобы трек начинался сразу.
+ */
+function analyzeAudio(filePath) {
     if (!hasFfmpeg) return null;
     try {
-        const out = execFileSync('ffmpeg',
+        // ВАЖНО: ffmpeg пишет отчёт об анализе в stderr, поэтому используем
+        // spawnSync — иначе на выходе окажется пустая строка и все значения
+        // молча станут null.
+        const result = spawnSync('ffmpeg',
             ['-hide_banner', '-nostdin', '-i', filePath,
-             '-af', 'loudnorm=print_format=summary', '-f', 'null', '-'],
-            { encoding: 'utf8', stdio: ['ignore', 'ignore', 'pipe'], timeout: 15 * 60 * 1000 });
-        const m = /Input Integrated:\s+(-?[\d.]+) LUFS/.exec(out);
-        return m ? Math.round(parseFloat(m[1]) * 10) / 10 : null;
+             '-af', 'silencedetect=noise=-45dB:d=0.35,loudnorm=print_format=summary',
+             '-f', 'null', '-'],
+            { encoding: 'utf8', timeout: 15 * 60 * 1000, maxBuffer: 64 * 1024 * 1024 });
+
+        const out = result.stderr || '';
+        if (!out) {
+            problems.push(`${filePath}: не удалось прочитать анализ звука`);
+            return null;
+        }
+
+        const lufsMatch = /Input Integrated:\s+(-?[\d.]+) LUFS/.exec(out);
+        const peakMatch = /Input True Peak:\s+(-?\+?[\d.]+) dBTP/.exec(out);
+
+        // Тишина в начале: пара silence_start ≈ 0 → silence_end
+        const events = [];
+        const re = /silence_(start|end):\s*(-?[\d.]+(?:e[-+]?\d+)?)/g;
+        let m;
+        while ((m = re.exec(out)) !== null) events.push([m[1], parseFloat(m[2])]);
+
+        let trim = null;
+        if (events.length >= 2 && events[0][0] === 'start' && events[0][1] <= 0.05 && events[1][0] === 'end') {
+            const gap = events[1][1];
+            // Обрезаем только заметную паузу в начале: меньше 0.4 с слушатель
+            // не замечает, а больше 1.5 с — скорее всего осознанная тишина,
+            // часть замысла, её не трогаем. Порог -45 dB гарантирует, что
+            // в обрезку попадает только настоящая тишина, а не тихое вступление.
+            if (gap >= 0.4 && gap <= 1.5) trim = Math.round(gap * 100) / 100;
+        }
+
+        const lufs = lufsMatch ? Math.round(parseFloat(lufsMatch[1]) * 10) / 10 : null;
+        const peak = peakMatch ? Math.round(parseFloat(peakMatch[1]) * 10) / 10 : null;
+        if (lufs == null || peak == null) {
+            problems.push(`${filePath}: не удалось измерить громкость/пик (проверьте файл)`);
+        }
+        return { lufs, peak, trim };
     } catch (err) {
         return null;
     }
@@ -132,7 +170,13 @@ function loadPrevious() {
                 if (!track.file) continue;
                 let size = null;
                 try { size = fs.statSync(track.file).size; } catch (err) { /* файла нет */ }
-                cache.set(track.file, { size, lufs: track.lufs, lyrics: track.lyrics });
+                cache.set(track.file, {
+                    size,
+                    lufs: track.lufs,
+                    peak: track.peak,
+                    trim: track.trim,
+                    lyrics: track.lyrics
+                });
             }
         }
     } catch (err) {
@@ -204,15 +248,27 @@ function generate() {
 
             const cached = previous.get(relPath);
             const size = fs.statSync(audioPath).size;
-            const cacheValid = cached && cached.size === size;
+            // Файл не менялся — прошлые измерения (громкость, пик, обрезка,
+            // текст) ещё верны и их можно переиспользовать: анализ 227 треков
+            // занимает десятки минут. Пересчитываем только то, чего в кэше нет.
+            const sizeUnchanged = !!(cached && cached.size === size);
 
-            const lufs = cacheValid && cached.lufs != null ? cached.lufs : measureLoudness(audioPath);
-            if (lufs != null) entry.lufs = lufs;
-            else if (cacheValid && cached.lufs != null) entry.lufs = cached.lufs;
+            let analysis = sizeUnchanged && cached.peak !== undefined
+                ? { lufs: cached.lufs, peak: cached.peak, trim: cached.trim != null ? cached.trim : null }
+                : null;
+            if (!analysis || analysis.lufs == null || analysis.peak == null) {
+                analysis = analyzeAudio(audioPath);
+            }
 
-            const lyrics = cacheValid && cached.lyrics ? cached.lyrics : readLyrics(audioPath);
+            if (analysis && analysis.lufs != null) entry.lufs = analysis.lufs;
+            if (analysis && analysis.peak != null) entry.peak = analysis.peak;
+            if (analysis && analysis.trim != null) entry.trim = analysis.trim;
+
+            // Текст песни не должен теряться, даже если ffprobe временно
+            // недоступен: сохранённое значение имеет приоритет над неудачей.
+            const lyrics = (sizeUnchanged && cached.lyrics) ? cached.lyrics : readLyrics(audioPath);
             if (lyrics) entry.lyrics = lyrics;
-            else if (cacheValid && cached.lyrics) entry.lyrics = cached.lyrics;
+            else if (sizeUnchanged && cached.lyrics) entry.lyrics = cached.lyrics;
 
             tracks.push(entry);
         }
@@ -234,8 +290,11 @@ function generate() {
     const trackCount = albums.reduce((sum, album) => sum + album.tracks.length, 0);
     const withLoudness = albums.reduce((sum, a) => sum + a.tracks.filter((t) => t.lufs != null).length, 0);
     const withLyrics = albums.reduce((sum, a) => sum + a.tracks.filter((t) => t.lyrics).length, 0);
+    const withTrim = albums.reduce((sum, a) => sum + a.tracks.filter((t) => t.trim != null).length, 0);
+    const withPeak = albums.reduce((sum, a) => sum + a.tracks.filter((t) => t.peak != null).length, 0);
     console.log(`✅ library.json создан: альбомов ${albums.length}, треков ${trackCount}`);
-    console.log(`   выровнено по громкости: ${withLoudness}, с текстом песни: ${withLyrics}`);
+    console.log(`   громкость измерена: ${withLoudness}, пики: ${withPeak},`);
+    console.log(`   обрезка вступления: ${withTrim}, тексты песен: ${withLyrics}`);
     if (!hasFfmpeg || !hasFfprobe) {
         console.warn('   ⚠️  ffmpeg/ffprobe не найдены: новые треки останутся без данных о громкости и текста');
     }

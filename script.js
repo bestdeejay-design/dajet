@@ -86,6 +86,15 @@
 
             if (albums.length === 0) {
                 showError('Коллекция пока пуста — в альбомах нет треков.', false);
+            } else if (typeof Player !== 'undefined' && Player.setLibrary) {
+                Player.setLibrary(albums);
+                if (Player.restoreSession) {
+                    try {
+                        Player.restoreSession(albums);
+                    } catch (err) {
+                        console.warn('Не удалось восстановить последний трек:', err);
+                    }
+                }
             } else if (typeof Player !== 'undefined' && Player.restoreSession) {
                 try {
                     Player.restoreSession(albums);
@@ -112,6 +121,7 @@
             card.style.setProperty('--i', index);
             card.setAttribute('role', 'button');
             card.setAttribute('tabindex', '0');
+            card.dataset.albumId = album.id;
             card.setAttribute('aria-label', album.title + ': ' + album.tracks.length + ' ' +
                 plural(album.tracks.length, 'трек', 'трека', 'треков'));
 
@@ -183,6 +193,14 @@
             Player.togglePlaylistPanel();
         }
     }
+
+    // Подсвечиваем альбом, который играет прямо сейчас (плеер сообщает событием).
+    window.addEventListener('dajet:trackchange', (event) => {
+        const albumId = event && event.detail ? event.detail.albumId : null;
+        document.querySelectorAll('.album-card').forEach((card) => {
+            card.classList.toggle('is-playing', !!albumId && card.dataset.albumId === albumId);
+        });
+    });
 
     // ---------------------------------------------------------------- тема
 
