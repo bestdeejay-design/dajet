@@ -8,7 +8,7 @@
         "name": "Awakening",
         "file": "albums/Album Second/Awakening.m4a",
         "cover": "albums/Album Second/Awakening.jpg",
-        "lufs": -14.0
+        "lufs": -14
       },
       {
         "name": "Bus Stop in the Rain",
@@ -80,7 +80,7 @@
         "name": "Suraj Ke Saath",
         "file": "albums/Album Second/Suraj Ke Saath.m4a",
         "cover": "albums/Album Second/Suraj Ke Saath.jpg",
-        "lufs": -14.0
+        "lufs": -14
       },
       {
         "name": "Timeless Sand",
@@ -135,7 +135,7 @@
         "name": "Glass Eyes",
         "file": "albums/First Album/Glass Eyes.m4a",
         "cover": "albums/First Album/Glass Eyes.jpg",
-        "lufs": -14.0
+        "lufs": -14
       },
       {
         "name": "La Forteresse",
@@ -147,7 +147,7 @@
         "name": "Le Silence Entre Nous",
         "file": "albums/First Album/Le Silence Entre Nous.m4a",
         "cover": "albums/First Album/Le Silence Entre Nous.jpg",
-        "lufs": -14.0
+        "lufs": -14
       },
       {
         "name": "Post Parade",
@@ -165,13 +165,13 @@
         "name": "Static Playback",
         "file": "albums/First Album/Static Playback.m4a",
         "cover": "albums/First Album/Static Playback.jpg",
-        "lufs": -14.0
+        "lufs": -14
       },
       {
         "name": "Sweet Poison (Si Douce)",
         "file": "albums/First Album/Sweet Poison (Si Douce).m4a",
         "cover": "albums/First Album/Sweet Poison (Si Douce).jpg",
-        "lufs": -14.0
+        "lufs": -14
       },
       {
         "name": "Voice Note Loop",
@@ -214,7 +214,7 @@
         "name": "Bleach Boy (Variation 2)",
         "file": "albums/Garage vibe/Bleach Boy (Variation 2).m4a",
         "cover": "albums/Garage vibe/Bleach Boy (Variation 2).jpg",
-        "lufs": -9.0
+        "lufs": -9
       },
       {
         "name": "Bleach Boy (Variation)",
@@ -232,7 +232,7 @@
         "name": "can you hear",
         "file": "albums/Garage vibe/can you hear.m4a",
         "cover": "albums/Garage vibe/can you hear.jpg",
-        "lufs": -13.0
+        "lufs": -13
       },
       {
         "name": "Echo Chamber",
@@ -412,7 +412,7 @@
         "name": "Static Skin",
         "file": "albums/Garage vibe/Static Skin.m4a",
         "cover": "albums/Garage vibe/Static Skin.jpg",
-        "lufs": -12.0
+        "lufs": -12
       },
       {
         "name": "Steel Pulse (Nevsky Code) (Variation)",
@@ -424,7 +424,7 @@
         "name": "Steel Pulse (Nevsky Code)",
         "file": "albums/Garage vibe/Steel Pulse (Nevsky Code).m4a",
         "cover": "albums/Garage vibe/Steel Pulse (Nevsky Code).jpg",
-        "lufs": -13.0
+        "lufs": -13
       }
     ]
   },
@@ -449,13 +449,13 @@
         "name": "Sometimes I wonder",
         "file": "albums/Hold on (weekend vibe)/Sometimes I wonder.m4a",
         "cover": "albums/Hold on (weekend vibe)/Sometimes I wonder.jpg",
-        "lufs": -13.0
+        "lufs": -13
       },
       {
         "name": "You are here",
         "file": "albums/Hold on (weekend vibe)/You are here.m4a",
         "cover": "albums/Hold on (weekend vibe)/You are here.jpg",
-        "lufs": -13.0
+        "lufs": -13
       }
     ]
   },
@@ -474,13 +474,13 @@
         "name": "3:17 AM Ritual",
         "file": "albums/Legendary/3:17 AM Ritual.m4a",
         "cover": "albums/Legendary/3:17 AM Ritual.jpg",
-        "lufs": -12.0
+        "lufs": -12
       },
       {
         "name": "317 AM Ritual",
         "file": "albums/Legendary/317 AM Ritual.m4a",
         "cover": "albums/Legendary/317 AM Ritual.jpg",
-        "lufs": -12.0
+        "lufs": -12
       },
       {
         "name": "A Thousand Lights (Тысячи окон)",
@@ -510,7 +510,7 @@
         "name": "can you hear",
         "file": "albums/Legendary/can you hear.m4a",
         "cover": "albums/Legendary/can you hear.jpg",
-        "lufs": -13.0
+        "lufs": -13
       },
       {
         "name": "Catch",
@@ -558,7 +558,7 @@
         "name": "Far Below",
         "file": "albums/Legendary/Far Below.m4a",
         "cover": "albums/Legendary/Far Below.jpg",
-        "lufs": -13.0
+        "lufs": -13
       },
       {
         "name": "Friction",
@@ -570,7 +570,7 @@
         "name": "Golden bubbles",
         "file": "albums/Legendary/Golden bubbles.m4a",
         "cover": "albums/Legendary/Golden bubbles.jpg",
-        "lufs": -12.0
+        "lufs": -12
       },
       {
         "name": "I’m your say",
@@ -618,7 +618,7 @@
         "name": "Mysterious",
         "file": "albums/Legendary/Mysterious.m4a",
         "cover": "albums/Legendary/Mysterious.jpg",
-        "lufs": -14.0
+        "lufs": -14
       },
       {
         "name": "Neon Pulse",
@@ -642,7 +642,7 @@
         "name": "Paris… entre le rêve (Variation)",
         "file": "albums/Legendary/Paris… entre le rêve (Variation).m4a",
         "cover": "albums/Legendary/Paris… entre le rêve (Variation).jpg",
-        "lufs": -12.0
+        "lufs": -12
       },
       {
         "name": "Perpetual Motion",
@@ -738,7 +738,7 @@
         "name": "Sometimes I wonder...",
         "file": "albums/Legendary/Sometimes I wonder....m4a",
         "cover": "albums/Legendary/Sometimes I wonder....jpg",
-        "lufs": -13.0
+        "lufs": -13
       },
       {
         "name": "Sophistication",
@@ -804,7 +804,7 @@
         "name": "Слышу твой голос",
         "file": "albums/Legendary/Слышу твой голос.m4a",
         "cover": "albums/Legendary/Слышу твой голос.jpg",
-        "lufs": -12.0
+        "lufs": -12
       },
       {
         "name": "待機 (Wait)",
@@ -848,19 +848,19 @@
         "name": "3-17 AM Ritual",
         "file": "albums/Psychedelic Vibe Lost Century/3-17 AM Ritual.m4a",
         "cover": "albums/Psychedelic Vibe Lost Century/3-17 AM Ritual.jpg",
-        "lufs": -12.0
+        "lufs": -12
       },
       {
         "name": "and called it life v2",
         "file": "albums/Psychedelic Vibe Lost Century/and called it life v2.m4a",
         "cover": "albums/Psychedelic Vibe Lost Century/and called it life v2.jpg",
-        "lufs": -14.0
+        "lufs": -14
       },
       {
         "name": "and called it life v3",
         "file": "albums/Psychedelic Vibe Lost Century/and called it life v3.m4a",
         "cover": "albums/Psychedelic Vibe Lost Century/and called it life v3.jpg",
-        "lufs": -13.0
+        "lufs": -13
       },
       {
         "name": "BREATH IS VOW",
@@ -884,7 +884,7 @@
         "name": "can you hear",
         "file": "albums/Psychedelic Vibe Lost Century/can you hear.m4a",
         "cover": "albums/Psychedelic Vibe Lost Century/can you hear.jpg",
-        "lufs": -13.0
+        "lufs": -13
       },
       {
         "name": "Cosmic Vibes of 1973 v2",
@@ -896,7 +896,7 @@
         "name": "Cosmic Vibes of 1973",
         "file": "albums/Psychedelic Vibe Lost Century/Cosmic Vibes of 1973.m4a",
         "cover": "albums/Psychedelic Vibe Lost Century/Cosmic Vibes of 1973.jpg",
-        "lufs": -13.0
+        "lufs": -13
       },
       {
         "name": "Dreams (Variation)",
@@ -968,7 +968,7 @@
         "name": "Heaven’s Door (Rain Waltz)",
         "file": "albums/Psychedelic Vibe Lost Century/Heaven’s Door (Rain Waltz).m4a",
         "cover": "albums/Psychedelic Vibe Lost Century/Heaven’s Door (Rain Waltz).jpg",
-        "lufs": -13.0
+        "lufs": -13
       },
       {
         "name": "Hmmm... yeah... (Variation)",
@@ -1094,7 +1094,7 @@
         "name": "Obsidian Tide",
         "file": "albums/Psychedelic Vibe Lost Century/Obsidian Tide.m4a",
         "cover": "albums/Psychedelic Vibe Lost Century/Obsidian Tide.jpg",
-        "lufs": -13.0
+        "lufs": -13
       },
       {
         "name": "OIL & WHISPER (Variation)",
@@ -1142,7 +1142,7 @@
         "name": "Room 7 No Knock (Variation)",
         "file": "albums/Psychedelic Vibe Lost Century/Room 7 No Knock (Variation).m4a",
         "cover": "albums/Psychedelic Vibe Lost Century/Room 7 No Knock (Variation).jpg",
-        "lufs": -13.0
+        "lufs": -13
       },
       {
         "name": "Short Circuit (Psychedelic Jazz)",
@@ -1201,7 +1201,7 @@
         "name": "LA PRIMA (Conscious Hip-Hop Version)",
         "file": "albums/Spanish Nights/LA PRIMA (Conscious Hip-Hop Version).m4a",
         "cover": "albums/Spanish Nights/LA PRIMA (Conscious Hip-Hop Version).jpg",
-        "lufs": -12.0,
+        "lufs": -12,
         "lyrics": "[INTRO]\n[Soundscape: city at night, a lighter flicking. A melancholic, reversed Spanish guitar sample. Clean boom bap beat with deep bass drops in.]\n\n[VERSE 1]\n[Flow: Calm, observational, close-mic'd]\nLa ventana es un espejo, tú no ves tu propio error.\nEspectador de tu propio vacío, ese es tu terror.\nTu \"no concentrarme\" es el eco de un deseo ficticio.\nAnotas \"su prima llega\" en tu pobre ejercicio.\nPero la presa que tú crees observa desde atrás.\nTu mirada es un libro que ya aprendí a leer al revés.\n\n[PRE-CHORUS]\n[Flow becomes more direct, rhythmic]\nMe numeras \"uno\" en tu trivial colección.\n[Sarcastic, half-whispered ad-lib] Pero falla tu percepción.\n\n[CHORUS]\n[Beat hits harder. A distorted, lo-fi sample of the original male hook plays underneath:]\n*\"Su prima es de riesgo número uno... cualquiera lo ve...\"*\n[Female rap clear and upfront over the sample]\n¿Riesgo? Soy el espejo donde tu reflejo se quiebra.\nLas curvas que ves son las de tu mente que se ciega.\n¡Cualquiera lo ve! Tu soledad tras la persiana.\n(Yes. Cualquiera lo ve. Lo veo yo.)\n\n[VERSE 2]\n[Flow: More aggressive, punchy. Bassline gets gritty]\nAh, ¿\"tres lenguas juntas\"? Pobre diccionario.\nUna para el juego, otra para el vocabulario.\n\"Saltando sobre la cama\" con tu fantasía...\nMi ritmo salta sobre tu lógica vacía.\nUn \"beso de tres\" de labios de goma y papel...\nEs el final previsible de tu propio duelo.\n\n[BRIDGE]\n[Beat breaks down to just the guitar sample and a faint vinyl crackle. Delivery: introspective, raw]\n¿Y si cierro la ventana?\n¿Y si \"la prima\" es solo lo que no puedes controlar?\nTu miedo a la calle que sí camino...\n(Beat starts building back up) Tu guión que no voy a firmar.\n\n[OUTRO]\n[Beat returns to full force for two bars, then cuts abruptly on the word \"final\". Last line delivered in silence.]\nTú hablas de un beso, yo hablo del silencio final.\nLa prima... era la respuesta a tu pregunta trivial.\n[Beat cut] El observador... era el observado al final."
       },
       {
@@ -1243,7 +1243,7 @@
         "name": "TÚ Y YO EN EL AFTER",
         "file": "albums/Spanish Nights/TÚ Y YO EN EL AFTER.m4a",
         "cover": "albums/Spanish Nights/TÚ Y YO EN EL AFTER.jpg",
-        "lufs": -13.0,
+        "lufs": -13,
         "lyrics": "[INTRO]\n[Synth arpeggio rises, crisp hi-hats, deep 808 sub-bass drops. Sound of a crowded club fades into the beat.]\n\n[VERSO 1]\nLa pista está que arde, humo y neón en el aire,\nPero solo veo una silueta en ese maremá.\nTus ojos me encontraron entre el flash y el beat,\nUn imán en medio del caos, no hay retreat.\nMi amiga grita algo, no le escucho, sorry,\nMi brújula está rota, solo apunta hacia ti.\nMovimientos lentos a cámara lenta,\nEl mundo en mute y tú... puesta en mi agenda.\n\n[PRE-CORO]\nY de repente estás aquí, sudor en la sien,\nHueles a verano y a un after que va a ven'.\nMe pasas tu número sin decir una palabra,\nSolo un código QR en mi piel que se labra.\nLa música es fuerte, pero tu voz en mi oído\nEs el único sonido que pido, que ha sido...\n\n[CORO]\n¡Tú y yo, un plan que el mundo no va a ver!\nTus manos en mi cintura, yo sé lo que va a ser.\nUn after sin fiesta, solo tu sofa y mi piel.\nBaby, esto no es un juego, tú lo sabes también.\n¡Tú y yo, como en un Tik-Tok en loop!\nUn beso que se repita, filling up the group.\nEl resto son extras, la vibe ya la sentí.\nContigo en mi radar, yeah, el after starts with me.\n\n[VERSO 2]\nEn el taxi, tu playist, tus canciones son señales,\nTus dedos enredados con los míos, son totales.\nNo hay prisas, no hay filtros, no hay stories que postear,\nSolo este momento real que no se va a borrar.\nWhisky y Coca-Cola, y tu boca en mi garganta,\nLa ciudad pasa rápido, pero esta noche es lenta, santa.\nSusurras que te gusto, que desde el primer beat,\nY yo solo asiento porque... no encuentro el delete.\n\n[PUENTE]\nY cuando me abrazas, no hay algoritmo, no hay trends,\nSolo dos frecuencias que al fin se encontraron, the end.\nMi mente en offline, mi corazón en streaming,\nContigo todo es fácil, incluso el amar sin timing.\n¿Un riesgo? Maybe. Pero el glow en tu mirada\nVale más que mil likes en mi biografía pasada.\n\n[OUTRO]\nNo es un one-night, es un \"vamos a ver\".\nUn \"good morning\" text que quiero tener.\nTú y yo, el after que nunca se acaba.\nLa melodía perfecta que mi corazón graba.\n[Beat transforms into a catchy, minimalist synth outro, fading into the sound of a phone notification.]"
       }
     ]
@@ -1269,7 +1269,7 @@
         "name": "Echoes",
         "file": "albums/The third album/Echoes.m4a",
         "cover": "albums/The third album/Echoes.jpg",
-        "lufs": -14.0
+        "lufs": -14
       },
       {
         "name": "Fighting Empty",
@@ -1341,7 +1341,7 @@
         "name": "Waves Return",
         "file": "albums/The third album/Waves Return.m4a",
         "cover": "albums/The third album/Waves Return.jpg",
-        "lufs": -14.0
+        "lufs": -14
       },
       {
         "name": "Город Теплей",
