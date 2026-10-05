@@ -21,33 +21,46 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
+    # Анализ 12 часов аудио занимает время: даём с запасом
+    timeout-minutes: 90
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
         with:
           ref: ${{ github.ref_name }}
+          # Полная история не нужна — хватает последнего коммита
+          fetch-depth: 1
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20'
 
+      # ffmpeg/ffprobe уже есть на ubuntu-latest, но на всякий случай проверим
+      - name: Проверить инструменты анализа аудио
+        run: |
+          ffmpeg -version | head -1 || echo "ffmpeg отсутствует"
+          ffprobe -version | head -1 || echo "ffprobe отсутствует"
+
       - name: Проверка синтаксиса JS
         run: |
-          for f in player.js script.js rays.js storage.js .github/scripts/generate-library.js; do
+          for f in player.js script.js rays.js storage.js tools/make-checksums.js tools/verify-checksums.js .github/scripts/generate-library.js; do
             node --check "$f"
           done
 
       - name: Generate library.json
         run: node .github/scripts/generate-library.js
 
+      - name: Обновить контрольные суммы коллекции
+        run: node tools/make-checksums.js
+
       - name: Commit and push if changed
         run: |
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-          git add library.json
+          git add library.json CHECKSUMS.sha256
           if git diff --quiet && git diff --staged --quiet; then
-            echo "library.json не изменился"
+            echo "Изменений нет"
             exit 0
           fi
           git commit -m "Auto-update library.json"

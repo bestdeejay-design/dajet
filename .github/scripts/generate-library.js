@@ -13,6 +13,7 @@
  */
 const fs = require('fs');
 const path = require('path');
+const { execFileSync } = require('child_process');
 
 const albumsDir = path.join(process.cwd(), 'albums');
 const outputFile = path.join(process.cwd(), 'library.json');
@@ -68,6 +69,78 @@ function isUsableFile(filePath, kind) {
     return true;
 }
 
+// --------------------------------------------------------------- аудиоанализ
+// Громкость и текст песни берём из самих файлов (ffmpeg/ffprobe). На GitHub
+// Runners они есть из коробки. Если инструментов нет — просто пропускаем шаг,
+// значения из предыдущего library.json при этом сохраняются.
+
+function commandExists(cmd) {
+    try {
+        execFileSync(cmd, ['-version'], { stdio: 'ignore' });
+        return true;
+    } catch (err) {
+        return false;
+    }
+}
+
+const hasFfprobe = commandExists('ffprobe');
+const hasFfmpeg = commandExists('ffmpeg');
+
+function readLyrics(filePath) {
+    if (!hasFfprobe) return null;
+    try {
+        const out = execFileSync('ffprobe',
+            ['-v', 'quiet', '-print_format', 'json', '-show_format', filePath],
+            { encoding: 'utf8', timeout: 30000 });
+        const tags = (JSON.parse(out).format || {}).tags || {};
+        for (const [key, value] of Object.entries(tags)) {
+            if (/^(lyrics|©lyr|unsyncedlyrics)$/i.test(key) && value && value.trim()) {
+                return value.replace(/\r\n/g, '\n').trim();
+            }
+        }
+    } catch (err) {
+        /* нет текста или файл не читается */
+    }
+    return null;
+}
+
+// Интегрированная громкость по EBU R128 (LUFS) — нужна, чтобы треки
+// в плейлисте звучали ровно, без «прыжков» громкости между песнями.
+function measureLoudness(filePath) {
+    if (!hasFfmpeg) return null;
+    try {
+        const out = execFileSync('ffmpeg',
+            ['-hide_banner', '-nostdin', '-i', filePath,
+             '-af', 'loudnorm=print_format=summary', '-f', 'null', '-'],
+            { encoding: 'utf8', stdio: ['ignore', 'ignore', 'pipe'], timeout: 15 * 60 * 1000 });
+        const m = /Input Integrated:\s+(-?[\d.]+) LUFS/.exec(out);
+        return m ? Math.round(parseFloat(m[1]) * 10) / 10 : null;
+    } catch (err) {
+        return null;
+    }
+}
+
+// Значения из прошлого library.json переиспользуем, если файл не изменился
+// (сравниваем по размеру) — чтобы не гонять анализ по 12 часам звука заново.
+function loadPrevious() {
+    const cache = new Map();
+    if (!fs.existsSync(outputFile)) return cache;
+    try {
+        const prev = JSON.parse(fs.readFileSync(outputFile, 'utf8'));
+        for (const album of prev) {
+            for (const track of album.tracks || []) {
+                if (!track.file) continue;
+                let size = null;
+                try { size = fs.statSync(track.file).size; } catch (err) { /* файла нет */ }
+                cache.set(track.file, { size, lufs: track.lufs, lyrics: track.lyrics });
+            }
+        }
+    } catch (err) {
+        console.warn('Не удалось прочитать предыдущий library.json:', err.message);
+    }
+    return cache;
+}
+
 // Нормализация имени: убираем лишние пробелы, обрезаем, нижний регистр
 function normalizeName(name) {
     return name
@@ -86,6 +159,7 @@ function generate() {
         process.exit(1);
     }
 
+    const previous = loadPrevious();
     const albums = [];
     // Сортируем альбомы по имени — порядок в галерее не должен «прыгать»
     // от запуска к запуску.
@@ -121,11 +195,26 @@ function generate() {
                     isUsableFile(path.join(albumPath, f), 'image');
             });
 
-            tracks.push({
+            const relPath = `albums/${folder}/${audio}`;
+            const entry = {
                 name: trimName(base),
-                file: `albums/${folder}/${audio}`,
+                file: relPath,
                 cover: trackCover ? `albums/${folder}/${trackCover}` : null
-            });
+            };
+
+            const cached = previous.get(relPath);
+            const size = fs.statSync(audioPath).size;
+            const cacheValid = cached && cached.size === size;
+
+            const lufs = cacheValid && cached.lufs != null ? cached.lufs : measureLoudness(audioPath);
+            if (lufs != null) entry.lufs = lufs;
+            else if (cacheValid && cached.lufs != null) entry.lufs = cached.lufs;
+
+            const lyrics = cacheValid && cached.lyrics ? cached.lyrics : readLyrics(audioPath);
+            if (lyrics) entry.lyrics = lyrics;
+            else if (cacheValid && cached.lyrics) entry.lyrics = cached.lyrics;
+
+            tracks.push(entry);
         }
 
         if (tracks.length > 0) {
@@ -143,7 +232,13 @@ function generate() {
     fs.writeFileSync(outputFile, JSON.stringify(albums, null, 2) + '\n');
 
     const trackCount = albums.reduce((sum, album) => sum + album.tracks.length, 0);
+    const withLoudness = albums.reduce((sum, a) => sum + a.tracks.filter((t) => t.lufs != null).length, 0);
+    const withLyrics = albums.reduce((sum, a) => sum + a.tracks.filter((t) => t.lyrics).length, 0);
     console.log(`✅ library.json создан: альбомов ${albums.length}, треков ${trackCount}`);
+    console.log(`   выровнено по громкости: ${withLoudness}, с текстом песни: ${withLyrics}`);
+    if (!hasFfmpeg || !hasFfprobe) {
+        console.warn('   ⚠️  ffmpeg/ffprobe не найдены: новые треки останутся без данных о громкости и текста');
+    }
 
     if (problems.length > 0) {
         console.warn(`\n⚠️  Проблемных файлов: ${problems.length}`);

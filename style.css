@@ -145,6 +145,7 @@ body {
     cursor: pointer;
     border: 1px solid var(--border-light);
     backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
     opacity: 0;
     transform: translateY(20px);
     will-change: transform, opacity;
@@ -177,6 +178,12 @@ body {
     object-fit: cover;
     background: #1e1e1e;
     display: block;
+}
+
+.cover-fallback {
+    object-fit: contain;
+    padding: 20%;
+    background: #1e1e1e;
 }
 
 .album-cover--fallback {
@@ -329,6 +336,10 @@ body {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+}
+
+.lyrics-panel .playlist-header h2 {
+    font-size: 1rem;
 }
 
 .overlay {

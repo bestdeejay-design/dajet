@@ -23,11 +23,17 @@
             .replace(/'/g, '&#39;');
     }
 
+    const CONFIG = (typeof window !== 'undefined' && window.DAJET_CONFIG) || {};
+    const MEDIA_BASE = typeof CONFIG.mediaBase === 'string' ? CONFIG.mediaBase : '';
+
     // Путь с пробелами, апострофами и кириллицей должен быть корректно закодирован.
+    // Если коллекция вынесена на внешнее хранилище (config.js → mediaBase),
+    // подставляем его адрес.
     function urlPath(path) {
         if (!path) return '';
         if (/^(data:|blob:|https?:)/i.test(path)) return path;
-        return String(path).split('/').map((segment) => encodeURIComponent(segment)).join('/');
+        const encoded = String(path).split('/').map((segment) => encodeURIComponent(segment)).join('/');
+        return MEDIA_BASE ? MEDIA_BASE + encoded : encoded;
     }
 
     function plural(n, one, few, many) {
@@ -80,6 +86,12 @@
 
             if (albums.length === 0) {
                 showError('Коллекция пока пуста — в альбомах нет треков.', false);
+            } else if (typeof Player !== 'undefined' && Player.restoreSession) {
+                try {
+                    Player.restoreSession(albums);
+                } catch (err) {
+                    console.warn('Не удалось восстановить последний трек:', err);
+                }
             }
         } catch (err) {
             console.error('Не удалось загрузить библиотеку:', err);
@@ -116,6 +128,11 @@
                     <div class="album-meta">${count}</div>
                 </div>
             `;
+
+            const coverImg = card.querySelector('.album-cover');
+            if (coverImg && coverImg.tagName === 'IMG' && typeof Player !== 'undefined' && Player.attachCoverFallback) {
+                Player.attachCoverFallback(coverImg, 400);
+            }
 
             const open = () => openAlbum(album);
 

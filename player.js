@@ -8,6 +8,20 @@ const Player = (function() {
 
     const REPEAT_MODES = { NONE: 0, ONE: 1, ALL: 2 };
 
+    // Настройки (config.js) с безопасными значениями по умолчанию.
+    const CONFIG = (typeof window !== 'undefined' && window.DAJET_CONFIG) || {};
+    // Целевая интегрированная громкость (LUFS). Треки в коллекции сведены
+    // с разбросом ~6 LU — без выравнивания одни песни заметно громче других.
+    // Значение — примерно середина коллекции, чтобы подстройка шла в обе
+    // стороны и не «съедала» громкость.
+    const TARGET_LUFS = typeof CONFIG.targetLufs === 'number' ? CONFIG.targetLufs : -13.5;
+    // Ограничители: не усиливаем тихие треки больше, чем на 6 дБ, и не
+    // ослабляем больше, чем на 12 дБ (запас, чтобы не упереться в клиппинг).
+    const MAX_GAIN_DB = typeof CONFIG.maxGainUpDb === 'number' ? CONFIG.maxGainUpDb : 6;
+    const MIN_GAIN_DB = typeof CONFIG.maxGainDownDb === 'number' ? CONFIG.maxGainDownDb : -12;
+    // Аудио и обложки могут лежать на внешнем хранилище (см. config.js).
+    const MEDIA_BASE = typeof CONFIG.mediaBase === 'string' ? CONFIG.mediaBase : '';
+
     const SKINS = ['classic', 'minimal', 'compact'];
     const SKIN_LABELS = { classic: 'Classic', minimal: 'Minimal', compact: 'Compact' };
 
@@ -21,6 +35,8 @@ const Player = (function() {
     let isSeeking = false;
     // Защита от «петли» на битых файлах: считаем подряд идущие сбои загрузки.
     let consecutiveErrors = 0;
+    let normalizeOn = true;
+    let baseVolume = 0.8;
     let failedTracks = new Set();
     const MAX_CONSECUTIVE_ERRORS = 3;
 
@@ -54,7 +70,13 @@ const Player = (function() {
             currentTime: document.getElementById('currentTime'),
             durationTime: document.getElementById('durationTime'),
             volumeSlider: document.getElementById('volumeSlider'),
-            volumeBtn: document.getElementById('volumeBtn')
+            volumeBtn: document.getElementById('volumeBtn'),
+            normalizeBtn: document.getElementById('normalizeBtn'),
+            lyricsBtn: document.getElementById('lyricsBtn'),
+            lyricsPanel: document.getElementById('lyricsPanel'),
+            lyricsTitle: document.getElementById('lyricsTitle'),
+            lyricsText: document.getElementById('lyricsText'),
+            closeLyrics: document.getElementById('closeLyrics')
         };
 
         if (!elements.audioPlayer || !elements.playPauseBtn) {
@@ -63,6 +85,12 @@ const Player = (function() {
         }
 
         loadSkin();
+        // Обложка трека существует с самого начала — обработчик ставим сразу,
+        // иначе «сломанная» картинка возможна ещё до выбора трека.
+        attachCoverFallback(elements.currentTrackCover, 120);
+        normalizeOn = Store.get('playerNormalize', '1') !== '0';
+        updateNormalizeButton();
+        updateLyricsButton();
         loadVolume();
         bindEvents();
         updateRepeatButton();
@@ -75,10 +103,11 @@ const Player = (function() {
         elements.playPauseBtn.setAttribute('aria-label', isPlaying ? 'Пауза' : 'Воспроизвести');
     }
 
-    function showNotice(message, timeout = 6000) {
+    function showNotice(message, timeout = 6000, kind = 'warn') {
         const notice = elements.playerNotice;
         if (!notice) return;
         notice.textContent = message;
+        notice.classList.toggle('is-info', kind === 'info');
         notice.hidden = false;
         if (showNotice.timer) clearTimeout(showNotice.timer);
         if (timeout) {
@@ -113,7 +142,10 @@ const Player = (function() {
 
         elements.togglePlaylist.addEventListener('click', togglePlaylistPanel);
         elements.closePlaylist.addEventListener('click', togglePlaylistPanel);
-        elements.overlay.addEventListener('click', togglePlaylistPanel);
+        elements.overlay.addEventListener('click', () => {
+            if (isLyricsVisible()) closeLyricsPanel();
+            if (isPlaylistVisible()) togglePlaylistPanel();
+        });
         elements.skinToggle.addEventListener('click', cycleSkin);
 
         elements.progressContainer.addEventListener('click', handleProgressClick);
@@ -121,10 +153,14 @@ const Player = (function() {
 
         elements.volumeSlider.addEventListener('input', handleVolumeChange);
 
+        if (elements.normalizeBtn) elements.normalizeBtn.addEventListener('click', toggleNormalize);
+        if (elements.lyricsBtn) elements.lyricsBtn.addEventListener('click', toggleLyricsPanel);
+        if (elements.closeLyrics) elements.closeLyrics.addEventListener('click', toggleLyricsPanel);
+
         document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' && isPlaylistVisible()) {
-                togglePlaylistPanel();
-                return;
+            if (e.key === 'Escape') {
+                if (isLyricsVisible()) { closeLyricsPanel(); return; }
+                if (isPlaylistVisible()) { togglePlaylistPanel(); return; }
             }
 
             // Не перехватываем клавиши, когда пользователь работает с полем ввода,
@@ -290,22 +326,71 @@ const Player = (function() {
         const raw = parseFloat(elements.volumeSlider.value);
         const v = isFinite(raw) ? Math.max(0, Math.min(1, raw)) : 0.8;
         elements.volumeSlider.value = v;
-        try {
-            elements.audioPlayer.volume = v;
-        } catch (err) {
-            console.warn('Не удалось изменить громкость:', err && err.message);
-        }
+        baseVolume = v;
         Store.set('playerVolume', v);
+        applyVolume();
         updateVolumeIcon(v);
     }
 
     function loadVolume() {
         const v = Store.getNumber('playerVolume', 0.8, 0, 1);
-        try {
-            elements.audioPlayer.volume = v;
-        } catch (err) { /* игнорируем, громкость останется по умолчанию */ }
         elements.volumeSlider.value = v;
+        baseVolume = v;
+        applyVolume();
         updateVolumeIcon(v);
+    }
+
+    /**
+     * Приводит громкость трека к целевому уровню, чтобы песни не «прыгали»
+     * по громкости. Слайдер остаётся главным: выравнивание лишь корректирует
+     * его значение в пределах ±6/−12 дБ.
+     */
+    function gainDbFor(track) {
+        if (!normalizeOn || !track || typeof track.lufs !== 'number' || !isFinite(track.lufs)) return 0;
+        let gain = TARGET_LUFS - track.lufs;
+        if (gain > MAX_GAIN_DB) gain = MAX_GAIN_DB;
+        if (gain < MIN_GAIN_DB) gain = MIN_GAIN_DB;
+        return gain;
+    }
+
+    function applyVolume() {
+        const track = currentAlbum && currentTrackIndex >= 0 ? currentAlbum.tracks[currentTrackIndex] : null;
+        const gain = gainDbFor(track);
+        const effective = Math.max(0, Math.min(1, baseVolume * Math.pow(10, gain / 20)));
+        try {
+            elements.audioPlayer.volume = effective;
+        } catch (err) {
+            console.warn('Не удалось изменить громкость:', err && err.message);
+        }
+        updateNormalizeHint(gain);
+    }
+
+    function updateNormalizeHint(gain) {
+        if (!elements.normalizeBtn) return;
+        const parts = [];
+        if (normalizeOn && Math.abs(gain) > 0.5) {
+            parts.push((gain > 0 ? '+' : '') + gain.toFixed(1) + ' дБ');
+        }
+        elements.normalizeBtn.title = normalizeOn
+            ? 'Громкость выровнена по коллекции' + (parts.length ? ' (' + parts[0] + ')' : '')
+            : 'Выравнивание громкости выключено';
+    }
+
+    function toggleNormalize() {
+        normalizeOn = !normalizeOn;
+        Store.set('playerNormalize', normalizeOn ? '1' : '0');
+        updateNormalizeButton();
+        applyVolume();
+        showNotice(normalizeOn
+            ? 'Выравнивание громкости включено: треки звучат ровно'
+            : 'Выравнивание громкости выключено: громкость как в файле', 3500);
+    }
+
+    function updateNormalizeButton() {
+        if (!elements.normalizeBtn) return;
+        elements.normalizeBtn.classList.toggle('active', normalizeOn);
+        elements.normalizeBtn.setAttribute('aria-pressed', normalizeOn ? 'true' : 'false');
+        elements.normalizeBtn.textContent = 'Ровно';
     }
 
     function updateVolumeIcon(v) {
@@ -351,7 +436,8 @@ const Player = (function() {
                 artist: album.title,
                 album: album.title,
                 artwork: [
-                    { src: toUrlPath(coverSrc), sizes: '512x512' }
+                    { src: toUrlPath(coverSrc), sizes: '512x512' },
+                    { src: toUrlPath(coverSrc), sizes: '1024x1024' }
                 ]
             });
         } catch (err) {
@@ -406,10 +492,23 @@ const Player = (function() {
         elements.currentAlbumName.textContent = album.title;
 
         const coverSrc = track.cover || album.cover || createFallbackCover();
+        attachCoverFallback(elements.currentTrackCover, 120);
         elements.currentTrackCover.src = toUrlPath(coverSrc);
+
+        applyVolume();
+        updateLyricsButton();
+        if (isLyricsVisible()) {
+            if (hasLyrics(track)) {
+                elements.lyricsTitle.textContent = track.name;
+                renderLyrics(track);
+            } else {
+                closeLyricsPanel();
+            }
+        }
 
         updateMediaSession(album, track);
         highlightPlaylistItem(trackIndex);
+        saveSession(album, trackIndex);
 
         if (shuffleOn) {
             generateShuffleIndices();
@@ -586,6 +685,7 @@ const Player = (function() {
                 if (isPlaylistVisible()) togglePlaylistPanel();
             };
 
+            attachCoverFallback(item.querySelector('.playlist-item-cover'), 40);
             item.addEventListener('click', choose);
             item.addEventListener('keydown', (e) => {
                 if (e.key === 'Enter' || e.key === ' ') {
@@ -606,6 +706,122 @@ const Player = (function() {
         });
     }
 
+    function saveSession(album, trackIndex) {
+        if (!album || !album.id) return;
+        Store.set('lastAlbumId', album.id);
+        Store.set('lastTrackIndex', String(trackIndex));
+    }
+
+    /**
+     * Возвращает выбор к последнему прослушанному треку — без автозапуска
+     * (браузеры всё равно блокируют автопроигрывание, а неожиданный звук
+     * сбивает с толку). Достаточно нажать «воспроизвести».
+     */
+    function restoreSession(albums) {
+        if (!Array.isArray(albums) || albums.length === 0) return false;
+        const albumId = Store.get('lastAlbumId');
+        if (!albumId) return false;
+
+        const album = albums.find((a) => a && a.id === albumId);
+        if (!album || !album.tracks || album.tracks.length === 0) return false;
+
+        const saved = parseInt(Store.get('lastTrackIndex'), 10);
+        const trackIndex = Number.isInteger(saved) && saved >= 0 && saved < album.tracks.length ? saved : 0;
+        const track = album.tracks[trackIndex];
+        if (!track) return false;
+
+        // Восстанавливаем состояние плеера, не начиная воспроизведение.
+        currentAlbum = album;
+        currentTrackIndex = trackIndex;
+
+        elements.audioPlayer.src = toUrlPath(track.file);
+        elements.currentTrackName.textContent = track.name;
+        elements.currentAlbumName.textContent = album.title;
+        attachCoverFallback(elements.currentTrackCover, 120);
+        elements.currentTrackCover.src = toUrlPath(track.cover || album.cover || createFallbackCover());
+        elements.playlistAlbumTitle.textContent = album.title;
+        renderPlaylist();
+        highlightPlaylistItem(trackIndex);
+        applyVolume();
+        updateLyricsButton();
+        updateMediaSession(album, track);
+        showPlayer();
+        setPlayIcon(false);
+
+        showNotice(`Продолжаем с трека «${track.name}» — нажмите воспроизведение`, 6000, 'info');
+        return true;
+    }
+
+    function currentTrack() {
+        return currentAlbum && currentTrackIndex >= 0 ? currentAlbum.tracks[currentTrackIndex] : null;
+    }
+
+    function hasLyrics(track) {
+        return !!(track && typeof track.lyrics === 'string' && track.lyrics.trim());
+    }
+
+    function updateLyricsButton() {
+        if (!elements.lyricsBtn) return;
+        const track = currentTrack();
+        const available = hasLyrics(track);
+        elements.lyricsBtn.disabled = !available;
+        elements.lyricsBtn.setAttribute('aria-disabled', available ? 'false' : 'true');
+        elements.lyricsBtn.title = available ? 'Текст песни' : 'Для этого трека текста нет';
+        if (!available && isLyricsVisible()) closeLyricsPanel();
+    }
+
+    function isLyricsVisible() {
+        return !!(elements.lyricsPanel && elements.lyricsPanel.classList.contains('open'));
+    }
+
+    function renderLyrics(track) {
+        if (!elements.lyricsText) return;
+        elements.lyricsText.textContent = '';
+        (track.lyrics || '').split('\n').forEach((line) => {
+            const row = document.createElement('p');
+            // Пустая строка — разделитель строф
+            if (line.trim()) {
+                row.textContent = line;
+            } else {
+                row.className = 'lyrics-gap';
+            }
+            elements.lyricsText.appendChild(row);
+        });
+    }
+
+    function toggleLyricsPanel() {
+        if (isLyricsVisible()) closeLyricsPanel();
+        else openLyricsPanel();
+    }
+
+    function openLyricsPanel() {
+        const track = currentTrack();
+        if (!hasLyrics(track) || !elements.lyricsPanel) return;
+        if (isPlaylistVisible()) togglePlaylistPanel();
+        elements.lyricsTitle.textContent = track.name;
+        renderLyrics(track);
+        elements.lyricsPanel.classList.add('open');
+        elements.lyricsPanel.setAttribute('aria-hidden', 'false');
+        elements.overlay.classList.add('visible');
+        elements.overlay.setAttribute('aria-hidden', 'false');
+        if (elements.lyricsBtn) elements.lyricsBtn.setAttribute('aria-expanded', 'true');
+        if (elements.closeLyrics) elements.closeLyrics.focus();
+    }
+
+    function closeLyricsPanel() {
+        if (!elements.lyricsPanel) return;
+        elements.lyricsPanel.classList.remove('open');
+        elements.lyricsPanel.setAttribute('aria-hidden', 'true');
+        if (!isPlaylistVisible()) {
+            elements.overlay.classList.remove('visible');
+            elements.overlay.setAttribute('aria-hidden', 'true');
+        }
+        if (elements.lyricsBtn) {
+            elements.lyricsBtn.setAttribute('aria-expanded', 'false');
+            if (elements.lyricsPanel.contains(document.activeElement)) elements.lyricsBtn.focus();
+        }
+    }
+
     function togglePlaylistPanel() {
         const isVisible = elements.playlistPanel.classList.contains('open');
         if (isVisible) {
@@ -624,6 +840,7 @@ const Player = (function() {
             elements.overlay.classList.add('visible');
             elements.overlay.setAttribute('aria-hidden', 'false');
             elements.togglePlaylist.setAttribute('aria-expanded', 'true');
+            if (isLyricsVisible()) closeLyricsPanel();
             elements.playlistAlbumTitle.textContent = currentAlbum ? currentAlbum.title : 'Плейлист';
             renderPlaylist();
             if (elements.closePlaylist) elements.closePlaylist.focus();
@@ -657,7 +874,22 @@ const Player = (function() {
     function toUrlPath(path) {
         if (!path) return '';
         if (/^(data:|blob:|https?:)/i.test(path)) return path;
-        return String(path).split('/').map((segment) => encodeURIComponent(segment)).join('/');
+        const encoded = String(path).split('/').map((segment) => encodeURIComponent(segment)).join('/');
+        return MEDIA_BASE ? MEDIA_BASE + encoded : encoded;
+    }
+
+    /**
+     * Если обложка не загрузилась (файл переименован, оборвалась сеть),
+     * подставляем аккуратную заглушку вместо «сломанной» иконки.
+     */
+    function attachCoverFallback(img, size = 100) {
+        if (!img) return;
+        img.addEventListener('error', function onError() {
+            if (img.dataset.fallbackApplied === '1') return;
+            img.dataset.fallbackApplied = '1';
+            img.src = createFallbackCover(size);
+            img.classList.add('cover-fallback');
+        });
     }
 
     function createFallbackCover(size = 100) {
@@ -723,6 +955,9 @@ const Player = (function() {
         renderPlaylist,
         escapeHtml,
         toUrlPath,
-        showNotice
+        showNotice,
+        applyVolume,
+        restoreSession,
+        attachCoverFallback
     };
 })();

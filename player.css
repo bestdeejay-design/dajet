@@ -21,6 +21,20 @@
     transform: translateY(0);
 }
 
+.mode-toggle {
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    padding: 0.35rem 0.7rem;
+    min-width: auto;
+    border-radius: 999px;
+}
+
+.mode-toggle[disabled] {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
 .player-notice {
     margin: 0;
     padding: 0.35rem 0.75rem;
@@ -36,9 +50,33 @@
     display: none;
 }
 
+.player-notice.is-info {
+    background: rgba(255, 255, 255, 0.06);
+    border-color: var(--border-hover);
+    color: var(--text-secondary);
+}
+
 /* Плавный «пульс» обложки, пока трек буферизуется */
 .player-bar.buffering .track-cover {
     animation: coverPulse 1.2s ease-in-out infinite;
+}
+
+/* Панель с текстом песни: та же геометрия, что у плейлиста,
+   но текст читается как стихи — крупнее и с ровным межстрочным интервалом */
+.lyrics-panel .lyrics-body {
+    padding: 1rem 1.5rem 6rem;
+    overflow-y: auto;
+    color: var(--text-primary);
+    line-height: 1.65;
+    font-size: 0.95rem;
+}
+
+.lyrics-panel .lyrics-body p {
+    margin: 0 0 0.15rem;
+}
+
+.lyrics-panel .lyrics-body .lyrics-gap {
+    height: 0.9rem;
 }
 
 @keyframes coverPulse {
@@ -413,32 +451,12 @@ audio {
 }
 
 @media (max-width: 800px) {
-    .player-notice {
-    margin: 0;
-    padding: 0.35rem 0.75rem;
-    border-radius: 10px;
-    background: rgba(255, 138, 138, 0.14);
-    border: 1px solid rgba(255, 138, 138, 0.35);
-    color: var(--text-error, #ff8a8a);
-    font-size: 0.8rem;
-    text-align: center;
-}
+    .mode-toggle {
+        padding: 0.3rem 0.55rem;
+        font-size: 0.7rem;
+    }
 
-.player-notice[hidden] {
-    display: none;
-}
-
-/* Плавный «пульс» обложки, пока трек буферизуется */
-.player-bar.buffering .track-cover {
-    animation: coverPulse 1.2s ease-in-out infinite;
-}
-
-@keyframes coverPulse {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.55; }
-}
-
-.player-main-row {
+    .player-main-row {
         flex-wrap: wrap;
         gap: 0.5rem;
     }
@@ -514,6 +532,21 @@ audio {
     .volume-control:hover .volume-slider,
     .volume-slider:focus-within {
         width: 50px;
+    }
+
+    /* На телефонах в нижней панели тесно: убираем наименее важную кнопку
+       (переключение скина), чтобы «Ровно», «Текст» и «Плейлист» не сжимались. */
+    .player-side .skin-toggle {
+        display: none;
+    }
+
+    .player-side {
+        gap: 0.35rem;
+    }
+
+    .mode-toggle {
+        padding: 0.25rem 0.5rem;
+        font-size: 0.65rem;
     }
 }
 

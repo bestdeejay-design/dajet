@@ -152,6 +152,8 @@
                     </button>
                     <input type="range" class="volume-slider" id="volumeSlider" min="0" max="1" step="0.05" value="0.8" aria-label="Громкость" title="Громкость">
                 </div>
+                <button class="control-btn mode-toggle" id="normalizeBtn" aria-pressed="true" title="Выровнять громкость треков">Ровно</button>
+                <button class="control-btn mode-toggle" id="lyricsBtn" aria-expanded="false" aria-controls="lyricsPanel" disabled aria-disabled="true" title="Для этого трека текста нет">Текст</button>
                 <button class="skin-toggle" id="skinToggle" aria-label="Переключить оформление плеера">Classic</button>
                 <button class="playlist-toggle" id="togglePlaylist" aria-label="Открыть плейлист" aria-haspopup="dialog" aria-expanded="false" aria-controls="playlistPanel">
                     <svg viewBox="0 0 24 24" aria-hidden="true">
@@ -170,8 +172,16 @@
         </div>
         <div id="playlist" role="listbox" aria-label="Список треков"></div>
     </div>
+    <div class="playlist-panel lyrics-panel" id="lyricsPanel" role="dialog" aria-modal="false" aria-label="Текст песни" aria-hidden="true">
+        <div class="playlist-header">
+            <h2 id="lyricsTitle">Текст песни</h2>
+            <button class="close-panel" id="closeLyrics" aria-label="Закрыть текст песни">&times;</button>
+        </div>
+        <div class="lyrics-body" id="lyricsText"></div>
+    </div>
     <div class="overlay" id="overlay" aria-hidden="true"></div>
 
+    <script src="config.js" defer></script>
     <script src="storage.js" defer></script>
     <script src="player.js" defer></script>
     <script src="script.js" defer></script>
